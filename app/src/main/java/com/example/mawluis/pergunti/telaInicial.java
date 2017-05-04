@@ -21,7 +21,7 @@ public class telaInicial extends AppCompatActivity {
         btnJogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(telaInicial.this, tela_jogo.class);
+                Intent intent = new Intent(telaInicial.this, telaJogo.class);
                 startActivity(intent);
             }
         });
