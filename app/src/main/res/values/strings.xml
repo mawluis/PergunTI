@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PergunTI</string>
+
+    <string name="title_activity_tela_ranking">telaRanking</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+</resources>

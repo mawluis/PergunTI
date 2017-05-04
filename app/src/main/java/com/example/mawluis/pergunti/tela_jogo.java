@@ -1,0 +1,17 @@
+package com.example.mawluis.pergunti;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.Button;
+
+public class tela_jogo extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tela_jogo);
+
+
+
+    }
+}
