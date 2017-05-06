@@ -144,7 +144,7 @@ public class conexaoBD extends telaCadastro{
             String sql = "select * from usuario where login='"+login+"' and senha= '"+senha+"'";
             PreparedStatement pst1 = con.prepareStatement(sql);
             ResultSet rs1 = pst1.executeQuery();
-            telaLogin res = new telaLogin();
+            //telaLogin res = new telaLogin();
 
             if(rs1.next()){
 
@@ -157,6 +157,62 @@ public class conexaoBD extends telaCadastro{
                 global.setLogado(false);
             }
 
+            con.close();
+
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+    }
+
+    public void pergunta (int pergunta){
+
+
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection  con = DriverManager.getConnection(URL, user, pass);
+            String sql = "select pergunta,opt1,opt2,opt3,opt4,resposta from perguntas where codigo= "+pergunta;
+            PreparedStatement pst1 = con.prepareStatement(sql);
+            ResultSet rs1 = pst1.executeQuery();
+
+
+            if(rs1.next()){
+
+                //pergunta existe
+                String perguntaSql = rs1.getObject(1).toString();
+                String opt1Sql = rs1.getObject(2).toString();
+                String opt2Sql = rs1.getObject(3).toString();
+                String opt3Sql = rs1.getObject(4).toString();
+                String opt4Sql = rs1.getObject(5).toString();
+                String respostaSqlString = rs1.getObject(6).toString(); //vem como string
+                int respostaSql = Integer.parseInt(respostaSqlString); //converti para inteiro
+                //int respostaSql = Integer.parseInt(respostaSqlString.toString());
+
+                telaJogo passarDados = new telaJogo();
+                passarDados.setPergunta(perguntaSql);
+                passarDados.setOpt1(opt1Sql);
+                passarDados.setOpt2(opt2Sql);
+                passarDados.setOpt3(opt3Sql);
+                passarDados.setOpt4(opt4Sql);
+                passarDados.setResposta(2);
+
+
+            } else {
+                //pergunta não existe
+
+            }
+
+            rs1.close();
+            pst1.close();
             con.close();
 
 

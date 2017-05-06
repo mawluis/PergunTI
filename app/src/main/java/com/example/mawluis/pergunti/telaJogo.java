@@ -4,15 +4,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class telaJogo extends AppCompatActivity {
 
-    public static String pergunta, opt1, opt2, opt3, opt4, resposta;
-    private int marcacao;
+    private static String pergunta, opt1, opt2, opt3, opt4;
+    private int marcacao, resposta;
     Button btnResponder, btnPergunta;
+    EditText codPergunta;
+    TextView txtNumPerg, txtPergunta;
 
         //getters e setters
     public static String getPergunta() {
@@ -55,22 +59,13 @@ public class telaJogo extends AppCompatActivity {
         telaJogo.opt4 = opt4;
     }
 
-    public static String getResposta() {
+    public int getResposta() {
         return resposta;
     }
 
-    public static void setResposta(String resposta) {
-        telaJogo.resposta = resposta;
+    public void setResposta(int resp) {
+        resposta = resp;
     }
-
-    public int getMarcacao() {
-        return marcacao;
-    }
-
-    public void setMarcacao(int marcacao) {
-        this.marcacao = marcacao;
-    }
-        //Fim dos getters e setters
 
 
     @Override
@@ -89,15 +84,21 @@ public class telaJogo extends AppCompatActivity {
                 RadioButton selectOpt = (RadioButton) findViewById(rg.getCheckedRadioButtonId());
 
                 if (rg.getCheckedRadioButtonId() == -1) {//teste de tipo
-                    Toast.makeText(telaJogo.this, "Escolha uma opção", Toast.LENGTH_SHORT).show();}
+                    Toast.makeText(telaJogo.this, "Escolha uma opção"+getResposta(), Toast.LENGTH_SHORT).show();}
                 else {
                     marcacao = rg.getCheckedRadioButtonId ();
 
 
                     int marcacao = rg.indexOfChild(findViewById(rg.getCheckedRadioButtonId()));
+                    marcacao++; // 1-4
 
-                    conexaoBD conex = new conexaoBD();
                     Toast.makeText(telaJogo.this, "Você escolheu "+marcacao+" !", Toast.LENGTH_SHORT).show();
+
+                    if(marcacao==resposta) {
+                        Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(telaJogo.this, "Você errou! a resposta correta é: "+resposta, Toast.LENGTH_SHORT).show();
+                    }
 
                 }
 
@@ -105,6 +106,36 @@ public class telaJogo extends AppCompatActivity {
         });
 
 
+        btnPergunta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                codPergunta = (EditText)findViewById(R.id.codPergunta);
+                conexaoBD perguntar = new conexaoBD();
+                perguntar.pergunta(Integer.parseInt(codPergunta.getText().toString())); // mandei o editText convertido para inteiro para o método pergunta
+
+                txtNumPerg = (TextView)findViewById(R.id.txtNumPerg);
+                txtPergunta = (TextView)findViewById(R.id.txtPergunta);
+                RadioButton rBtnOpt1 = (RadioButton)findViewById(R.id.rBtnOpt1);
+                RadioButton rBtnOpt2 = (RadioButton)findViewById(R.id.rBtnOpt2);
+                RadioButton rBtnOpt3 = (RadioButton)findViewById(R.id.rBtnOpt3);
+                RadioButton rBtnOpt4 = (RadioButton)findViewById(R.id.rBtnOpt4);
+
+               // txtNumPerg.setText(Integer.parseInt(codPergunta.getText().toString()));
+                txtPergunta.setText(getPergunta());
+                rBtnOpt1.setText(getOpt1());
+                rBtnOpt2.setText(getOpt2());
+                rBtnOpt3.setText(getOpt3());
+                rBtnOpt4.setText(getOpt4());
+
+
+
+
+
+
+
+
+            }
+        });
 
 
 
