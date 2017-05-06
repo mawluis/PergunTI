@@ -84,7 +84,7 @@ public class telaJogo extends AppCompatActivity {
                 RadioButton selectOpt = (RadioButton) findViewById(rg.getCheckedRadioButtonId());
 
                 if (rg.getCheckedRadioButtonId() == -1) {//teste de tipo
-                    Toast.makeText(telaJogo.this, "Escolha uma opção"+getResposta(), Toast.LENGTH_SHORT).show();}
+                    Toast.makeText(telaJogo.this, "Escolha uma opção", Toast.LENGTH_SHORT).show();}
                 else {
                     marcacao = rg.getCheckedRadioButtonId ();
 
@@ -93,6 +93,7 @@ public class telaJogo extends AppCompatActivity {
                     marcacao++; // 1-4
 
                     Toast.makeText(telaJogo.this, "Você escolheu "+marcacao+" !", Toast.LENGTH_SHORT).show();
+                    setResposta(global.getResposta());
 
                     if(marcacao==resposta) {
                         Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
@@ -120,7 +121,7 @@ public class telaJogo extends AppCompatActivity {
                 RadioButton rBtnOpt3 = (RadioButton)findViewById(R.id.rBtnOpt3);
                 RadioButton rBtnOpt4 = (RadioButton)findViewById(R.id.rBtnOpt4);
 
-               // txtNumPerg.setText(Integer.parseInt(codPergunta.getText().toString()));
+                txtNumPerg.setText("Pergunta nº "+codPergunta.getText()+": ");
                 txtPergunta.setText(getPergunta());
                 rBtnOpt1.setText(getOpt1());
                 rBtnOpt2.setText(getOpt2());

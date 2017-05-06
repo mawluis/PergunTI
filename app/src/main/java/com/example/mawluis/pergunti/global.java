@@ -7,6 +7,17 @@ package com.example.mawluis.pergunti;
 public class global {
     private static String login;
     private static boolean logado = false;
+    private static int resposta;
+
+    public static int getResposta() {
+        return resposta;
+    }
+
+    public static void setResposta(int resposta) {
+        global.resposta = resposta;
+    }
+
+
 
     public static boolean isLogado() {
         return logado;
@@ -15,6 +26,7 @@ public class global {
     public static void setLogado(boolean logado) {
         global.logado = logado;
     }
+
 
 
 

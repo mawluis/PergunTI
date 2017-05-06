@@ -203,7 +203,7 @@ public class conexaoBD extends telaCadastro{
                 passarDados.setOpt2(opt2Sql);
                 passarDados.setOpt3(opt3Sql);
                 passarDados.setOpt4(opt4Sql);
-                passarDados.setResposta(2);
+                global.setResposta(respostaSql);
 
 
             } else {
