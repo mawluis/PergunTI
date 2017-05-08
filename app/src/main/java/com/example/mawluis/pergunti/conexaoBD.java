@@ -21,9 +21,10 @@ import java.sql.PreparedStatement;
 
 public class conexaoBD extends telaCadastro{
 
-    private static final String URL = "jdbc:mysql://192.168.0.10/perguntas";
-    private static final String user = "root";
-    private static final String pass = "";
+    private static final String URL="jdbc:postgresql://ec2-54-243-253-17.compute-1.amazonaws.com:5432/djdvphd5vpn4l?sslmode=require";
+    private static final String user="aqxgmmdlvyecas";
+    private static final String pass="bb7241b8c75b44f40e50d3ab71c84cc51d9f9708301f82bd7a508daae0ef285b";
+    private static final String classforname="org.postgresql.Driver"; //com.mysql.jdbc.Driver
 
 
 
@@ -36,7 +37,7 @@ public class conexaoBD extends telaCadastro{
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(classforname);
             Connection  con = DriverManager.getConnection(URL, user, pass);
 
             //String result = "Database Connection success\n";
@@ -89,7 +90,7 @@ public class conexaoBD extends telaCadastro{
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(classforname);
             Connection  con = DriverManager.getConnection(URL, user, pass);
 
             String insert = "INSERT INTO perguntas.usuario (login, nome, tipo, email, senha) VALUES ('"+login+"', '"+nome+"', '"+tipo+"', '"+email+"', '"+senha+"');";
@@ -139,7 +140,7 @@ public class conexaoBD extends telaCadastro{
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(classforname);
             Connection  con = DriverManager.getConnection(URL, user, pass);
             String sql = "select * from usuario where login='"+login+"' and senha= '"+senha+"'";
             PreparedStatement pst1 = con.prepareStatement(sql);
@@ -178,7 +179,7 @@ public class conexaoBD extends telaCadastro{
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(classforname);
             Connection  con = DriverManager.getConnection(URL, user, pass);
             String sql = "select pergunta,opt1,opt2,opt3,opt4,resposta from perguntas where codigo= "+pergunta;
             PreparedStatement pst1 = con.prepareStatement(sql);
@@ -214,6 +215,68 @@ public class conexaoBD extends telaCadastro{
             rs1.close();
             pst1.close();
             con.close();
+
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+    }
+
+
+    public void randPergs (int pergunta){
+
+
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            Class.forName(classforname);
+            Connection  con = DriverManager.getConnection(URL, user, pass);
+
+            String sql = "select codigo from perguntas";
+            String count = "SELECT count(*) codigo from perguntas";
+
+
+            PreparedStatement pst1 = con.prepareStatement(count);
+            ResultSet rs1 = pst1.executeQuery();
+
+            if (rs1.next()){
+                int n = Integer.parseInt(rs1.getObject(1).toString());
+                System.out.println("Count = "+n);
+                int vetor[] = new int[n];
+
+                PreparedStatement pst2 = con.prepareStatement(sql);
+                ResultSet rs2 = pst2.executeQuery();
+
+                int c=0;
+
+                for (int d=0; d<n; d++){
+                    System.out.println("O vetor "+d+" é "+vetor[c]);
+                }
+
+                while (rs2.next()){
+                   vetor[c] = Integer.parseInt(rs2.getObject(1).toString());
+                   c++;
+                                }
+
+                rs2.close();
+                pst2.close();
+
+            } else {
+
+                //todo adicionar o que fazer caso não tenha perguntas para serem sorteadas.
+
+            }
+            rs1.close();
+            pst1.close();
+            con.close();
+
 
 
         } catch (ClassNotFoundException e) {

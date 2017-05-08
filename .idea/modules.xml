@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/PergunTI.iml" filepath="$PROJECT_DIR$/PergunTI.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/mysql-connector-java-5.1.41-bin/mysql-connector-java-5.1.41-bin.iml" filepath="$PROJECT_DIR$/mysql-connector-java-5.1.41-bin/mysql-connector-java-5.1.41-bin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/postgresql-42.1.1/postgresql-42.1.1.iml" filepath="$PROJECT_DIR$/postgresql-42.1.1/postgresql-42.1.1.iml" />
     </modules>
   </component>
 </project>
