@@ -66,6 +66,14 @@ public class telaCadastro extends AppCompatActivity {
                         conexaoBD conex = new conexaoBD();
                         conex.novoUsuario(login, nome, tipo, email, senha);
                         Toast.makeText(telaCadastro.this, "Verificando dados no sistema", Toast.LENGTH_SHORT).show();
+                        if (global.isUsuarioExistente()==true){
+                            Toast.makeText(telaCadastro.this, "Login já está em uso!", Toast.LENGTH_SHORT).show();
+                        }
+                        if (global.isUsuarioCriado()==true) {
+                            global.setUsuarioCriado(false); //zerando variável de criação.
+                            Toast.makeText(telaCadastro.this, "Usuário criado com sucesso", Toast.LENGTH_SHORT).show();
+
+                        }
                         }
 
                 } else{
@@ -79,12 +87,6 @@ public class telaCadastro extends AppCompatActivity {
 
  }
 
-    public void usuarioExistente () {
-        Toast.makeText(telaCadastro.this, "Login já está em uso!", Toast.LENGTH_SHORT).show();
-    }
 
-    public void usuarioCriado (){
-        Toast.makeText(telaCadastro.this, "Usuário criado com sucesso", Toast.LENGTH_SHORT).show();
-    }
 
 }

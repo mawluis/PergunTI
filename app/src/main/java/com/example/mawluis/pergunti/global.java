@@ -8,6 +8,28 @@ public class global {
     private static String login;
     private static boolean logado = false;
     private static int resposta;
+    private static boolean usuarioExistente = false;
+    private static boolean usuarioCriado = false;
+
+    public static boolean isUsuarioCriado() {
+        return usuarioCriado;
+    }
+
+    public static void setUsuarioCriado(boolean usuarioCriado) {
+        global.usuarioCriado = usuarioCriado;
+    }
+
+
+
+    public static boolean isUsuarioExistente() {
+        return usuarioExistente;
+    }
+
+    public static void setUsuarioExistente(boolean usuarioExistente) {
+        global.usuarioExistente = usuarioExistente;
+    }
+
+
 
     public static int getResposta() {
         return resposta;

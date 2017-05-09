@@ -59,18 +59,5 @@ public class telaLogin extends AppCompatActivity {
 
 
     }
-    public void mensagemLogado(){
-        //Toast.makeText(telaLogin.this, "Sucesso: \n "+login+" logado com sucesso!", Toast.LENGTH_SHORT).show();
-        //global.setLogin(login);
-        Intent abremenu = new Intent(telaLogin.this, telaCadastro.class);
-        startActivity(abremenu);
-        //telaLogin.startActivity(intent);
-        //startActivity(intent);
 
-
-    }
-
-    public void mensagemInvalido(){
-        Toast.makeText(telaLogin.this, "Dados informados inválidos.", Toast.LENGTH_SHORT).show();
-    }
 }

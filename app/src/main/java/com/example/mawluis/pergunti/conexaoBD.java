@@ -24,7 +24,7 @@ public class conexaoBD extends telaCadastro{
     private static final String URL="jdbc:postgresql://ec2-54-243-253-17.compute-1.amazonaws.com:5432/djdvphd5vpn4l?sslmode=require";
     private static final String user="aqxgmmdlvyecas";
     private static final String pass="bb7241b8c75b44f40e50d3ab71c84cc51d9f9708301f82bd7a508daae0ef285b";
-    private static final String classforname="org.postgresql.Driver"; //com.mysql.jdbc.Driver
+    private static final String classforname="org.postgresql.Driver"; //com.mysql.jdbc.Driver ou org.postgresql.Driver
 
 
 
@@ -92,33 +92,25 @@ public class conexaoBD extends telaCadastro{
 
             Class.forName(classforname);
             Connection  con = DriverManager.getConnection(URL, user, pass);
-
-            String insert = "INSERT INTO perguntas.usuario (login, nome, tipo, email, senha) VALUES ('"+login+"', '"+nome+"', '"+tipo+"', '"+email+"', '"+senha+"');";
+            global.setUsuarioExistente(false);
+            String insert = "INSERT INTO usuario (login, nome, tipo, email, senha) VALUES ('"+login+"', '"+nome+"', '"+tipo+"', '"+email+"', '"+senha+"');";
             String sql = "select * from usuario where login='"+login+"'";
             PreparedStatement pst1 = con.prepareStatement(sql);
             ResultSet rs1 = pst1.executeQuery();
 
             if(rs1.next()){
-                   usuarioExistente();
+                   global.setUsuarioExistente(true);
 
-
-           /* AlertDialog.Builder dlg = new AlertDialog.Builder(conexaoBD.this);
-            dlg.setMessage("Login já existente");
-            dlg.setNeutralButton("ok", null);
-            dlg.show();*/
-                /*
-            Context contexto = getApplicationContext();
-
-            int duracao = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(contexto, "Login já existente",duracao);
-            toast.show();*/
             } else {
                 PreparedStatement pst2 = con.prepareStatement(insert);
                 int rs2 = pst2.executeUpdate();
-                usuarioCriado();
+                global.setUsuarioCriado(true);
+                pst2.close();
             }
 
+            pst1.close();
+
+            rs1.close();
             con.close();
 
 
@@ -145,16 +137,16 @@ public class conexaoBD extends telaCadastro{
             String sql = "select * from usuario where login='"+login+"' and senha= '"+senha+"'";
             PreparedStatement pst1 = con.prepareStatement(sql);
             ResultSet rs1 = pst1.executeQuery();
-            //telaLogin res = new telaLogin();
+
 
             if(rs1.next()){
 
-                //res.mensagemLogado();
+
                 global.setLogado(true);
 
 
             } else {
-                //res.mensagemInvalido();
+
                 global.setLogado(false);
             }
 
