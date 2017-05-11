@@ -36,7 +36,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:25.3.1'
-    testCompile 'junit:junit:4.12'
     compile 'postgresql:postgresql:9.1-901-1.jdbc4'
     compile 'org.postgresql:postgresql:42.1.1.jre7'
+    testCompile 'junit:junit:4.12'
 }

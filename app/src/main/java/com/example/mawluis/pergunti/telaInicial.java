@@ -38,8 +38,8 @@ public class telaInicial extends AppCompatActivity {
         btnJogoPersonalizado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(telaInicial.this, "TODO: fazer botão e tela de jogo personalizado", Toast.LENGTH_SHORT).show();
-                //TODO botão e tela de jogo personalizado
+                Intent intent = new Intent(telaInicial.this, telaJogoCustom.class);
+                startActivity(intent);
             }
         });
 

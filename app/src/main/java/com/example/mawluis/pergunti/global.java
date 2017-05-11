@@ -1,5 +1,7 @@
 package com.example.mawluis.pergunti;
 
+import java.util.Arrays;
+
 /**
  * Created by Mawluis on 01/05/2017.
  */
@@ -10,6 +12,43 @@ public class global {
     private static int resposta;
     private static boolean usuarioExistente = false;
     private static boolean usuarioCriado = false;
+    private static int vetor[];
+    private static String[] consulta;
+
+
+    public void vetores (String[] vetor){
+
+    }
+
+    public static void setConsulta( String con[] ) {
+        consulta = Arrays.copyOf(con, con.length);
+    }
+
+    public static String[] getConsulta() {
+        return Arrays.copyOf(consulta, consulta.length);
+    }
+
+
+    /* método automático getter and setter do Android Studio
+    public static String[] getConsulta() {
+        return consulta;
+    }
+
+    public static void setConsulta(String[] consulta) {
+        global.consulta = consulta;
+    }*/
+
+
+
+    public static int[] getVetor() {
+        return vetor;
+    }
+
+    public static void setVetor(int[] vetor) {
+        global.vetor = vetor;
+    }
+
+
 
     public static boolean isUsuarioCriado() {
         return usuarioCriado;
