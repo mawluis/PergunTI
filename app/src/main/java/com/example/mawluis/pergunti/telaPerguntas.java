@@ -31,7 +31,7 @@ public class telaPerguntas extends AppCompatActivity {
 
     ListView lv;
     private static String[][] consulta;
-    ArrayList<String> poolPergs = new ArrayList();
+    static ArrayList<String> poolPergs = new ArrayList();
 
     public ArrayList<String> getPoolPergs() {
         return poolPergs;
@@ -256,7 +256,7 @@ public class telaPerguntas extends AppCompatActivity {
 
                 } else {
                     poolPergs.add(consulta[0][i]);
-                    Toast.makeText(telaPerguntas.this, "A pergunta: " + consulta[0][i] + " foi adicionada na sua lista.", Toast.LENGTH_SHORT).show(); //
+                    Toast.makeText(telaPerguntas.this, "A pergunta: " + consulta[0][i] + " foi adicionada na sua lista.", Toast.LENGTH_SHORT).show();
                 }
 
             }

@@ -16,6 +16,8 @@ public class global {
     private static String[] consulta;
 
 
+
+
     public void vetores (String[] vetor){
 
     }
