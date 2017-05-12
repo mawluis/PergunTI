@@ -1,6 +1,7 @@
 package com.example.mawluis.pergunti;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,8 +20,6 @@ public class telaJogoCustom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_jogo_custom);
-
-
     }
 
     @Override
@@ -37,6 +36,7 @@ public class telaJogoCustom extends AppCompatActivity {
 
         Button btnEscolherPerg = (Button)findViewById(R.id.btnEscolherPerg);
         Button btnCriarPerg = (Button)findViewById(R.id.btnCriarPerg);
+        Button btnCriarSala = (Button)findViewById(R.id.btnCriarSala);
 
 
         btnEscolherPerg.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +52,18 @@ public class telaJogoCustom extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(telaJogoCustom.this, telaCriacaoPerg.class);
                 startActivity(intent);
+            }
+        });
+
+        btnCriarSala.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogoCustom.this);
+                dlg.setMessage("Sala nº "+idsala+" foi criado com sucesso");
+                dlg.setNeutralButton("ok", null);
+                dlg.show();
+
             }
         });
     }
