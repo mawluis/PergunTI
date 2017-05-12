@@ -28,7 +28,8 @@
             android:label="@string/title_activity_tela_ranking"
             android:theme="@style/FullscreenTheme" />
         <activity android:name=".telaJogoCustom" />
-        <activity android:name=".telaPerguntas"></activity>
+        <activity android:name=".telaPerguntas" />
+        <activity android:name=".telaCriacaoPerg"></activity>
     </application>
 
 </manifest>

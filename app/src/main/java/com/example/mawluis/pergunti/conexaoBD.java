@@ -83,6 +83,28 @@ public class conexaoBD extends telaCadastro{
     } //não utilizado
 
 
+    public void novaPerg (String pergunta, String opt1, String opt2, String opt3, String opt4, int resposta, String criador, int complexidade, String tema){
+
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            Class.forName(classforname);
+            Connection  con = DriverManager.getConnection(URL, user, pass);
+            String insert = "INSERT INTO pergunta (pergunta, opt1, opt2, opt3, opt4, resposta, criador, complexidade, tema) VALUES ('"+pergunta+"', '"+opt1+"', '"+opt2+"', '"+opt3+"', '"+opt4+"', '"+resposta+"', '"+criador+"', '"+complexidade+"', '"+tema+"');";
+            PreparedStatement pst1 = con.prepareStatement(insert);
+            int rs1 = pst1.executeUpdate();
+            global.setPergCriada(true);
+            pst1.close();
+            con.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void novoUsuario (String login, String nome, String tipo, String email, String senha){
 
 
@@ -172,7 +194,7 @@ public class conexaoBD extends telaCadastro{
 
             Class.forName(classforname);
             Connection  con = DriverManager.getConnection(URL, user, pass);
-            String sql = "select pergunta,opt1,opt2,opt3,opt4,resposta from perguntas where codigo= "+pergunta;
+            String sql = "select pergunta,opt1,opt2,opt3,opt4,resposta from pergunta where codigo= "+pergunta;
             PreparedStatement pst1 = con.prepareStatement(sql);
             ResultSet rs1 = pst1.executeQuery();
 
@@ -227,8 +249,8 @@ public class conexaoBD extends telaCadastro{
 
             Class.forName(classforname);
             Connection  con = DriverManager.getConnection(URL, user, pass);
-            String count = "SELECT count(*) codigo from perguntas where tema='"+tema+"'";
-            String sql = "select pergunta from perguntas where tema='"+tema+"'";
+            String count = "SELECT count(*) codigo from pergunta where tema='"+tema+"'";
+            String sql = "select pergunta from pergunta where tema='"+tema+"'";
             PreparedStatement pst1 = con.prepareStatement(count);
             ResultSet rs1 = pst1.executeQuery();
 
@@ -283,8 +305,8 @@ public class conexaoBD extends telaCadastro{
             Class.forName(classforname);
             Connection  con = DriverManager.getConnection(URL, user, pass);
 
-            String sql = "select codigo from perguntas";
-            String count = "SELECT count(*) codigo from perguntas";
+            String sql = "select codigo from pergunta";
+            String count = "SELECT count(*) codigo from pergunta";
 
 
             PreparedStatement pst1 = con.prepareStatement(count);

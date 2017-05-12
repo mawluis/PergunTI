@@ -12,8 +12,20 @@ public class global {
     private static int resposta;
     private static boolean usuarioExistente = false;
     private static boolean usuarioCriado = false;
-    private static int vetor[];
-    private static String[] consulta;
+    private static int vetor[]; //verificar se eu uso bagaça
+    private static String[] consulta; //verificar se eu uso essa bagaça
+    private static boolean pergCriada= false;
+
+    public static boolean isPergCriada() {
+        return pergCriada;
+    }
+
+    public static void setPergCriada(boolean pergCriada) {
+        global.pergCriada = pergCriada;
+    }
+
+
+
 
 
 

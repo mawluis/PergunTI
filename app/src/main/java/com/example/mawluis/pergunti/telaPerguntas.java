@@ -73,8 +73,8 @@ public class telaPerguntas extends AppCompatActivity {
 
                             Class.forName(classforname);
                             Connection con = DriverManager.getConnection(URL, user, pass);
-                            String count = "SELECT count(*) codigo from perguntas where tema='banco'";
-                            String sql = "select codigo,pergunta from perguntas where tema='banco'";
+                            String count = "SELECT count(*) codigo from pergunta where tema='banco'";
+                            String sql = "select codigo,pergunta from pergunta where tema='banco'";
                             PreparedStatement pst1 = con.prepareStatement(count);
                             ResultSet rs1 = pst1.executeQuery();
 
@@ -127,8 +127,8 @@ public class telaPerguntas extends AppCompatActivity {
 
                             Class.forName(classforname);
                             Connection con = DriverManager.getConnection(URL, user, pass);
-                            String count = "SELECT count(*) codigo from perguntas where tema='rede'";
-                            String sql = "select codigo,pergunta from perguntas where tema='rede'";
+                            String count = "SELECT count(*) codigo from pergunta where tema='rede'";
+                            String sql = "select codigo,pergunta from pergunta where tema='rede'";
                             PreparedStatement pst1 = con.prepareStatement(count);
                             ResultSet rs1 = pst1.executeQuery();
                             if (rs1.next()){
@@ -166,8 +166,8 @@ public class telaPerguntas extends AppCompatActivity {
 
                             Class.forName(classforname);
                             Connection con = DriverManager.getConnection(URL, user, pass);
-                            String count = "SELECT count(*) codigo from perguntas where tema='programação'";
-                            String sql = "select codigo,pergunta from perguntas where tema='programação'";
+                            String count = "SELECT count(*) codigo from pergunta where tema='programação'";
+                            String sql = "select codigo,pergunta from pergunta where tema='programação'";
                             PreparedStatement pst1 = con.prepareStatement(count);
                             ResultSet rs1 = pst1.executeQuery();
                             if (rs1.next()){
@@ -205,8 +205,8 @@ public class telaPerguntas extends AppCompatActivity {
 
                             Class.forName(classforname);
                             Connection con = DriverManager.getConnection(URL, user, pass);
-                            String count = "SELECT count(*) codigo from perguntas where tema='geral'";
-                            String sql = "select codigo,pergunta from perguntas where tema='geral'";
+                            String count = "SELECT count(*) codigo from pergunta where tema='geral'";
+                            String sql = "select codigo,pergunta from pergunta where tema='geral'";
                             PreparedStatement pst1 = con.prepareStatement(count);
                             ResultSet rs1 = pst1.executeQuery();
                             if (rs1.next()){

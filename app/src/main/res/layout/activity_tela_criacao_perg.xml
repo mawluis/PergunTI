@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mawluis.pergunti.telaCriacaoPerg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1">
+
+        <EditText
+            android:id="@+id/edtPerg"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:ems="10"
+            android:hint="Insira a Pergunta"
+            android:inputType="textMultiLine"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="446dp" />
+
+        <EditText
+            android:id="@+id/edtOpt1"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:ems="10"
+            android:hint="Insira a opção 1"
+            android:inputType="textMultiLine"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="550dp" />
+
+        <EditText
+            android:id="@+id/edtOpt2"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:ems="10"
+            android:hint="Insira a opção 2"
+            android:inputType="textMultiLine"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="146dp" />
+
+        <EditText
+            android:id="@+id/edtOpt3"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:ems="10"
+            android:hint="Insira a opção 3"
+            android:inputType="textMultiLine"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="351dp" />
+
+        <EditText
+            android:id="@+id/edtOpt4"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:ems="10"
+            android:hint="Insira a opção 4"
+            android:inputType="textMultiLine"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="56dp" />
+
+        <EditText
+            android:id="@+id/edtResp"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:ems="10"
+            android:hint="Insira a resposta"
+            android:inputType="textMultiLine"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="245dp" />
+
+        <EditText
+            android:id="@+id/edtComplex"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="0"
+            android:ems="10"
+            android:hint="De 1 a 10, o quão complexo é esta pergunta?"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="-28dp"
+            tools:layout_editor_absoluteY="307dp" />
+
+        <EditText
+            android:id="@+id/edtTema"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:hint="Insira o tema"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btnCriarPerg"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:text="Criar Pergunta"
+            tools:layout_editor_absoluteX="148dp"
+            tools:layout_editor_absoluteY="450dp" />
+    </LinearLayout>
+
+</ScrollView>

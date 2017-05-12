@@ -36,6 +36,7 @@ public class telaJogoCustom extends AppCompatActivity {
         lv.setAdapter(adapter);
 
         Button btnEscolherPerg = (Button)findViewById(R.id.btnEscolherPerg);
+        Button btnCriarPerg = (Button)findViewById(R.id.btnCriarPerg);
 
 
         btnEscolherPerg.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +47,13 @@ public class telaJogoCustom extends AppCompatActivity {
             }
         });
 
+        btnCriarPerg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(telaJogoCustom.this, telaCriacaoPerg.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
