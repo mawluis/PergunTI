@@ -45,7 +45,6 @@ public class telaLogin extends AppCompatActivity {
                 logar.acessoSistema(login, senha);
 
                 if (global.isLogado() == true) {
-                    global.setLogin(login);
                     Toast.makeText(telaLogin.this, "Logado com sucesso!", Toast.LENGTH_SHORT).show();
                     Intent abremenu = new Intent(telaLogin.this, telaInicial.class);
                     startActivity(abremenu);

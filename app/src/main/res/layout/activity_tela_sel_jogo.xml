@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mawluis.pergunti.telaSelJogo">
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Qual a dificuldade?"
+        tools:layout_editor_absoluteX="29dp"
+        tools:layout_editor_absoluteY="27dp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sala?"
+        tools:layout_editor_absoluteX="41dp"
+        tools:layout_editor_absoluteY="374dp" />
+
+    <EditText
+        android:id="@+id/edtSala"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Insira o nº da sala"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="29dp"
+        tools:layout_editor_absoluteY="407dp" />
+
+    <Button
+        android:id="@+id/btnGo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ir!"
+        tools:layout_editor_absoluteX="256dp"
+        tools:layout_editor_absoluteY="402dp" />
+
+    <Button
+        android:id="@+id/btnEasy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Curioso"
+        tools:layout_editor_absoluteX="29dp"
+        tools:layout_editor_absoluteY="82dp" />
+
+    <Button
+        android:id="@+id/btnNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Novato"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="82dp" />
+
+    <Button
+        android:id="@+id/btnHard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Avançado"
+        tools:layout_editor_absoluteX="246dp"
+        tools:layout_editor_absoluteY="82dp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tema específico?"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="170dp" />
+
+    <CheckBox
+        android:id="@+id/chkBanco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Banco"
+        tools:layout_editor_absoluteX="29dp"
+        tools:layout_editor_absoluteY="201dp" />
+
+    <CheckBox
+        android:id="@+id/chkGeral"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Geral"
+        tools:layout_editor_absoluteX="29dp"
+        tools:layout_editor_absoluteY="240dp" />
+
+    <CheckBox
+        android:id="@+id/chkProgram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Programação"
+        tools:layout_editor_absoluteX="132dp"
+        tools:layout_editor_absoluteY="201dp" />
+
+    <CheckBox
+        android:id="@+id/chkOpt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="outra opt"
+        tools:layout_editor_absoluteX="132dp"
+        tools:layout_editor_absoluteY="240dp" />
+
+    <CheckBox
+        android:id="@+id/chkRede"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rede"
+        tools:layout_editor_absoluteX="256dp"
+        tools:layout_editor_absoluteY="201dp" />
+
+    <CheckBox
+        android:id="@+id/chkOpt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="outra opt"
+        tools:layout_editor_absoluteX="246dp"
+        tools:layout_editor_absoluteY="240dp" />
+</android.support.constraint.ConstraintLayout>

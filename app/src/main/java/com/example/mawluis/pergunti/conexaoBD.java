@@ -166,6 +166,9 @@ public class conexaoBD extends telaCadastro{
 
 
                 global.setId(Integer.parseInt(rs1.getObject(1).toString()));
+                global.setLogin(login);
+                global.setNome(rs1.getObject(3).toString());
+                global.setTipo(rs1.getObject(4).toString());
                 global.setLogado(true);
 
 

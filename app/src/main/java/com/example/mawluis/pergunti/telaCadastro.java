@@ -63,6 +63,7 @@ public class telaCadastro extends AppCompatActivity {
                         Toast.makeText(telaCadastro.this, "Escolha um tipo", Toast.LENGTH_SHORT).show();
                     }else{
                         tipo = String.valueOf(selectOpt.getText());
+                        tipo = tipo.toLowerCase(); //tudo minúsculo
                         conexaoBD conex = new conexaoBD();
                         conex.novoUsuario(login, nome, tipo, email, senha);
                         Toast.makeText(telaCadastro.this, "Verificando dados no sistema", Toast.LENGTH_SHORT).show();

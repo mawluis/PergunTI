@@ -18,6 +18,15 @@ public class telaInicial extends AppCompatActivity {
         Button btnRanking= (Button)findViewById(R.id.btnRanking);
         Button btnJogoPersonalizado= (Button)findViewById(R.id.btnJogoPersonalizado);
 
+        Toast.makeText(telaInicial.this, "Bem vindo, : "+ global.getNome().substring(0,1).toUpperCase() + global.getNome().substring(1).toLowerCase() +" !!!", Toast.LENGTH_SHORT).show();
+        //primeiro caractere maiúsculo + restante minúsculo
+        if (global.getTipo().equals("professor")) {
+
+        }else{
+            btnJogoPersonalizado.setVisibility(View.INVISIBLE);
+        }
+
+
         btnJogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

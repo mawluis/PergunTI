@@ -22,14 +22,11 @@
         <activity android:name=".conexaoBD" />
         <activity android:name=".telaInicial" />
         <activity android:name=".telaJogo" />
-        <activity
-            android:name=".telaRanking"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_tela_ranking"
-            android:theme="@style/FullscreenTheme" />
         <activity android:name=".telaJogoCustom" />
         <activity android:name=".telaPerguntas" />
-        <activity android:name=".telaCriacaoPerg"></activity>
+        <activity android:name=".telaCriacaoPerg" />
+        <activity android:name=".telaRanking" />
+        <activity android:name=".telaSelJogo"></activity>
     </application>
 
 </manifest>

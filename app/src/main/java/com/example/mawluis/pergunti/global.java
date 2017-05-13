@@ -16,6 +16,26 @@ public class global {
     private static String[] consulta; //verificar se eu uso essa bagaça
     private static boolean pergCriada= false;
     private static int id;
+    private static String nome;
+    private static String tipo;
+
+    public static String getNome() {
+        return nome;
+    }
+
+    public static void setNome(String nome) {
+        global.nome = nome;
+    }
+
+    public static String getTipo() {
+        return tipo;
+    }
+
+    public static void setTipo(String tipo) {
+        global.tipo = tipo;
+    }
+
+
 
     public static int getId() {
         return id;

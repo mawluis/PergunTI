@@ -249,8 +249,6 @@ public class telaPerguntas extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-
-                boolean repetida=false;
                 if (poolPergs.contains(consulta[0][i])) {
                     Toast.makeText(telaPerguntas.this, "Erro: \nA pergunta: " + consulta[0][i] + " já está na sua lista.", Toast.LENGTH_SHORT).show();
 
