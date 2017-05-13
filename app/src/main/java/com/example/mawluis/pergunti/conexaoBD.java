@@ -105,6 +105,8 @@ public class conexaoBD extends telaCadastro{
     }
 
 
+
+
     public void novoUsuario (String login, String nome, String tipo, String email, String senha){
 
 
@@ -163,6 +165,7 @@ public class conexaoBD extends telaCadastro{
             if(rs1.next()){
 
 
+                global.setId(Integer.parseInt(rs1.getObject(1).toString()));
                 global.setLogado(true);
 
 
@@ -249,7 +252,7 @@ public class conexaoBD extends telaCadastro{
 
             Class.forName(classforname);
             Connection  con = DriverManager.getConnection(URL, user, pass);
-            String count = "SELECT count(*) codigo from pergunta where tema='"+tema+"'";
+            String count = "SELECT count(*) id from pergunta where tema='"+tema+"'";
             String sql = "select pergunta from pergunta where tema='"+tema+"'";
             PreparedStatement pst1 = con.prepareStatement(count);
             ResultSet rs1 = pst1.executeQuery();
@@ -305,8 +308,8 @@ public class conexaoBD extends telaCadastro{
             Class.forName(classforname);
             Connection  con = DriverManager.getConnection(URL, user, pass);
 
-            String sql = "select codigo from pergunta";
-            String count = "SELECT count(*) codigo from pergunta";
+            String sql = "select id from pergunta";
+            String count = "SELECT count(*) id from pergunta";
 
 
             PreparedStatement pst1 = con.prepareStatement(count);

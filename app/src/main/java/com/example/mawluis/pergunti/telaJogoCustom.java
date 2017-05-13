@@ -1,6 +1,7 @@
 package com.example.mawluis.pergunti;
 
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class telaJogoCustom extends AppCompatActivity {
@@ -58,11 +65,47 @@ public class telaJogoCustom extends AppCompatActivity {
         btnCriarSala.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    try {
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
 
-                AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogoCustom.this);
-                dlg.setMessage("Sala nº "+idsala+" foi criado com sucesso");
-                dlg.setNeutralButton("ok", null);
-                dlg.show();
+                        String URL="jdbc:postgresql://ec2-54-243-253-17.compute-1.amazonaws.com:5432/djdvphd5vpn4l?sslmode=require";
+                        String user="aqxgmmdlvyecas";
+                        String pass="bb7241b8c75b44f40e50d3ab71c84cc51d9f9708301f82bd7a508daae0ef285b";
+                        String classforname="org.postgresql.Driver"; //com.mysql.jdbc.Driver ou org.postgresql.Driver
+
+                        Class.forName(classforname);
+                        Connection con = DriverManager.getConnection(URL, user, pass);
+
+                        poolPergs.trimToSize(); //aparando o arraylist (tirando os espaço vazios tipo null)
+                        Toast.makeText(telaJogoCustom.this, "tamanho do array:"+poolPergs.size(), Toast.LENGTH_SHORT).show();
+                        String insert;
+                        Statement statement= con.createStatement();
+                        for (String pergunta: poolPergs ){
+                             insert = "INSERT INTO sala (usuario, pergunta, acerto) VALUES ('"+global.getId()+"', '"+pergunta+"', '0');";
+                            Toast.makeText(telaJogoCustom.this, "insert pergunta:"+pergunta+" na tabela. com usuário "+global.getId(), Toast.LENGTH_SHORT).show();
+                            statement.executeUpdate(insert); //tentativa de retornar o autoincremente
+                        }
+                        ResultSet rs = statement.getGeneratedKeys();
+                        if (rs.next()){
+                            String idsala = rs.getObject(1).toString();
+                            AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogoCustom.this);
+                            dlg.setMessage("Sala nº "+idsala+" foi criado com sucesso");
+                            dlg.setNeutralButton("ok", null);
+                            dlg.show();
+                                                    }
+                        statement.close();
+                        rs.next();
+                        con.close();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
 
             }
         });

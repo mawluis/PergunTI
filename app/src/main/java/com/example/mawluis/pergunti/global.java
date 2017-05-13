@@ -15,6 +15,17 @@ public class global {
     private static int vetor[]; //verificar se eu uso bagaça
     private static String[] consulta; //verificar se eu uso essa bagaça
     private static boolean pergCriada= false;
+    private static int id;
+
+    public static int getId() {
+        return id;
+    }
+
+    public static void setId(int id) {
+        global.id = id;
+    }
+
+
 
     public static boolean isPergCriada() {
         return pergCriada;

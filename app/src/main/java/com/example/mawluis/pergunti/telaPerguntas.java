@@ -73,8 +73,8 @@ public class telaPerguntas extends AppCompatActivity {
 
                             Class.forName(classforname);
                             Connection con = DriverManager.getConnection(URL, user, pass);
-                            String count = "SELECT count(*) codigo from pergunta where tema='banco'";
-                            String sql = "select codigo,pergunta from pergunta where tema='banco'";
+                            String count = "SELECT count(*) id from pergunta where tema='banco'";
+                            String sql = "select id,pergunta from pergunta where tema='banco'";
                             PreparedStatement pst1 = con.prepareStatement(count);
                             ResultSet rs1 = pst1.executeQuery();
 
@@ -82,7 +82,7 @@ public class telaPerguntas extends AppCompatActivity {
                                 int n = Integer.parseInt(rs1.getObject(1).toString());
 
                                 String vetorPerg[][] = new String[2][n];
-                                //primeiro termo: codigo/pergunta
+                                //primeiro termo: id/pergunta
                                 // segundo termo: registro(s)
                                 PreparedStatement pst2 = con.prepareStatement(sql);
                                 ResultSet rs2 = pst2.executeQuery();
@@ -91,7 +91,7 @@ public class telaPerguntas extends AppCompatActivity {
 
 
                                 while (rs2.next()){
-                                    vetorPerg[0][x] = rs2.getObject(1).toString(); //codigo
+                                    vetorPerg[0][x] = rs2.getObject(1).toString(); //id
                                     vetorPerg[1][x] = rs2.getObject(2).toString(); //pergunta
                                     x++;
                                 }
@@ -127,8 +127,8 @@ public class telaPerguntas extends AppCompatActivity {
 
                             Class.forName(classforname);
                             Connection con = DriverManager.getConnection(URL, user, pass);
-                            String count = "SELECT count(*) codigo from pergunta where tema='rede'";
-                            String sql = "select codigo,pergunta from pergunta where tema='rede'";
+                            String count = "SELECT count(*) id from pergunta where tema='rede'";
+                            String sql = "select id,pergunta from pergunta where tema='rede'";
                             PreparedStatement pst1 = con.prepareStatement(count);
                             ResultSet rs1 = pst1.executeQuery();
                             if (rs1.next()){
@@ -138,7 +138,7 @@ public class telaPerguntas extends AppCompatActivity {
                                 ResultSet rs2 = pst2.executeQuery();
                                 int x=0;
                                 while (rs2.next()){
-                                    vetorPerg[0][x] = rs2.getObject(1).toString(); //codigo
+                                    vetorPerg[0][x] = rs2.getObject(1).toString(); //id
                                     vetorPerg[1][x] = rs2.getObject(2).toString(); //pergunta
                                     x++;
                                 }
@@ -166,8 +166,8 @@ public class telaPerguntas extends AppCompatActivity {
 
                             Class.forName(classforname);
                             Connection con = DriverManager.getConnection(URL, user, pass);
-                            String count = "SELECT count(*) codigo from pergunta where tema='programação'";
-                            String sql = "select codigo,pergunta from pergunta where tema='programação'";
+                            String count = "SELECT count(*) id from pergunta where tema='programação'";
+                            String sql = "select id,pergunta from pergunta where tema='programação'";
                             PreparedStatement pst1 = con.prepareStatement(count);
                             ResultSet rs1 = pst1.executeQuery();
                             if (rs1.next()){
@@ -177,7 +177,7 @@ public class telaPerguntas extends AppCompatActivity {
                                 ResultSet rs2 = pst2.executeQuery();
                                 int x=0;
                                 while (rs2.next()){
-                                    vetorPerg[0][x] = rs2.getObject(1).toString(); //codigo
+                                    vetorPerg[0][x] = rs2.getObject(1).toString(); //id
                                     vetorPerg[1][x] = rs2.getObject(2).toString(); //pergunta
                                     x++;
                                 }
@@ -205,8 +205,8 @@ public class telaPerguntas extends AppCompatActivity {
 
                             Class.forName(classforname);
                             Connection con = DriverManager.getConnection(URL, user, pass);
-                            String count = "SELECT count(*) codigo from pergunta where tema='geral'";
-                            String sql = "select codigo,pergunta from pergunta where tema='geral'";
+                            String count = "SELECT count(*) id from pergunta where tema='geral'";
+                            String sql = "select id,pergunta from pergunta where tema='geral'";
                             PreparedStatement pst1 = con.prepareStatement(count);
                             ResultSet rs1 = pst1.executeQuery();
                             if (rs1.next()){
@@ -216,7 +216,7 @@ public class telaPerguntas extends AppCompatActivity {
                                 ResultSet rs2 = pst2.executeQuery();
                                 int x=0;
                                 while (rs2.next()){
-                                    vetorPerg[0][x] = rs2.getObject(1).toString(); //codigo
+                                    vetorPerg[0][x] = rs2.getObject(1).toString(); //id
                                     vetorPerg[1][x] = rs2.getObject(2).toString(); //pergunta
                                     x++;
                                 }
