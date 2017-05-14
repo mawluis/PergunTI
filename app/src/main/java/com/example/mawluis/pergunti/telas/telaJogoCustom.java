@@ -26,7 +26,8 @@ public class telaJogoCustom extends AppCompatActivity {
 
     ListView lv;
     ArrayList<String> poolPergs = new ArrayList();
-    String pergunta;
+    String pergunta, insert, idsala;
+    boolean pegIncrement=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,23 +88,29 @@ public class telaJogoCustom extends AppCompatActivity {
 
                         poolPergs.trimToSize(); //aparando o arraylist (tirando os espaço vazios tipo null)
                         Toast.makeText(telaJogoCustom.this, "tamanho do array:" + poolPergs.size(), Toast.LENGTH_SHORT).show();
-                        String insert;
                         Statement statement = con.createStatement();
                         for (String pergunta : poolPergs) {
+                            if (pegIncrement==false){
                             insert = "INSERT INTO sala (usuario, pergunta, acerto) VALUES ('" + global.getId() + "', '" + pergunta + "', '0');";
+                            }else{
+
+                                ResultSet rs = statement.getGeneratedKeys();
+                                if (rs.next()) {
+                                    idsala = rs.getObject(1).toString();
+                                    insert = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+idsala+"','" + global.getId() + "', '" + pergunta + "', '0');";
+                                    rs.close();
+                                }
+                            }
                             Toast.makeText(telaJogoCustom.this, "insert pergunta:" + pergunta + " na tabela. com usuário " + global.getId(), Toast.LENGTH_SHORT).show();
-                            statement.executeUpdate(insert, statement.RETURN_GENERATED_KEYS); //tentativa de retornar o autoincremente
+                            statement.executeUpdate(insert, statement.RETURN_GENERATED_KEYS); //tentativa de retornar o autoincrement
+                            pegIncrement=true;
                         }
-                        ResultSet rs = statement.getGeneratedKeys();
-                        if (rs.next()) {
-                            String idsala = rs.getObject(1).toString();
-                            AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogoCustom.this);
-                            dlg.setMessage("Sala nº " + idsala + " foi criado com sucesso");
-                            dlg.setNeutralButton("ok", null);
-                            dlg.show();
-                        }
+                        AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogoCustom.this);
+                        dlg.setMessage("Sala nº " + idsala + " foi criado com sucesso");
+                        dlg.setNeutralButton("ok", null);
+                        dlg.show();
+
                         statement.close();
-                        rs.next();
                         con.close();
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();

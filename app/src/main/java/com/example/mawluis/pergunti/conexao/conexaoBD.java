@@ -82,6 +82,57 @@ public class conexaoBD extends telaCadastro {
 
     } //não utilizado
 
+    public void enviarSala(String sala, int id){
+        global.setRepetido(false);
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+
+            Class.forName(classforname);
+            Connection con = DriverManager.getConnection(URL, user, pass);
+            PreparedStatement pst1 = con.prepareStatement("select pergunta from sala where id='"+sala+"' and usuario='"+id+"'");
+            PreparedStatement pst2 = con.prepareStatement("select pergunta from sala where id='"+sala+"'");
+            ResultSet rs1 = pst1.executeQuery();
+            if (rs1.next()){
+                global.setRepetido(true);
+                rs1.close();
+                pst1.close();
+            }
+            ResultSet rs2 = pst2.executeQuery();
+            List<Integer> poolPergs = new ArrayList<Integer>();
+            while (rs2.next()){
+                poolPergs.add(Integer.parseInt(rs2.getObject(1).toString()));
+            }
+            global.setPoolPergs(poolPergs);
+            rs2.close();
+            pst2.close();
+            con.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void executaUpdate(String query){
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            Class.forName(classforname);
+            Connection  con = DriverManager.getConnection(URL, user, pass);
+            PreparedStatement pst1 = con.prepareStatement(query);
+            int rs1 = pst1.executeUpdate();
+            pst1.close();
+            con.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void novaPerg (String pergunta, String opt1, String opt2, String opt3, String opt4, int resposta, String criador, int complexidade, String tema){
 
@@ -184,7 +235,7 @@ public class conexaoBD extends telaCadastro {
         }
     }
 
-    public void jogo(String insert){ //TODO botar para funcionar corretamente.
+    public void fazerJogo(String insert){
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);

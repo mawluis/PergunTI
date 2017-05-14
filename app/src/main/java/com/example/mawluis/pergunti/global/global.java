@@ -21,6 +21,29 @@ public class global {
     private static String nome;
     private static String tipo;
     private static List<Integer> poolPergs = new ArrayList<Integer>();
+    private static String game = "normal";
+    private static boolean repetido = false;
+
+    public static boolean isRepetido() {
+        return repetido;
+    }
+
+    public static void setRepetido(boolean repetido) {
+        global.repetido = repetido;
+    }
+
+
+
+
+    public static String getGame() {
+        return game;
+    }
+
+    public static void setGame(String game) {
+        global.game = game;
+    }
+
+
 
     public static List<Integer> getPoolPergs() {
         return poolPergs;

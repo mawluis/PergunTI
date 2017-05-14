@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.mawluis.pergunti.R;
 import com.example.mawluis.pergunti.conexao.conexaoBD;
+import com.example.mawluis.pergunti.global.global;
 
 public class telaSelJogo extends AppCompatActivity {
 
@@ -50,13 +51,27 @@ public class telaSelJogo extends AppCompatActivity {
         conexaoBD a = new conexaoBD();
 
 
+        btnGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               global.setGame(String.valueOf(edtSala.getText()));
+                Toast.makeText(telaSelJogo.this, "Entrando na sala "+String.valueOf(edtSala.getText()), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
+                startActivity(intent);
+
+            }
+        });
+
         btnEasy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 select(); //passando checkboxes para a String insert
-                insert = "select id from pergunta where complexidade<'4'and (tema='"+insert_banco+"' or tema='"+insert_geral+"' or tema='"+insert_program+"' or tema='"+insert_opt1+"' or tema='"+insert_opt2+"' or tema='"+insert_rede+"')";
-                a.jogo(insert);
+                //insert = "select id from pergunta where complexidade<'4'and (tema='"+insert_banco+"' or tema='"+insert_geral+"' or tema='"+insert_program+"' or tema='"+insert_opt1+"' or tema='"+insert_opt2+"' or tema='"+insert_rede+"')";
+                insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade<'4' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
+                a.fazerJogo(insert);
+                global.setGame("easy");
                 Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
                 startActivity(intent);
                 Toast.makeText(telaSelJogo.this, insert, Toast.LENGTH_SHORT).show();
@@ -68,8 +83,12 @@ public class telaSelJogo extends AppCompatActivity {
             public void onClick(View v) {
 
                 select(); //passando checkboxes para a String insert
-              insert = "select * from pergunta where complexidade<'7'and complexidade>'3' and (tema='"+insert_banco+"' or tema='"+insert_geral+"' or tema='"+insert_program+"' or tema='"+insert_opt1+"' or tema='"+insert_opt2+"' or tema='"+insert_rede+"')";
-                a.jogo(insert);
+                insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade<'4' and complexidade>'3' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
+               /*select * from pergunta
+where id not in(select pergunta from respondida where jogador = 1)
+and (tema = 'geral' or tema='rede')*/
+                a.fazerJogo(insert);
+                global.setGame("normal");
                 Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
                 startActivity(intent);
                 Toast.makeText(telaSelJogo.this, insert, Toast.LENGTH_SHORT).show();
@@ -81,8 +100,9 @@ public class telaSelJogo extends AppCompatActivity {
             public void onClick(View v) {
 
                 select(); //passando checkboxes para a String insert
-                insert = "select id from pergunta where complexidade>'6'and (tema='"+insert_banco+"' or tema='"+insert_geral+"' or tema='"+insert_program+"' or tema='"+insert_opt1+"' or tema='"+insert_opt2+"' or tema='"+insert_rede+"')";
-                a.jogo(insert);
+                insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade>'6' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
+                a.fazerJogo(insert);
+                global.setGame("hard");
                 Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
                 startActivity(intent);
                 Toast.makeText(telaSelJogo.this, insert, Toast.LENGTH_SHORT).show();
