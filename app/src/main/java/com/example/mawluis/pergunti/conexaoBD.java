@@ -3,6 +3,7 @@ package com.example.mawluis.pergunti;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.StrictMode;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 //import android.telecom.Connection; Connection já está em uso
 import java.sql.Connection;
@@ -12,7 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -104,9 +106,6 @@ public class conexaoBD extends telaCadastro{
         }
     }
 
-
-
-
     public void novoUsuario (String login, String nome, String tipo, String email, String senha){
 
 
@@ -185,10 +184,30 @@ public class conexaoBD extends telaCadastro{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    public void jogo(String insert){ //TODO botar para funcionar corretamente.
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
 
-
-
+            Class.forName(classforname);
+            Connection con = DriverManager.getConnection(URL, user, pass);
+            PreparedStatement pst1 = con.prepareStatement(insert);
+            ResultSet rs1 = pst1.executeQuery();
+            List<Integer> poolPergs = new ArrayList<Integer>();
+            while (rs1.next()){
+                poolPergs.add(Integer.parseInt(rs1.getObject(1).toString()));
+                }
+                global.setPoolPergs(poolPergs);
+                rs1.close();
+                pst1.close();
+                con.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void pergunta (int pergunta){
@@ -200,7 +219,7 @@ public class conexaoBD extends telaCadastro{
 
             Class.forName(classforname);
             Connection  con = DriverManager.getConnection(URL, user, pass);
-            String sql = "select pergunta,opt1,opt2,opt3,opt4,resposta from pergunta where codigo= "+pergunta;
+            String sql = "select pergunta,opt1,opt2,opt3,opt4,resposta from pergunta where id= "+pergunta;
             PreparedStatement pst1 = con.prepareStatement(sql);
             ResultSet rs1 = pst1.executeQuery();
 

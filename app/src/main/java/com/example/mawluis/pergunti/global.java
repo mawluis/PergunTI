@@ -1,6 +1,8 @@
 package com.example.mawluis.pergunti;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Mawluis on 01/05/2017.
@@ -18,6 +20,17 @@ public class global {
     private static int id;
     private static String nome;
     private static String tipo;
+    private static List<Integer> poolPergs = new ArrayList<Integer>();
+
+    public static List<Integer> getPoolPergs() {
+        return poolPergs;
+    }
+
+    public static void setPoolPergs(List<Integer> poolPergs) {
+        global.poolPergs = poolPergs;
+    }
+
+
 
     public static String getNome() {
         return nome;

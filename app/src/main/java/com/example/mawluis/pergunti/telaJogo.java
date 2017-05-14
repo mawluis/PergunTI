@@ -76,6 +76,8 @@ public class telaJogo extends AppCompatActivity {
         btnResponder = (Button)findViewById(R.id.btnResponder);
         btnPergunta = (Button)findViewById(R.id.btnPergunta) ;
 
+        Toast.makeText(telaJogo.this, "Tamanho do array:"+global.getPoolPergs().size(), Toast.LENGTH_SHORT).show();
+
         btnResponder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

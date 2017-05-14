@@ -67,175 +67,16 @@ public class telaPerguntas extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId){
                     case R.id.rbBanco:
-                        try {
-                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                            StrictMode.setThreadPolicy(policy);
-
-                            Class.forName(classforname);
-                            Connection con = DriverManager.getConnection(URL, user, pass);
-                            String count = "SELECT count(*) id from pergunta where tema='banco'";
-                            String sql = "select id,pergunta from pergunta where tema='banco'";
-                            PreparedStatement pst1 = con.prepareStatement(count);
-                            ResultSet rs1 = pst1.executeQuery();
-
-                            if (rs1.next()){
-                                int n = Integer.parseInt(rs1.getObject(1).toString());
-
-                                String vetorPerg[][] = new String[2][n];
-                                //primeiro termo: id/pergunta
-                                // segundo termo: registro(s)
-                                PreparedStatement pst2 = con.prepareStatement(sql);
-                                ResultSet rs2 = pst2.executeQuery();
-
-                                int x=0;
-
-
-                                while (rs2.next()){
-                                    vetorPerg[0][x] = rs2.getObject(1).toString(); //id
-                                    vetorPerg[1][x] = rs2.getObject(2).toString(); //pergunta
-                                    x++;
-                                }
-
-                                setConsulta(vetorPerg);
-
-                                ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaPerguntas.this,android.R.layout.simple_list_item_1,consulta[1]);
-                                lv.setAdapter(adapter);
-
-                                rs2.close();
-                                pst2.close();
-
-                            } else {
-
-                                //todo adicionar o que fazer caso não tenha perguntas deste tema.
-
-                            }
-                            rs1.close();
-                            pst1.close();
-                            con.close();
-
-
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        enviarPerguntas("banco");
                         break;
                     case R.id.rbRede:
-                        try {
-                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                            StrictMode.setThreadPolicy(policy);
-
-                            Class.forName(classforname);
-                            Connection con = DriverManager.getConnection(URL, user, pass);
-                            String count = "SELECT count(*) id from pergunta where tema='rede'";
-                            String sql = "select id,pergunta from pergunta where tema='rede'";
-                            PreparedStatement pst1 = con.prepareStatement(count);
-                            ResultSet rs1 = pst1.executeQuery();
-                            if (rs1.next()){
-                                int n = Integer.parseInt(rs1.getObject(1).toString());
-                                String vetorPerg[][] = new String[2][n];
-                                PreparedStatement pst2 = con.prepareStatement(sql);
-                                ResultSet rs2 = pst2.executeQuery();
-                                int x=0;
-                                while (rs2.next()){
-                                    vetorPerg[0][x] = rs2.getObject(1).toString(); //id
-                                    vetorPerg[1][x] = rs2.getObject(2).toString(); //pergunta
-                                    x++;
-                                }
-                                setConsulta(vetorPerg);
-                                ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaPerguntas.this,android.R.layout.simple_list_item_1,consulta[1]);
-                                lv.setAdapter(adapter);
-                                rs2.close();
-                                pst2.close();
-                            } else {
-                                Toast.makeText(telaPerguntas.this, "Não há perguntas sobre esse tema", Toast.LENGTH_SHORT).show(); //nunca será utilizado
-                            }
-                            rs1.close();
-                            pst1.close();
-                            con.close();
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        enviarPerguntas("rede");
                         break;
                     case R.id.rbProgram:
-                        try {
-                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                            StrictMode.setThreadPolicy(policy);
-
-                            Class.forName(classforname);
-                            Connection con = DriverManager.getConnection(URL, user, pass);
-                            String count = "SELECT count(*) id from pergunta where tema='programação'";
-                            String sql = "select id,pergunta from pergunta where tema='programação'";
-                            PreparedStatement pst1 = con.prepareStatement(count);
-                            ResultSet rs1 = pst1.executeQuery();
-                            if (rs1.next()){
-                                int n = Integer.parseInt(rs1.getObject(1).toString());
-                                String vetorPerg[][] = new String[2][n];
-                                PreparedStatement pst2 = con.prepareStatement(sql);
-                                ResultSet rs2 = pst2.executeQuery();
-                                int x=0;
-                                while (rs2.next()){
-                                    vetorPerg[0][x] = rs2.getObject(1).toString(); //id
-                                    vetorPerg[1][x] = rs2.getObject(2).toString(); //pergunta
-                                    x++;
-                                }
-                                setConsulta(vetorPerg);
-                                ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaPerguntas.this,android.R.layout.simple_list_item_1,consulta[1]);
-                                lv.setAdapter(adapter);
-                                rs2.close();
-                                pst2.close();
-                            } else {
-                                Toast.makeText(telaPerguntas.this, "Não há perguntas sobre esse tema", Toast.LENGTH_SHORT).show(); //nunca será utilizado
-                            }
-                            rs1.close();
-                            pst1.close();
-                            con.close();
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        enviarPerguntas("programação");
                         break;
                     case R.id.rbGeral:
-                        try {
-                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                            StrictMode.setThreadPolicy(policy);
-
-                            Class.forName(classforname);
-                            Connection con = DriverManager.getConnection(URL, user, pass);
-                            String count = "SELECT count(*) id from pergunta where tema='geral'";
-                            String sql = "select id,pergunta from pergunta where tema='geral'";
-                            PreparedStatement pst1 = con.prepareStatement(count);
-                            ResultSet rs1 = pst1.executeQuery();
-                            if (rs1.next()){
-                                int n = Integer.parseInt(rs1.getObject(1).toString());
-                                String vetorPerg[][] = new String[2][n];
-                                PreparedStatement pst2 = con.prepareStatement(sql);
-                                ResultSet rs2 = pst2.executeQuery();
-                                int x=0;
-                                while (rs2.next()){
-                                    vetorPerg[0][x] = rs2.getObject(1).toString(); //id
-                                    vetorPerg[1][x] = rs2.getObject(2).toString(); //pergunta
-                                    x++;
-                                }
-                                setConsulta(vetorPerg);
-                                ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaPerguntas.this,android.R.layout.simple_list_item_1,consulta[1]);
-                                lv.setAdapter(adapter);
-                                rs2.close();
-                                pst2.close();
-                            } else {
-                                Toast.makeText(telaPerguntas.this, "Não há perguntas sobre esse tema", Toast.LENGTH_SHORT).show(); //nunca será utilizado
-                            }
-                            rs1.close();
-                            pst1.close();
-                            con.close();
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        enviarPerguntas("geral");
                         break;
                     default:
                         Toast.makeText(telaPerguntas.this, "Switch não configurado", Toast.LENGTH_SHORT).show();
@@ -261,5 +102,47 @@ public class telaPerguntas extends AppCompatActivity {
         });
 
 
+    }
+
+    public void enviarPerguntas(String tema){ //conexão criada fora da classes de conexão por erros de passagem de vetor entre activities
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            Class.forName(classforname);
+            Connection con = DriverManager.getConnection(URL, user, pass);
+            String count = "SELECT count(*) id from pergunta where tema='"+tema+"'";
+            String sql = "select id,pergunta from pergunta where tema='"+tema+"'";
+            PreparedStatement pst1 = con.prepareStatement(count);
+            ResultSet rs1 = pst1.executeQuery();
+            if (rs1.next()){
+                int n = Integer.parseInt(rs1.getObject(1).toString());
+                String vetorPerg[][] = new String[2][n]; //criei em vetor por não saber em arraylist multidimensional
+                //primeiro termo: id/pergunta
+                // segundo termo: registro(s)
+                PreparedStatement pst2 = con.prepareStatement(sql);
+                ResultSet rs2 = pst2.executeQuery();
+                int x=0;
+                while (rs2.next()){
+                    vetorPerg[0][x] = rs2.getObject(1).toString(); //id
+                    vetorPerg[1][x] = rs2.getObject(2).toString(); //pergunta
+                    x++;
+                }
+                setConsulta(vetorPerg);
+                ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaPerguntas.this,android.R.layout.simple_list_item_1,consulta[1]);
+                lv.setAdapter(adapter);
+                rs2.close();
+                pst2.close();
+            } else {
+                Toast.makeText(telaPerguntas.this, "Não há perguntas sobre esse tema", Toast.LENGTH_SHORT).show();
+            }
+            rs1.close();
+            pst1.close();
+            con.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
