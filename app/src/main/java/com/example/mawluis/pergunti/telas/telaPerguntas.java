@@ -1,4 +1,4 @@
-package com.example.mawluis.pergunti;
+package com.example.mawluis.pergunti.telas;
 
 import android.os.StrictMode;
 import android.support.annotation.IdRes;
@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-import android.widget.ListView;
 import android.widget.AdapterView;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+
+import com.example.mawluis.pergunti.R;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

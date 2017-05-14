@@ -1,4 +1,4 @@
-package com.example.mawluis.pergunti;
+package com.example.mawluis.pergunti.telas;
 
 import android.content.Intent;
 import android.os.StrictMode;
@@ -12,9 +12,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.mawluis.pergunti.R;
+import com.example.mawluis.pergunti.global.global;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;

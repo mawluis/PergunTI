@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1E90FF"
-    tools:context="com.example.mawluis.pergunti.telaLogin">
+    tools:context="com.example.mawluis.pergunti.telas.telaLogin">
 
     <EditText
         android:id="@+id/txtLogin"

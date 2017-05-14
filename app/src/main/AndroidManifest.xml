@@ -11,22 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".telaLogin">
+        <activity android:name=".telas.telaLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".telaCadastro" />
-        <activity android:name=".conexaoBD" />
-        <activity android:name=".telaInicial" />
-        <activity android:name=".telaJogo" />
-        <activity android:name=".telaJogoCustom" />
-        <activity android:name=".telaPerguntas" />
-        <activity android:name=".telaCriacaoPerg" />
-        <activity android:name=".telaRanking" />
-        <activity android:name=".telaSelJogo"></activity>
+        <activity android:name=".telas.telaCadastro" />
+        <activity android:name=".conexao.conexaoBD" />
+        <activity android:name=".telas.telaInicial" />
+        <activity android:name=".telas.telaJogo" />
+        <activity android:name=".telas.telaJogoCustom" />
+        <activity android:name=".telas.telaPerguntas" />
+        <activity android:name=".telas.telaCriacaoPerg" />
+        <activity android:name=".telas.telaRanking" />
+        <activity android:name=".telas.telaSelJogo"></activity>
     </application>
 
 </manifest>

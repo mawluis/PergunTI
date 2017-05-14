@@ -1,4 +1,4 @@
-package com.example.mawluis.pergunti;
+package com.example.mawluis.pergunti.telas;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.mawluis.pergunti.R;
+import com.example.mawluis.pergunti.conexao.conexaoBD;
 
 public class telaSelJogo extends AppCompatActivity {
 

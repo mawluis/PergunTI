@@ -1,4 +1,4 @@
-package com.example.mawluis.pergunti;
+package com.example.mawluis.pergunti.telas;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +9,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.mawluis.pergunti.R;
+import com.example.mawluis.pergunti.conexao.conexaoBD;
+import com.example.mawluis.pergunti.global.global;
 
 public class telaJogo extends AppCompatActivity {
 
@@ -76,7 +80,7 @@ public class telaJogo extends AppCompatActivity {
         btnResponder = (Button)findViewById(R.id.btnResponder);
         btnPergunta = (Button)findViewById(R.id.btnPergunta) ;
 
-        Toast.makeText(telaJogo.this, "Tamanho do array:"+global.getPoolPergs().size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(telaJogo.this, "Tamanho do array:"+ global.getPoolPergs().size(), Toast.LENGTH_SHORT).show();
 
         btnResponder.setOnClickListener(new View.OnClickListener() {
             @Override

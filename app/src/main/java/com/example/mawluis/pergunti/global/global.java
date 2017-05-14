@@ -1,4 +1,4 @@
-package com.example.mawluis.pergunti;
+package com.example.mawluis.pergunti.global;
 
 import java.util.ArrayList;
 import java.util.Arrays;

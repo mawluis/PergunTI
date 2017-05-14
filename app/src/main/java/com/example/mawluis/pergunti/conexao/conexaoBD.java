@@ -1,16 +1,14 @@
-package com.example.mawluis.pergunti;
+package com.example.mawluis.pergunti.conexao;
 
-import android.app.AlertDialog;
-import android.content.Context;
 import android.os.StrictMode;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
 //import android.telecom.Connection; Connection já está em uso
+import com.example.mawluis.pergunti.global.global;
+import com.example.mawluis.pergunti.telas.telaCadastro;
+import com.example.mawluis.pergunti.telas.telaJogo;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ import java.util.List;
  * Created by Mawluis on 23/04/2017.
  */
 
-public class conexaoBD extends telaCadastro{
+public class conexaoBD extends telaCadastro {
 
     private static final String URL="jdbc:postgresql://ec2-54-243-253-17.compute-1.amazonaws.com:5432/djdvphd5vpn4l?sslmode=require";
     private static final String user="aqxgmmdlvyecas";
