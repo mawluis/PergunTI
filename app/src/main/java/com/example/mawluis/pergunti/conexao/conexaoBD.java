@@ -92,7 +92,9 @@ public class conexaoBD extends telaCadastro {
             Class.forName(classforname);
             Connection con = DriverManager.getConnection(URL, user, pass);
             PreparedStatement pst1 = con.prepareStatement("select pergunta from sala where id='"+sala+"' and usuario='"+id+"'");
-            PreparedStatement pst2 = con.prepareStatement("select pergunta from sala where id='"+sala+"'");
+            PreparedStatement pst2 = con.prepareStatement("select pergunta from sala where usuario in(select id from usuario where tipo='professor') and id='"+sala+"'");
+            //pst1: "ver se o usuario já respondeu."
+            //pst2: "resultado das perguntas ref. desta sala com select só no tipo professor."
             ResultSet rs1 = pst1.executeQuery();
             if (rs1.next()){
                 global.setRepetido(true);

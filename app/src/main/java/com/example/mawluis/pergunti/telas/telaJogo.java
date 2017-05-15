@@ -119,7 +119,7 @@ public class telaJogo extends AppCompatActivity {
                 dlg.show();
             }
             poolPergs=global.getPoolPergs();
-            txtJogo.setText("Sala "+global.getGame()+" pergunta "+"1/"+poolPergs.size()+""); //todo colocar o número da pergunta (índice do vetor) exemplo pergunta 2/10
+            txtJogo.setText("Sala "+global.getGame()+" pergunta "+"1/"+poolPergs.size()+"");
             vemPergunta();
 
         }
@@ -146,7 +146,7 @@ public class telaJogo extends AppCompatActivity {
 
                     if(marcacao==resposta) {
                         Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
-                        if (!global.isRepetido()){
+                        if (!(global.isRepetido()||global.getTipo().equals("professor"))){
                            String query = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
                             perguntar.executaUpdate(query);
                         }
