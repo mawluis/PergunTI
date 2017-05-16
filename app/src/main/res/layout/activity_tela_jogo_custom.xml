@@ -96,6 +96,9 @@
                 android:id="@+id/lv"
                 android:layout_width="match_parent"
                 android:layout_height="427dp"
+                android:divider="@android:color/holo_orange_light"
+                android:layout_margin="10dp"
+                android:dividerHeight="2dp"
                 tools:layout_editor_absoluteX="25dp"
                 tools:layout_editor_absoluteY="230dp" />
         </LinearLayout>

@@ -31,7 +31,11 @@
             <ListView
                 android:id="@+id/lv"
                 android:layout_width="match_parent"
-                android:layout_height="320dp" />
+                android:layout_height="320dp"
+                android:divider="@android:color/holo_orange_light"
+                android:transcriptMode="normal"
+                android:layout_margin="10dp"
+                android:dividerHeight="2dp" />
         </LinearLayout>
     </ScrollView>
 

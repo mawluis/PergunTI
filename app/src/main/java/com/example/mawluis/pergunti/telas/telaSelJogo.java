@@ -1,6 +1,7 @@
 package com.example.mawluis.pergunti.telas;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +19,7 @@ public class telaSelJogo extends AppCompatActivity {
     Button btnGo, btnEasy, btnNormal, btnHard;
     CheckBox chkBanco, chkGeral, chkProgram, chkOpt1, chkOpt2, chkRede;
     EditText edtSala;
-    String insert;
+    String select;
     String insert_banco = "";
     String insert_geral = "";
     String insert_program = "";
@@ -68,14 +69,23 @@ public class telaSelJogo extends AppCompatActivity {
             public void onClick(View v) {
 
                 select(); //passando checkboxes para a String insert
-                //insert = "select id from pergunta where complexidade<'4'and (tema='"+insert_banco+"' or tema='"+insert_geral+"' or tema='"+insert_program+"' or tema='"+insert_opt1+"' or tema='"+insert_opt2+"' or tema='"+insert_rede+"')";
-                insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade<'4' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
-                a.fazerJogo(insert);
-                global.setGame("easy");
-                Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
-                startActivity(intent);
-                Toast.makeText(telaSelJogo.this, insert, Toast.LENGTH_SHORT).show();
-            }
+                        select ="select id from pergunta where id not in(select pergunta from respondida where jogador = '"+global.getId()+"') " +
+                        "and complexidade<'4' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
+                        "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +
+                        " or tema = '"+insert_opt1+"')";
+                a.fazerJogo(select);
+                if (global.isVazio()){
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(telaSelJogo.this);
+                    dlg.setMessage("Perguntas insuficentes para criação de jogo fácil.\n " +
+                            "Escolha mais temas ou mude sua dificuldade.\n " );
+                    dlg.setNeutralButton("Ok, mudarei meus critérios!", null);
+                    dlg.show();
+                }else{
+                    global.setGame("easy");
+                    Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
+                    startActivity(intent);
+                }
+                                            }
         });
 
         btnNormal.setOnClickListener(new View.OnClickListener() {
@@ -83,16 +93,24 @@ public class telaSelJogo extends AppCompatActivity {
             public void onClick(View v) {
 
                 select(); //passando checkboxes para a String insert
-                insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade<'4' and complexidade>'3' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
-               /*select * from pergunta
-where id not in(select pergunta from respondida where jogador = 1)
-and (tema = 'geral' or tema='rede')*/
-                a.fazerJogo(insert);
-                global.setGame("normal");
-                Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
-                startActivity(intent);
-                Toast.makeText(telaSelJogo.this, insert, Toast.LENGTH_SHORT).show();
-            }
+                //insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade<'4' and complexidade>'3' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
+                select ="select id from pergunta where id not in(select pergunta from respondida where jogador = 4) " +
+                        "and complexidade>'3' and complexidade<'7' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
+                        "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +
+                        " or tema = '"+insert_opt1+"')";
+                a.fazerJogo(select);
+                if (global.isVazio()){
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(telaSelJogo.this);
+                    dlg.setMessage("Perguntas insuficentes para criação de jogo normal.\n " +
+                                   "Escolha mais temas ou mude sua dificuldade.\n " );
+                    dlg.setNeutralButton("Ok, mudarei meus critérios!", null);
+                    dlg.show();
+                }else{
+                    global.setGame("normal");
+                    Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
+                    startActivity(intent);
+                }
+                           }
         });
 
         btnHard.setOnClickListener(new View.OnClickListener() {
@@ -100,16 +118,25 @@ and (tema = 'geral' or tema='rede')*/
             public void onClick(View v) {
 
                 select(); //passando checkboxes para a String insert
-                insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade>'6' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
-                a.fazerJogo(insert);
-                global.setGame("hard");
-                Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
-                startActivity(intent);
-                Toast.makeText(telaSelJogo.this, insert, Toast.LENGTH_SHORT).show();
-            }
+                //insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade>'6' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
+                select ="select id from pergunta where id not in(select pergunta from respondida where jogador = 4) " +
+                        "and complexidade>'6' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
+                        "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +
+                        " or tema = '"+insert_opt1+"')";
+                a.fazerJogo(select);
+                if (global.isVazio()){
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(telaSelJogo.this);
+                    dlg.setMessage("Perguntas insuficentes para criação de jogo avançado.\n " +
+                            "Escolha mais temas ou mude sua dificuldade.\n " );
+                    dlg.setNeutralButton("Ok, mudarei meus critérios!", null);
+                    dlg.show();
+                }else{
+                    global.setGame("hard");
+                    Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
+                    startActivity(intent);
+                }
+                           }
         });
-
-
     }
 
     public void select (){

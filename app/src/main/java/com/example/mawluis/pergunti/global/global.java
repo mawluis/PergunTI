@@ -23,6 +23,17 @@ public class global {
     private static List<Integer> poolPergs = new ArrayList<Integer>();
     private static String game = "normal";
     private static boolean repetido = false;
+    private static boolean vazio=false;
+
+    public static boolean isVazio() {
+        return vazio;
+    }
+
+    public static void setVazio(boolean vazio) {
+        global.vazio = vazio;
+    }
+
+
 
     public static boolean isRepetido() {
         return repetido;

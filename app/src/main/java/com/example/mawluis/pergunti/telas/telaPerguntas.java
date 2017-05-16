@@ -117,7 +117,7 @@ public class telaPerguntas extends AppCompatActivity {
             ResultSet rs1 = pst1.executeQuery();
             if (rs1.next()){
                 int n = Integer.parseInt(rs1.getObject(1).toString());
-                String vetorPerg[][] = new String[2][n]; //criei em vetor por não saber em arraylist multidimensional
+                String vetorPerg[][] = new String[2][n]; //criei em vetor por não saber usar arraylist multidimensional
                 //primeiro termo: id/pergunta
                 // segundo termo: registro(s)
                 PreparedStatement pst2 = con.prepareStatement(sql);

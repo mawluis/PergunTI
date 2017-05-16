@@ -21,7 +21,7 @@ import java.util.List;
 public class telaJogo extends AppCompatActivity {
 
     private static String pergunta, opt1, opt2, opt3, opt4;
-    private int marcacao, resposta, i=0;
+    private int marcacao, resposta, i=0, acertos=0;
     Button btnResponder, btnPergunta;
     RadioButton rBtnOpt1,rBtnOpt2,rBtnOpt3,rBtnOpt4;
     EditText codPergunta;
@@ -97,17 +97,22 @@ public class telaJogo extends AppCompatActivity {
         txtJogo = (TextView)findViewById(R.id.txtJogo);
 
 
-       // Toast.makeText(telaJogo.this, "Tamanho do array:"+ global.getPoolPergs().size(), Toast.LENGTH_SHORT).show();
+
+
+        i=0; acertos=0; //zerando varíaveis.
 
         if (global.getTipo().equals("professor")) {
-
+            btnPergunta.setVisibility(View.VISIBLE);
+            codPergunta.setVisibility(View.VISIBLE);
         }else{
             btnPergunta.setVisibility(View.INVISIBLE);
             codPergunta.setVisibility(View.INVISIBLE);
         }
 
         if ((global.getGame().equals("easy"))||(global.getGame().equals("normal"))||(global.getGame().equals("hard"))){
-            //todo criar jogo single
+            poolPergs=global.getPoolPergs(); //populando vetor local de perguntas
+            Toast.makeText(telaJogo.this, "Tamanho do array de perguntas:\n"+ global.getPoolPergs().size(), Toast.LENGTH_SHORT).show();
+            campanha();
         }else{
             perguntar.enviarSala(global.getGame(),global.getId());
             if (global.isRepetido()){
@@ -118,10 +123,9 @@ public class telaJogo extends AppCompatActivity {
                 dlg.setNeutralButton("Ok, entendi!", null);
                 dlg.show();
             }
-            poolPergs=global.getPoolPergs();
+            poolPergs=global.getPoolPergs(); //populando vetor local de perguntas
             txtJogo.setText("Sala "+global.getGame()+" pergunta "+"1/"+poolPergs.size()+"");
-            vemPergunta();
-
+            perguntaSala();
         }
 
 
@@ -145,23 +149,9 @@ public class telaJogo extends AppCompatActivity {
                     setResposta(global.getResposta());
 
                     if(marcacao==resposta) {
-                        Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
-                        if (!(global.isRepetido()||global.getTipo().equals("professor"))){
-                           String query = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
-                            perguntar.executaUpdate(query);
-                        }
-                        vemPergunta();
+                        resposta(true);
                     } else {
-                        if (global.getTipo().equals("professor")){
-                            Toast.makeText(telaJogo.this, "Você errou! a resposta correta é: "+resposta, Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(telaJogo.this, "Você errou!", Toast.LENGTH_SHORT).show();
-                        }
-                        if (!global.isRepetido()){
-                            String query = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+poolPergs.get(i-1)+"','0')" ;
-                            perguntar.executaUpdate(query);
-                        }
-                        vemPergunta();
+                        resposta(false);
                     }
 
                 }
@@ -185,11 +175,46 @@ public class telaJogo extends AppCompatActivity {
         });
 
     }
-    public void vemPergunta (){
+    public void resposta(boolean resp){
+        if ((global.getGame().equals("easy"))||(global.getGame().equals("normal"))||(global.getGame().equals("hard"))) {
+            if (resp) { //pergunta certa campanha
+                Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
+                String query = "INSERT INTO respondidas (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
+                perguntar.executaUpdate(query);
+                acertos++;
+            } else {//pergunta errada campanha
+                Toast.makeText(telaJogo.this, "Você errou!", Toast.LENGTH_SHORT).show();
+                String query = "INSERT INTO respondidas (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','0')" ;
+                perguntar.executaUpdate(query);
+            }
+        }   else{
+            if (resp) { //---------------==========pergunta certa sala========-----
+                Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
+                if (!(global.isRepetido()||global.getTipo().equals("professor"))){
+                    String query = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
+                    perguntar.executaUpdate(query);
+                    acertos++;
+                }
+                perguntaSala();
+            } else {//--------------========pergunta errada sala==========-----
+                if (global.getTipo().equals("professor")){
+                    Toast.makeText(telaJogo.this, "Você errou! a resposta correta é: "+resposta, Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(telaJogo.this, "Você errou!", Toast.LENGTH_SHORT).show();
+                }
+                if (!global.isRepetido()){
+                    String query = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+poolPergs.get(i-1)+"','0')" ;
+                    perguntar.executaUpdate(query);
+                }
+                perguntaSala();
+            }
+        }
+    }
+
+    public void perguntaSala (){
 
         if (poolPergs.size()>i) {
             perguntar.pergunta(poolPergs.get(i));
-            Toast.makeText(telaJogo.this, "poolPergs.get(i) é:"+poolPergs.get(i), Toast.LENGTH_SHORT).show();
             txtNumPerg.setText("Pergunta nº " + poolPergs.get(i) + ": ");
             txtPergunta.setText(getPergunta());
             rBtnOpt1.setText(getOpt1());
@@ -201,9 +226,33 @@ public class telaJogo extends AppCompatActivity {
 
         } else {
             AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
-            dlg.setMessage("Jogo finalizado");
+            dlg.setMessage("Jogo finalizado!\n\nResultado:\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos)+"Total de perguntas:"+poolPergs.size());
             dlg.setNeutralButton("Ok!", null);
             dlg.show();
         }
+    }
+
+    public void campanha (){
+
+        if (poolPergs.size()>i) {
+            perguntar.pergunta(poolPergs.get(i));
+            txtNumPerg.setText("Pergunta nº " + poolPergs.get(i) + ": ");
+            txtPergunta.setText(getPergunta());
+            rBtnOpt1.setText(getOpt1());
+            rBtnOpt2.setText(getOpt2());
+            rBtnOpt3.setText(getOpt3());
+            rBtnOpt4.setText(getOpt4());
+            i++;
+            txtJogo.setText("Modo: " + global.getGame() + " Pergunta " + i + "/" + poolPergs.size() + "");
+    } else {
+        AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
+            dlg.setMessage("Jogo finalizado!\n\nResultado:\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos)+"Total de perguntas:"+poolPergs.size());
+            dlg.setNeutralButton("Ok!", null);
+            dlg.show();
+            String query = "INSERT INTO ranking (dificuldade, jogador, acertos) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+acertos+"')" ;
+            perguntar.executaUpdate(query);
+    }
+
+
     }
 }
