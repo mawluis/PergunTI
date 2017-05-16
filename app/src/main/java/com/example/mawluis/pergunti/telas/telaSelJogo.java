@@ -67,7 +67,7 @@ public class telaSelJogo extends AppCompatActivity {
         btnEasy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
                         select ="select id from pergunta where id not in(select pergunta from respondida where jogador = '"+global.getId()+"') " +
                         "and complexidade<'4' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
@@ -91,7 +91,7 @@ public class telaSelJogo extends AppCompatActivity {
         btnNormal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
                 //insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade<'4' and complexidade>'3' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
                 select ="select id from pergunta where id not in(select pergunta from respondida where jogador = 4) " +
@@ -116,7 +116,7 @@ public class telaSelJogo extends AppCompatActivity {
         btnHard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
                 //insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade>'6' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
                 select ="select id from pergunta where id not in(select pergunta from respondida where jogador = 4) " +

@@ -1,5 +1,7 @@
 package com.example.mawluis.pergunti.telas;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -179,13 +181,15 @@ public class telaJogo extends AppCompatActivity {
         if ((global.getGame().equals("easy"))||(global.getGame().equals("normal"))||(global.getGame().equals("hard"))) {
             if (resp) { //pergunta certa campanha
                 Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
-                String query = "INSERT INTO respondidas (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
+                String query = "INSERT INTO respondida (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
                 perguntar.executaUpdate(query);
                 acertos++;
+                campanha();
             } else {//pergunta errada campanha
                 Toast.makeText(telaJogo.this, "Você errou!", Toast.LENGTH_SHORT).show();
-                String query = "INSERT INTO respondidas (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','0')" ;
+                String query = "INSERT INTO respondida (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','0')" ;
                 perguntar.executaUpdate(query);
+                campanha();
             }
         }   else{
             if (resp) { //---------------==========pergunta certa sala========-----
@@ -226,9 +230,16 @@ public class telaJogo extends AppCompatActivity {
 
         } else {
             AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
-            dlg.setMessage("Jogo finalizado!\n\nResultado:\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos)+"Total de perguntas:"+poolPergs.size());
-            dlg.setNeutralButton("Ok!", null);
-            dlg.show();
+            dlg.setCancelable(false);
+            dlg.setTitle("Game Over");
+            dlg.setMessage("Jogo finalizado!\n\nResultado:\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos)+"\nTotal de perguntas:"+poolPergs.size());
+            dlg.setNeutralButton("Ok!", new DialogInterface.OnClickListener()     {
+                public void onClick(DialogInterface dialog, int id) {
+                    finish();
+                }
+            });
+            AlertDialog alert = dlg.create();
+            alert.show();
         }
     }
 
@@ -246,10 +257,17 @@ public class telaJogo extends AppCompatActivity {
             txtJogo.setText("Modo: " + global.getGame() + " Pergunta " + i + "/" + poolPergs.size() + "");
     } else {
         AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
-            dlg.setMessage("Jogo finalizado!\n\nResultado:\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos)+"Total de perguntas:"+poolPergs.size());
-            dlg.setNeutralButton("Ok!", null);
-            dlg.show();
-            String query = "INSERT INTO ranking (dificuldade, jogador, acertos) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+acertos+"')" ;
+            dlg.setCancelable(false);
+            dlg.setTitle("Game Over");
+            dlg.setMessage("Jogo finalizado!\n\nResultado:\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos)+"\nTotal de perguntas:"+poolPergs.size());
+            dlg.setNeutralButton("Ok!", new DialogInterface.OnClickListener()     {
+                public void onClick(DialogInterface dialog, int id) {
+                    finish();
+                }
+            });
+            AlertDialog alert = dlg.create();
+            alert.show();
+            String query = "INSERT INTO ranking (dificuldade, jogador, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+acertos+"')" ;
             perguntar.executaUpdate(query);
     }
 
