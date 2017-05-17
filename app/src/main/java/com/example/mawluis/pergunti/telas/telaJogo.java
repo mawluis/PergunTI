@@ -320,7 +320,6 @@ public void cancel(){
 }
 
 
-
     public void campanha (){
 
         if (poolPergs.size()>i) {
