@@ -31,6 +31,7 @@ public class telaJogo extends AppCompatActivity {
     private int i=0;
     private int acertos=0;
 
+
     Button btnResponder, btnPergunta;
     RadioButton rBtnOpt1,rBtnOpt2,rBtnOpt3,rBtnOpt4;
     EditText codPergunta;
@@ -39,6 +40,7 @@ public class telaJogo extends AppCompatActivity {
     conexaoBD perguntar = new conexaoBD();
     boolean blink;
     CountDownTimer countDownTimer;
+
 
         //getters e setters
 
@@ -109,7 +111,8 @@ public class telaJogo extends AppCompatActivity {
         txtJogo = (TextView)findViewById(R.id.txtJogo);
         txtCountDown = (TextView)findViewById(R.id.txtCountDown);
 
-        final MediaPlayer tick = MediaPlayer.create(this, R.som.tick_tack);
+
+
 
 
 
@@ -258,9 +261,9 @@ public class telaJogo extends AppCompatActivity {
             alert.show();
         }
     }
-public void start(int tempo){
+    public void start(int tempo){
     txtCountDown.setTextColor(Color.parseColor("#FFFFFF"));
-    countDownTimer = new CountDownTimer(tempo*1000, 500) {
+    countDownTimer = new CountDownTimer(tempo*1000, 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
             txtCountDown.setText("Tempo:\n    " + millisUntilFinished / 1000);
@@ -276,9 +279,11 @@ public void start(int tempo){
             if (millisUntilFinished < 10000) {
                 txtCountDown.setTextColor(Color.RED);
                 blink = !blink;
+                tick();
             }
             if ( !blink ) {
                 txtCountDown.setVisibility(View.VISIBLE);
+
 
             } else {
                 txtCountDown.setVisibility(View.INVISIBLE);
@@ -366,6 +371,13 @@ public void cancel(){
         });
         AlertDialog alert = dlg.create();
         alert.show();
+
+    }
+
+    public void tick(){
+
+        MediaPlayer tick = MediaPlayer.create(this, R.raw.tick_tack);
+        tick.start();
 
     }
 }
