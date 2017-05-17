@@ -78,7 +78,7 @@ public class conexaoBD extends telaCadastro {
 
     }
 
-    public void novaPerg (String pergunta, String opt1, String opt2, String opt3, String opt4, int resposta, String criador, int complexidade, String tema){
+    public void novaPerg (String pergunta, String opt1, String opt2, String opt3, String opt4, int resposta, String criador, int complexidade, String tema, int tempo){
 
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -86,7 +86,7 @@ public class conexaoBD extends telaCadastro {
 
             Class.forName(global.getClassforname());
             Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
-            String insert = "INSERT INTO pergunta (pergunta, opt1, opt2, opt3, opt4, resposta, criador, complexidade, tema) VALUES ('"+pergunta+"', '"+opt1+"', '"+opt2+"', '"+opt3+"', '"+opt4+"', '"+resposta+"', '"+criador+"', '"+complexidade+"', '"+tema+"');";
+            String insert = "INSERT INTO pergunta (pergunta, opt1, opt2, opt3, opt4, resposta, criador, complexidade, tema, tempo) VALUES ('"+pergunta+"', '"+opt1+"', '"+opt2+"', '"+opt3+"', '"+opt4+"', '"+resposta+"', '"+criador+"', '"+complexidade+"', '"+tema+"','"+tempo+"');";
             PreparedStatement pst1 = con.prepareStatement(insert);
             int rs1 = pst1.executeUpdate();
             global.setPergCriada(true);

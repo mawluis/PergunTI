@@ -262,8 +262,9 @@ public class telaJogo extends AppCompatActivity {
         }
     }
     public void start(int tempo){
-    txtCountDown.setTextColor(Color.parseColor("#FFFFFF"));
-    countDownTimer = new CountDownTimer(tempo*1000, 1000) {
+        txtCountDown.setVisibility(View.VISIBLE);
+        txtCountDown.setTextColor(Color.parseColor("#FFFFFF"));
+    countDownTimer = new CountDownTimer(tempo*1000, 500) {
         @Override
         public void onTick(long millisUntilFinished) {
             txtCountDown.setText("Tempo:\n    " + millisUntilFinished / 1000);
@@ -279,10 +280,11 @@ public class telaJogo extends AppCompatActivity {
             if (millisUntilFinished < 10000) {
                 txtCountDown.setTextColor(Color.RED);
                 blink = !blink;
-                tick("tick");
+
             }
             if ( !blink ) {
                 txtCountDown.setVisibility(View.VISIBLE);
+                tick("tick");
 
 
             } else {

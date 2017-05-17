@@ -28,25 +28,24 @@ public class telaCriacaoPerg extends AppCompatActivity {
         EditText edtResp = (EditText)findViewById(R.id.edtResp);
         EditText edtTema = (EditText)findViewById(R.id.edtTema);
         EditText edtComplex = (EditText)findViewById(R.id.edtComplex);
+        EditText edtTempo = (EditText)findViewById(R.id.edtTempo);
 
 
         btnCriaPerg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-               // String nome = String.valueOf(novoNome.getText());
-                global b = new global();
-
-
+               global b = new global();
                 conexaoBD a = new conexaoBD();
-                a.novaPerg(String.valueOf(edtPerg.getText()),String.valueOf(edtOpt1.getText()),
+                a.novaPerg(String.valueOf(edtPerg.getText()),
+                        String.valueOf(edtOpt1.getText()),
                         String.valueOf(edtOpt2.getText()),
                         String.valueOf(edtOpt3.getText()),
                         String.valueOf(edtOpt4.getText()),
                         Integer.parseInt(String.valueOf(edtResp.getText())),
                         b.getLogin(),
                         Integer.parseInt(String.valueOf(edtComplex.getText())),
-                        String.valueOf(edtTema.getText()).toLowerCase());//tema para minúsculo.
+                        String.valueOf(edtTema.getText()).toLowerCase(),//tema para minúsculo.
+                        Integer.parseInt(String.valueOf(edtTempo.getText())) );
 
                 if (global.isPergCriada()){
                     Toast.makeText(telaCriacaoPerg.this, "Pergunta criada com sucesso", Toast.LENGTH_SHORT).show();
