@@ -26,7 +26,6 @@ import java.util.List;
 public class telaJogo extends AppCompatActivity {
 
     private static String pergunta, opt1, opt2, opt3, opt4;
-    private int marcacao;
     private int resposta;
     private int i=0;
     private int acertos=0;
@@ -38,7 +37,7 @@ public class telaJogo extends AppCompatActivity {
     TextView txtNumPerg, txtPergunta, txtJogo, txtCountDown;
     List<Integer> poolPergs = new ArrayList<Integer>();
     conexaoBD perguntar = new conexaoBD();
-    boolean blink;
+    boolean blink=false;
     CountDownTimer countDownTimer;
 
 
@@ -98,7 +97,6 @@ public class telaJogo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_jogo);
 
-
         btnPergunta = (Button)findViewById(R.id.btnPergunta) ;
         btnResponder = (Button)findViewById(R.id.btnResponder);
         codPergunta = (EditText) findViewById(R.id.codPergunta);
@@ -110,12 +108,6 @@ public class telaJogo extends AppCompatActivity {
         rBtnOpt4 = (RadioButton)findViewById(R.id.rBtnOpt4);
         txtJogo = (TextView)findViewById(R.id.txtJogo);
         txtCountDown = (TextView)findViewById(R.id.txtCountDown);
-
-
-
-
-
-
 
         i=0; acertos=0; //zerando varíaveis.
 
@@ -158,8 +150,6 @@ public class telaJogo extends AppCompatActivity {
                 if (rg.getCheckedRadioButtonId() == -1) {//teste de tipo
                     Toast.makeText(telaJogo.this, "Escolha uma opção", Toast.LENGTH_SHORT).show();}
                 else {
-                    marcacao = rg.getCheckedRadioButtonId ();
-
                     int marcacao = rg.indexOfChild(findViewById(rg.getCheckedRadioButtonId()));
                     marcacao++; // 1-4
 
@@ -264,7 +254,7 @@ public class telaJogo extends AppCompatActivity {
     public void start(int tempo){
         txtCountDown.setVisibility(View.VISIBLE);
         txtCountDown.setTextColor(Color.parseColor("#FFFFFF"));
-    countDownTimer = new CountDownTimer(tempo*1000, 500) {
+        countDownTimer = new CountDownTimer(tempo*1000, 500) {
         @Override
         public void onTick(long millisUntilFinished) {
             txtCountDown.setText("Tempo:\n    " + millisUntilFinished / 1000);
@@ -280,15 +270,12 @@ public class telaJogo extends AppCompatActivity {
             if (millisUntilFinished < 10000) {
                 txtCountDown.setTextColor(Color.RED);
                 blink = !blink;
-
-            }
-            if ( !blink ) {
-                txtCountDown.setVisibility(View.VISIBLE);
-                tick("tick");
-
-
-            } else {
+               }
+            if (blink) {
                 txtCountDown.setVisibility(View.INVISIBLE);
+                tick("tick");
+            } else {
+                txtCountDown.setVisibility(View.VISIBLE);
             }
 
         }
@@ -296,6 +283,7 @@ public class telaJogo extends AppCompatActivity {
         public void onFinish() {
             txtCountDown.setVisibility(View.VISIBLE);
             txtCountDown.setText("Acabou!");
+            blink=false;
             tick("alarm");
 
             AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
