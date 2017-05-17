@@ -279,7 +279,7 @@ public class telaJogo extends AppCompatActivity {
             if (millisUntilFinished < 10000) {
                 txtCountDown.setTextColor(Color.RED);
                 blink = !blink;
-                tick();
+                tick("tick");
             }
             if ( !blink ) {
                 txtCountDown.setVisibility(View.VISIBLE);
@@ -294,6 +294,7 @@ public class telaJogo extends AppCompatActivity {
         public void onFinish() {
             txtCountDown.setVisibility(View.VISIBLE);
             txtCountDown.setText("Acabou!");
+            tick("alarm");
 
             AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
             dlg.setCancelable(false);
@@ -374,10 +375,17 @@ public void cancel(){
 
     }
 
-    public void tick(){
+    public void tick(String som){
 
-        MediaPlayer tick = MediaPlayer.create(this, R.raw.tick_tack);
-        tick.start();
+        switch (som){
+            case ("tick"):
+                MediaPlayer tick = MediaPlayer.create(this, R.raw.tick_tack);
+                tick.start();
+                break;
+            case ("alarm"):
+                MediaPlayer alarme_clock = MediaPlayer.create(this, R.raw.alarme_clock);
+                alarme_clock.start();
+        }
 
     }
 }
