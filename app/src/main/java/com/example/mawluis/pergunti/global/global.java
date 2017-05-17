@@ -9,13 +9,21 @@ import java.util.List;
  */
 
 public class global {
+
+
+
+    private static final String URL="jdbc:postgresql://ec2-54-243-253-17.compute-1.amazonaws.com:5432/djdvphd5vpn4l?sslmode=require";
+    private static final String user="aqxgmmdlvyecas";
+    private static final String pass="bb7241b8c75b44f40e50d3ab71c84cc51d9f9708301f82bd7a508daae0ef285b";
+    private static final String classforname="org.postgresql.Driver"; //com.mysql.jdbc.Driver ou org.postgresql.Driver
+
     private static String login;
     private static boolean logado = false;
     private static int resposta;
     private static boolean usuarioExistente = false;
     private static boolean usuarioCriado = false;
-    private static int vetor[]; //verificar se eu uso bagaça
-    private static String[] consulta; //verificar se eu uso essa bagaça
+   // private static int vetor[]; //verificar se eu uso bagaça
+   // private static String[] consulta; //verificar se eu uso essa bagaça
     private static boolean pergCriada= false;
     private static int id;
     private static String nome;
@@ -24,6 +32,41 @@ public class global {
     private static String game = "normal";
     private static boolean repetido = false;
     private static boolean vazio=false;
+    private static int tempo;
+
+    public static int getTempo() {
+        return tempo;
+    }
+
+    public static void setTempo(int tempo) {
+        global.tempo = tempo;
+    }
+
+
+
+
+
+
+    public static String getURL() {
+        return URL;
+    }
+
+    public static String getUser() {
+        return user;
+    }
+
+    public static String getPass() {
+        return pass;
+    }
+
+    public static String getClassforname() {
+        return classforname;
+    }
+
+
+
+
+
 
     public static boolean isVazio() {
         return vazio;
@@ -107,7 +150,7 @@ public class global {
 
 
 
-
+/*
     public void vetores (String[] vetor){
 
     }
@@ -119,7 +162,7 @@ public class global {
     public static String[] getConsulta() {
         return Arrays.copyOf(consulta, consulta.length);
     }
-
+*/
 
     /* método automático getter and setter do Android Studio
     public static String[] getConsulta() {
@@ -130,7 +173,7 @@ public class global {
         global.consulta = consulta;
     }*/
 
-
+/*
 
     public static int[] getVetor() {
         return vetor;
@@ -140,7 +183,7 @@ public class global {
         global.vetor = vetor;
     }
 
-
+*/
 
     public static boolean isUsuarioCriado() {
         return usuarioCriado;

@@ -2,6 +2,9 @@ package com.example.mawluis.pergunti.telas;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,15 +26,22 @@ import java.util.List;
 public class telaJogo extends AppCompatActivity {
 
     private static String pergunta, opt1, opt2, opt3, opt4;
-    private int marcacao, resposta, i=0, acertos=0;
+    private int marcacao;
+    private int resposta;
+    private int i=0;
+    private int acertos=0;
+
     Button btnResponder, btnPergunta;
     RadioButton rBtnOpt1,rBtnOpt2,rBtnOpt3,rBtnOpt4;
     EditText codPergunta;
-    TextView txtNumPerg, txtPergunta, txtJogo;
+    TextView txtNumPerg, txtPergunta, txtJogo, txtCountDown;
     List<Integer> poolPergs = new ArrayList<Integer>();
     conexaoBD perguntar = new conexaoBD();
+    boolean blink;
+    CountDownTimer countDownTimer;
 
         //getters e setters
+
     public static String getPergunta() {
         return pergunta;
     }
@@ -97,6 +107,9 @@ public class telaJogo extends AppCompatActivity {
         rBtnOpt3 = (RadioButton)findViewById(R.id.rBtnOpt3);
         rBtnOpt4 = (RadioButton)findViewById(R.id.rBtnOpt4);
         txtJogo = (TextView)findViewById(R.id.txtJogo);
+        txtCountDown = (TextView)findViewById(R.id.txtCountDown);
+
+        final MediaPlayer tick = MediaPlayer.create(this, R.som.tick_tack);
 
 
 
@@ -151,8 +164,10 @@ public class telaJogo extends AppCompatActivity {
                     setResposta(global.getResposta());
 
                     if(marcacao==resposta) {
+                        cancel();
                         resposta(true);
                     } else {
+                        cancel();
                         resposta(false);
                     }
 
@@ -227,6 +242,7 @@ public class telaJogo extends AppCompatActivity {
             rBtnOpt4.setText(getOpt4());
             i++;
             txtJogo.setText("Sala " + global.getGame() + " pergunta " + i + "/" + poolPergs.size() + "");
+            start(global.getTempo());
 
         } else {
             AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
@@ -242,6 +258,62 @@ public class telaJogo extends AppCompatActivity {
             alert.show();
         }
     }
+public void start(int tempo){
+    txtCountDown.setTextColor(Color.parseColor("#FFFFFF"));
+    countDownTimer = new CountDownTimer(tempo*1000, 500) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            txtCountDown.setText("Tempo:\n    " + millisUntilFinished / 1000);
+            if (millisUntilFinished < 25000) {
+                txtCountDown.setTextColor(Color.parseColor("#E1F5A9"));
+            }
+            if (millisUntilFinished < 20000) {
+                txtCountDown.setTextColor(Color.parseColor("#FFFF00"));
+            }
+            if (millisUntilFinished < 15000) {
+                txtCountDown.setTextColor(Color.parseColor("#DF7401"));
+            }
+            if (millisUntilFinished < 10000) {
+                txtCountDown.setTextColor(Color.RED);
+                blink = !blink;
+            }
+            if ( !blink ) {
+                txtCountDown.setVisibility(View.VISIBLE);
+
+            } else {
+                txtCountDown.setVisibility(View.INVISIBLE);
+            }
+
+        }
+        @Override
+        public void onFinish() {
+            txtCountDown.setVisibility(View.VISIBLE);
+            txtCountDown.setText("Acabou!");
+
+            AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
+            dlg.setCancelable(false);
+            dlg.setTitle("Acabou o tempo");
+            dlg.setMessage("Você não respondeu a tempo!");
+            dlg.setNeutralButton("Ok, me envie a próxima", new DialogInterface.OnClickListener()     {
+                public void onClick(DialogInterface dialog, int id) {
+                    resposta(false);
+                }
+            });
+            AlertDialog alert = dlg.create();
+            alert.show();
+        }
+
+    }; countDownTimer.start();
+    }
+
+public void cancel(){
+    if (countDownTimer != null){
+        countDownTimer.cancel();
+        countDownTimer = null;
+    }
+}
+
+
 
     public void campanha (){
 
@@ -255,6 +327,10 @@ public class telaJogo extends AppCompatActivity {
             rBtnOpt4.setText(getOpt4());
             i++;
             txtJogo.setText("Modo: " + global.getGame() + " Pergunta " + i + "/" + poolPergs.size() + "");
+            start(global.getTempo());
+
+
+
     } else {
         AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
             dlg.setCancelable(false);
@@ -271,6 +347,25 @@ public class telaJogo extends AppCompatActivity {
             perguntar.executaUpdate(query);
     }
 
+
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
+        dlg.setTitle("Saindo?");
+        dlg.setMessage("Deseja sair do jogo?");
+        dlg.setNeutralButton("Sim, desejo!", new DialogInterface.OnClickListener()     {
+            public void onClick(DialogInterface dialog, int id) {
+
+                countDownTimer.cancel();
+                resposta(false);
+                finish();
+            }
+        });
+        AlertDialog alert = dlg.create();
+        alert.show();
 
     }
 }

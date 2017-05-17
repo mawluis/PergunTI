@@ -1,5 +1,6 @@
 package com.example.mawluis.pergunti.telas;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
@@ -87,7 +88,7 @@ public class telaJogoCustom extends AppCompatActivity {
                         Connection con = DriverManager.getConnection(URL, user, pass);
 
                         poolPergs.trimToSize(); //aparando o arraylist (tirando os espaço vazios tipo null)
-                        Toast.makeText(telaJogoCustom.this, "tamanho do array:" + poolPergs.size(), Toast.LENGTH_SHORT).show();
+
                         Statement statement = con.createStatement();
                         for (String pergunta : poolPergs) {
                             if (pegIncrement==false){
@@ -105,10 +106,18 @@ public class telaJogoCustom extends AppCompatActivity {
                             statement.executeUpdate(insert, statement.RETURN_GENERATED_KEYS); //tentativa de retornar o autoincrement
                             pegIncrement=true;
                         }
+
                         AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogoCustom.this);
+                        dlg.setCancelable(false);
+                        dlg.setTitle("Sucesso!");
                         dlg.setMessage("Sala nº " + idsala + " foi criado com sucesso");
-                        dlg.setNeutralButton("ok", null);
-                        dlg.show();
+                        dlg.setNeutralButton("Ok!", new DialogInterface.OnClickListener()     {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                            }
+                        });
+                        AlertDialog alert = dlg.create();
+                        alert.show();
 
                         statement.close();
                         con.close();

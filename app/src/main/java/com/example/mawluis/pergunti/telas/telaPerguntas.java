@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.example.mawluis.pergunti.R;
+import com.example.mawluis.pergunti.global.global;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,13 +25,11 @@ import java.util.Arrays;
 
 
 public class telaPerguntas extends AppCompatActivity {
-    private static final String URL="jdbc:postgresql://ec2-54-243-253-17.compute-1.amazonaws.com:5432/djdvphd5vpn4l?sslmode=require";
-    private static final String user="aqxgmmdlvyecas";
-    private static final String pass="bb7241b8c75b44f40e50d3ab71c84cc51d9f9708301f82bd7a508daae0ef285b";
-    private static final String classforname="org.postgresql.Driver"; //com.mysql.jdbc.Driver ou org.postgresql.Driver
+
 
     ListView lv;
     private static String[][] consulta;
+
     static ArrayList<String> poolPergs = new ArrayList();
 
     public ArrayList<String> getPoolPergs() {
@@ -40,7 +39,6 @@ public class telaPerguntas extends AppCompatActivity {
     public void setPoolPergs(ArrayList<String> poolPergs) {
         this.poolPergs = poolPergs;
     }
-
 
 
     public static void setConsulta( String con[][] ) {
@@ -109,8 +107,8 @@ public class telaPerguntas extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName(classforname);
-            Connection con = DriverManager.getConnection(URL, user, pass);
+            Class.forName(global.getClassforname());
+            Connection con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
             String count = "SELECT count(*) id from pergunta where tema='"+tema+"'";
             String sql = "select id,pergunta from pergunta where tema='"+tema+"'";
             PreparedStatement pst1 = con.prepareStatement(count);

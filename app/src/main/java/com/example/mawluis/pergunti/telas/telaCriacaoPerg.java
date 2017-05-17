@@ -46,7 +46,7 @@ public class telaCriacaoPerg extends AppCompatActivity {
                         Integer.parseInt(String.valueOf(edtResp.getText())),
                         b.getLogin(),
                         Integer.parseInt(String.valueOf(edtComplex.getText())),
-                        String.valueOf(edtTema.getText()));
+                        String.valueOf(edtTema.getText()).toLowerCase());//tema para minúsculo.
 
                 if (global.isPergCriada()){
                     Toast.makeText(telaCriacaoPerg.this, "Pergunta criada com sucesso", Toast.LENGTH_SHORT).show();

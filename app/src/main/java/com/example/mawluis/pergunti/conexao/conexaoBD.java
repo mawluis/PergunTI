@@ -21,66 +21,8 @@ import java.util.List;
 
 public class conexaoBD extends telaCadastro {
 
-    private static final String URL="jdbc:postgresql://ec2-54-243-253-17.compute-1.amazonaws.com:5432/djdvphd5vpn4l?sslmode=require";
-    private static final String user="aqxgmmdlvyecas";
-    private static final String pass="bb7241b8c75b44f40e50d3ab71c84cc51d9f9708301f82bd7a508daae0ef285b";
-    private static final String classforname="org.postgresql.Driver"; //com.mysql.jdbc.Driver ou org.postgresql.Driver
 
 
-
-    public void conectarBD(){
-
-        //Connection connection = null;
-
-
-        try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
-            Class.forName(classforname);
-            Connection  con = DriverManager.getConnection(URL, user, pass);
-
-            //String result = "Database Connection success\n";
-            //Statement st = con.createStatement();
-            //ResultSet rs = st.executeQuery("SELECT * from usuario");
-            /*ResultSetMetaData rsmd = rs.getMetaData();
-
-            while(rs.next()) {
-                result += rsmd.getColumnName(1) + ":" +rs.getInt(1) + "\n";
-                result += rsmd.getColumnName(2) + ":" +rs.getString(2) + "\n";
-                result += rsmd.getColumnName(3) + ":" +rs.getString(3) + "\n";
-            }
-            */
-            String insert = "INSERT INTO perguntas.usuario (login, nome, tipo, email, senha) VALUES ('LOGINandroid', 'nomeAndroid', 'tipoAN', 'emailAndr', 'senhaA');";
-            PreparedStatement pst = con.prepareStatement(insert);
-            int rs = pst.executeUpdate(); //funcionando.
-
-
-
-/*
-            AlertDialog.Builder dlg = new AlertDialog.Builder(conexaoBD.this);
-            dlg.setMessage(result);
-            dlg.setNeutralButton("ok", null);
-            dlg.show();
-
-
-            Context contexto = getApplicationContext();
-
-            int duracao = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(contexto, result,duracao);
-            toast.show();*/
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-    } //não utilizado
 
     public void enviarSala(String sala, int id){
         global.setRepetido(false);
@@ -89,8 +31,8 @@ public class conexaoBD extends telaCadastro {
             StrictMode.setThreadPolicy(policy);
 
 
-            Class.forName(classforname);
-            Connection con = DriverManager.getConnection(URL, user, pass);
+            Class.forName(global.getClassforname());
+            Connection con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
             PreparedStatement pst1 = con.prepareStatement("select pergunta from sala where id='"+sala+"' and usuario='"+id+"'");
             PreparedStatement pst2 = con.prepareStatement("select pergunta from sala where usuario in(select id from usuario where tipo='professor') and id='"+sala+"'");
             //pst1: "ver se o usuario já respondeu."
@@ -122,8 +64,8 @@ public class conexaoBD extends telaCadastro {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName(classforname);
-            Connection  con = DriverManager.getConnection(URL, user, pass);
+            Class.forName(global.getClassforname());
+            Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
             PreparedStatement pst1 = con.prepareStatement(query);
             int rs1 = pst1.executeUpdate();
             pst1.close();
@@ -142,8 +84,8 @@ public class conexaoBD extends telaCadastro {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName(classforname);
-            Connection  con = DriverManager.getConnection(URL, user, pass);
+            Class.forName(global.getClassforname());
+            Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
             String insert = "INSERT INTO pergunta (pergunta, opt1, opt2, opt3, opt4, resposta, criador, complexidade, tema) VALUES ('"+pergunta+"', '"+opt1+"', '"+opt2+"', '"+opt3+"', '"+opt4+"', '"+resposta+"', '"+criador+"', '"+complexidade+"', '"+tema+"');";
             PreparedStatement pst1 = con.prepareStatement(insert);
             int rs1 = pst1.executeUpdate();
@@ -164,8 +106,8 @@ public class conexaoBD extends telaCadastro {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName(classforname);
-            Connection  con = DriverManager.getConnection(URL, user, pass);
+            Class.forName(global.getClassforname());
+            Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
             global.setUsuarioExistente(false);
             String insert = "INSERT INTO usuario (login, nome, tipo, email, senha) VALUES ('"+login+"', '"+nome+"', '"+tipo+"', '"+email+"', '"+senha+"');";
             String sql = "select * from usuario where login='"+login+"'";
@@ -205,8 +147,8 @@ public class conexaoBD extends telaCadastro {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName(classforname);
-            Connection  con = DriverManager.getConnection(URL, user, pass);
+            Class.forName(global.getClassforname());
+            Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
             String sql = "select * from usuario where login='"+login+"' and senha= '"+senha+"'";
             PreparedStatement pst1 = con.prepareStatement(sql);
             ResultSet rs1 = pst1.executeQuery();
@@ -242,8 +184,8 @@ public class conexaoBD extends telaCadastro {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName(classforname);
-            Connection con = DriverManager.getConnection(URL, user, pass);
+            Class.forName(global.getClassforname());
+            Connection con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
             PreparedStatement pst1 = con.prepareStatement(insert);
             ResultSet rs1 = pst1.executeQuery();
             List<Integer> poolPergs = new ArrayList<Integer>();
@@ -271,9 +213,9 @@ public class conexaoBD extends telaCadastro {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName(classforname);
-            Connection  con = DriverManager.getConnection(URL, user, pass);
-            String sql = "select pergunta,opt1,opt2,opt3,opt4,resposta from pergunta where id= "+pergunta;
+            Class.forName(global.getClassforname());
+            Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
+            String sql = "select pergunta,opt1,opt2,opt3,opt4,resposta,tempo from pergunta where id= "+pergunta;
             PreparedStatement pst1 = con.prepareStatement(sql);
             ResultSet rs1 = pst1.executeQuery();
 
@@ -286,17 +228,18 @@ public class conexaoBD extends telaCadastro {
                 String opt2Sql = rs1.getObject(3).toString();
                 String opt3Sql = rs1.getObject(4).toString();
                 String opt4Sql = rs1.getObject(5).toString();
-                String respostaSqlString = rs1.getObject(6).toString(); //vem como string
-                int respostaSql = Integer.parseInt(respostaSqlString); //converti para inteiro
-                //int respostaSql = Integer.parseInt(respostaSqlString.toString());
+                int respostaSql = Integer.parseInt(rs1.getObject(6).toString());
+                int tempo = Integer.parseInt(rs1.getObject(7).toString());
 
                 telaJogo passarDados = new telaJogo();
-                passarDados.setPergunta(perguntaSql);
-                passarDados.setOpt1(opt1Sql);
-                passarDados.setOpt2(opt2Sql);
-                passarDados.setOpt3(opt3Sql);
-                passarDados.setOpt4(opt4Sql);
-                global.setResposta(respostaSql);
+                passarDados.setPergunta(rs1.getObject(1).toString());
+                passarDados.setOpt1(rs1.getObject(2).toString());
+                passarDados.setOpt2(rs1.getObject(3).toString());
+                passarDados.setOpt3(rs1.getObject(4).toString());
+                passarDados.setOpt4(rs1.getObject(5).toString());
+                global.setResposta(Integer.parseInt(rs1.getObject(6).toString()));
+                global.setTempo(Integer.parseInt(rs1.getObject(7).toString()));
+
 
 
             } else {
@@ -320,14 +263,17 @@ public class conexaoBD extends telaCadastro {
 
     }
 
+
+
+/*
     public void consultaPergunta(String tema){
 
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            Class.forName(classforname);
-            Connection  con = DriverManager.getConnection(URL, user, pass);
+            Class.forName(global.getClassforname());
+            Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
             String count = "SELECT count(*) id from pergunta where tema='"+tema+"'";
             String sql = "select pergunta from pergunta where tema='"+tema+"'";
             PreparedStatement pst1 = con.prepareStatement(count);
@@ -371,59 +317,84 @@ public class conexaoBD extends telaCadastro {
 
 
 
-    }
+    } //não utilizado
+*/
 
-
+/*
     public void randPergs (int pergunta){
-
-
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-
-            Class.forName(classforname);
-            Connection  con = DriverManager.getConnection(URL, user, pass);
-
+            Class.forName(global.getClassforname());
+            Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
             String sql = "select id from pergunta";
             String count = "SELECT count(*) id from pergunta";
-
-
             PreparedStatement pst1 = con.prepareStatement(count);
             ResultSet rs1 = pst1.executeQuery();
-
             if (rs1.next()){
                 int n = Integer.parseInt(rs1.getObject(1).toString());
-
                 int vetor[] = new int[n];
-
                 PreparedStatement pst2 = con.prepareStatement(sql);
                 ResultSet rs2 = pst2.executeQuery();
-
                 int c=0;
-/*
-                for (int d=0; d<n; d++){
-                    System.out.println("O vetor "+d+" é "+vetor[c]);
-                }*/
+
+        //        for (int d=0; d<n; d++){
+          //          System.out.println("O vetor "+d+" é "+vetor[c]);
+               // }
 
                 while (rs2.next()){
-                   vetor[c] = Integer.parseInt(rs2.getObject(1).toString());
-                   c++;
-                                }
+        vetor[c] = Integer.parseInt(rs2.getObject(1).toString());
+        c++;
+    }
 
                 rs2.close();
                 pst2.close();
 
-            } else {
+} else {
 
-                //todo adicionar o que fazer caso não tenha perguntas para serem sorteadas.
+        //todo adicionar o que fazer caso não tenha perguntas para serem sorteadas.
 
-            }
-            rs1.close();
-            pst1.close();
-            con.close();
+        }
+        rs1.close();
+        pst1.close();
+        con.close();
 
 
 
+        } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+        } catch (SQLException e) {
+        e.printStackTrace();
+        }
+
+
+
+
+        }
+
+        */
+
+
+/*
+    public void conectarBD(){
+                try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            Class.forName(global.getClassforname());
+            Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
+            //String result = "Database Connection success\n";
+            //Statement st = con.createStatement();
+            //ResultSet rs = st.executeQuery("SELECT * from usuario");
+            //ResultSetMetaData rsmd = rs.getMetaData();
+           // while(rs.next()) {
+           //     result += rsmd.getColumnName(1) + ":" +rs.getInt(1) + "\n";
+             //   result += rsmd.getColumnName(2) + ":" +rs.getString(2) + "\n";
+         //       result += rsmd.getColumnName(3) + ":" +rs.getString(3) + "\n";
+           // }
+
+            String insert = "INSERT INTO perguntas.usuario (login, nome, tipo, email, senha) VALUES ('LOGINandroid', 'nomeAndroid', 'tipoAN', 'emailAndr', 'senhaA');";
+            PreparedStatement pst = con.prepareStatement(insert);
+            int rs = pst.executeUpdate(); //funcionando.
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -433,8 +404,6 @@ public class conexaoBD extends telaCadastro {
 
 
 
-    }
-
-
-
+    } //não utilizado
+*/
 }

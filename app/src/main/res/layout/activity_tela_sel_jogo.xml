@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Insira o nº da sala"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintRight_toLeftOf="@+id/btnGo"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"

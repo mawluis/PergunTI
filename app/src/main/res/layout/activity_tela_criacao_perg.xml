@@ -76,7 +76,7 @@
             android:layout_height="130dp"
             android:ems="10"
             android:hint="Insira a resposta"
-            android:inputType="textMultiLine"
+            android:inputType="number"
             tools:layout_editor_absoluteX="30dp"
             tools:layout_editor_absoluteY="245dp" />
 
@@ -87,7 +87,7 @@
             android:layout_weight="0"
             android:ems="10"
             android:hint="De 1 a 10, o quão complexo é esta pergunta?"
-            android:inputType="textPersonName"
+            android:inputType="number"
             tools:layout_editor_absoluteX="-28dp"
             tools:layout_editor_absoluteY="307dp" />
 
