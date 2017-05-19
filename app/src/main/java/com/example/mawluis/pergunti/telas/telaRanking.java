@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -26,6 +28,8 @@ public class telaRanking extends AppCompatActivity {
     ListView lvt;
     String query, dificuldade="";
     ArrayList<String> ranking = new ArrayList();
+    Button btnRankigSala;
+    EditText edtRankingSala;
 
 
 
@@ -36,8 +40,8 @@ public class telaRanking extends AppCompatActivity {
 
         lvt = (ListView)findViewById(R.id.lvt);
         RadioGroup radioDificuldade = (RadioGroup) findViewById(R.id.radioDificuldade);
-        RadioGroup radioTemas = (RadioGroup)findViewById(R.id.radioTemas);
-        radioTemas.setVisibility(View.INVISIBLE);
+        btnRankigSala = (Button)findViewById(R.id.btnRankingSala);
+        edtRankingSala = (EditText)findViewById(R.id.edtRankingSala);
 
 
         query = "select dificuldade,(select nome from usuario where ranking.id=usuario.id),data_facanha from ranking where dificuldade=''";
@@ -47,14 +51,14 @@ public class telaRanking extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId){
                     case R.id.rbEasy:
-                        query=("select acerto, (select nome from usuario where ranking.jogador=usuario.id) from ranking where dificuldade='easy' order by  acerto desc");
+                        query=("select acerto, (select nome from usuario where ranking.jogador=usuario.id) from ranking where dificuldade='easy' and acerto>'0' order by  acerto desc");
                         break;
                     case R.id.rbNomal:
-                        query=("select acerto, (select nome from usuario where ranking.jogador=usuario.id) from ranking where dificuldade='normal' order by  acerto desc");
+                        query=("select acerto, (select nome from usuario where ranking.jogador=usuario.id) from ranking where dificuldade='normal' and acerto>'0' order by  acerto desc");
                         ranking(query);
                         break;
                     case R.id.rbHard:
-                        query=("select acerto, (select nome from usuario where ranking.jogador=usuario.id) from ranking where dificuldade='hard' order by  acerto desc");
+                        query=("select acerto, (select nome from usuario where ranking.jogador=usuario.id) from ranking where dificuldade='hard' and acerto>'0' order by  acerto desc");
                         ranking(query);
                         break;
                     default:
@@ -67,6 +71,17 @@ public class telaRanking extends AppCompatActivity {
         });
 
 
+        btnRankigSala.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               int numSala = Integer.parseInt(String.valueOf(edtRankingSala.getText()));
+                ranking("select SUM(CAST(acerto AS INT)), (select nome from usuario where sala.usuario=usuario.id)"+
+                "from sala where usuario not in(select id from usuario where tipo='professor')"+
+                "and id='"+numSala+"' group by usuario ORDER BY SUM DESC");
+                ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaRanking.this,android.R.layout.simple_list_item_1,ranking);
+                lvt.setAdapter(adapter);
+            }
+        });
 
 
 
@@ -82,8 +97,12 @@ public class telaRanking extends AppCompatActivity {
             PreparedStatement pst1 = con.prepareStatement(query);
             ResultSet rs1 = pst1.executeQuery();
             ranking.clear();
+            int i=0;
             while(rs1.next()){
-              ranking.add("Acertos: "+rs1.getObject(1).toString()+"     | Jogador: "+rs1.getObject(2).toString());
+              if (i<5){ //exibir os 5 primeiros
+                  ranking.add("| "+rs1.getObject(1).toString()+" |                                           "+rs1.getObject(2).toString());
+                  i++;
+              }
                            }
             rs1.close();
             pst1.close();

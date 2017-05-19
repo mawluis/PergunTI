@@ -34,6 +34,7 @@ public class telaJogo extends AppCompatActivity {
 
 
     Button btnResponder, btnPergunta;
+    RadioGroup rg;
     RadioButton rBtnOpt1,rBtnOpt2,rBtnOpt3,rBtnOpt4;
     EditText codPergunta;
     TextView txtNumPerg, txtPergunta, txtJogo, txtCountDown;
@@ -110,6 +111,7 @@ public class telaJogo extends AppCompatActivity {
         rBtnOpt4 = (RadioButton)findViewById(R.id.rBtnOpt4);
         txtJogo = (TextView)findViewById(R.id.txtJogo);
         txtCountDown = (TextView)findViewById(R.id.txtCountDown);
+        rg = (RadioGroup) findViewById(R.id.radioGroupOpts);
 
         i=0; acertos=0; //zerando varíaveis.
 
@@ -150,8 +152,8 @@ public class telaJogo extends AppCompatActivity {
                 }                                                            //macete para evitar criação de vários jogos com duplo clique.
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
-                RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroupOpts);
-                RadioButton selectOpt = (RadioButton) findViewById(rg.getCheckedRadioButtonId()); //todo verificar se pode tirar isso.
+
+                //RadioButton selectOpt = (RadioButton) findViewById(rg.getCheckedRadioButtonId()); //todo verificar se pode tirar isso.
 
                 if (rg.getCheckedRadioButtonId() == -1) {//teste de tipo
                     Toast.makeText(telaJogo.this, "Escolha uma opção", Toast.LENGTH_SHORT).show();}
@@ -230,7 +232,7 @@ public class telaJogo extends AppCompatActivity {
     }
 
     public void perguntaSala (){
-
+            rg.clearCheck();
         if (poolPergs.size()>i) {
             perguntar.pergunta(poolPergs.get(i));
             txtNumPerg.setText("Pergunta nº " + poolPergs.get(i) + ": ");
@@ -308,7 +310,7 @@ public class telaJogo extends AppCompatActivity {
     }; countDownTimer.start();
     }
 
-public void cancel(){
+    public void cancel(){
     if (countDownTimer != null){
         countDownTimer.cancel();
         countDownTimer = null;
@@ -317,7 +319,7 @@ public void cancel(){
 
 
     public void campanha (){
-
+        rg.clearCheck();
         if (poolPergs.size()>i) {
             perguntar.pergunta(poolPergs.get(i));
             txtNumPerg.setText("Pergunta nº " + poolPergs.get(i) + ": ");
