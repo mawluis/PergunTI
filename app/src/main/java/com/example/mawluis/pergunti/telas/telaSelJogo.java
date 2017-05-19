@@ -1,6 +1,7 @@
 package com.example.mawluis.pergunti.telas;
 
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public class telaSelJogo extends AppCompatActivity {
     String insert_opt1 = "";
     String insert_opt2 = "";
     String insert_rede = "";
+    private long mLastClickTime = 0; //macete para evitar criação de vários jogos com duplo clique.
 
 
 
@@ -56,7 +58,12 @@ public class telaSelJogo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-               global.setGame(String.valueOf(edtSala.getText()));
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 5000){  //macete para evitar criação de vários jogos com duplo clique.
+                    return;                                                  //macete para evitar criação de vários jogos com duplo clique.
+                }                                                            //macete para evitar criação de vários jogos com duplo clique.
+                mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
+
+                global.setGame(String.valueOf(edtSala.getText()));
                 Toast.makeText(telaSelJogo.this, "Entrando na sala "+String.valueOf(edtSala.getText()), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
                 startActivity(intent);
@@ -67,6 +74,12 @@ public class telaSelJogo extends AppCompatActivity {
         btnEasy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 5000){  //macete para evitar criação de vários jogos com duplo clique.
+                    return;                                                  //macete para evitar criação de vários jogos com duplo clique.
+                }                                                            //macete para evitar criação de vários jogos com duplo clique.
+                mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
+
                 global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
                         select ="select id from pergunta where id not in(select pergunta from respondida where jogador = '"+global.getId()+"') " +
@@ -91,6 +104,12 @@ public class telaSelJogo extends AppCompatActivity {
         btnNormal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 5000){  //macete para evitar criação de vários jogos com duplo clique.
+                    return;                                                  //macete para evitar criação de vários jogos com duplo clique.
+                }                                                            //macete para evitar criação de vários jogos com duplo clique.
+                mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
+
                 global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
                 //insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade<'4' and complexidade>'3' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
@@ -116,6 +135,12 @@ public class telaSelJogo extends AppCompatActivity {
         btnHard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 5000){  //macete para evitar criação de vários jogos com duplo clique.
+                    return;                                                  //macete para evitar criação de vários jogos com duplo clique.
+                }                                                            //macete para evitar criação de vários jogos com duplo clique.
+                mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
+
                 global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
                 //insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade>'6' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";

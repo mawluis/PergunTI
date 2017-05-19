@@ -3,6 +3,7 @@ package com.example.mawluis.pergunti.telas;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.StrictMode;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,9 @@ public class telaJogoCustom extends AppCompatActivity {
     ArrayList<String> poolPergs = new ArrayList();
     String pergunta, insert, idsala;
     boolean pegIncrement=false;
+    private long mLastClickTime = 0; //macete para evitar criação de vários jogos com duplo clique.
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,9 @@ public class telaJogoCustom extends AppCompatActivity {
         Button btnCriarSala = (Button)findViewById(R.id.btnCriarSala);
 
 
+
+
+
         btnEscolherPerg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +78,11 @@ public class telaJogoCustom extends AppCompatActivity {
         btnCriarSala.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 5000){  //macete para evitar criação de vários jogos com duplo clique.
+                    return;                                                  //macete para evitar criação de vários jogos com duplo clique.
+                }                                                            //macete para evitar criação de vários jogos com duplo clique.
+                mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
+
                 if (poolPergs.size()==0){
                     Toast.makeText(telaJogoCustom.this, "Não há perguntas para criar sua sala", Toast.LENGTH_SHORT).show();
                 }else {

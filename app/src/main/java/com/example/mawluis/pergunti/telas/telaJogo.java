@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class telaJogo extends AppCompatActivity {
     private int resposta;
     private int i=0;
     private int acertos=0;
+    private long mLastClickTime = 0; //macete para evitar criação de vários jogos com duplo clique.
 
 
     Button btnResponder, btnPergunta;
@@ -143,6 +145,10 @@ public class telaJogo extends AppCompatActivity {
         btnResponder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 5000){  //macete para evitar criação de vários jogos com duplo clique.
+                    return;                                                  //macete para evitar criação de vários jogos com duplo clique.
+                }                                                            //macete para evitar criação de vários jogos com duplo clique.
+                mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
                 RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroupOpts);
                 RadioButton selectOpt = (RadioButton) findViewById(rg.getCheckedRadioButtonId()); //todo verificar se pode tirar isso.

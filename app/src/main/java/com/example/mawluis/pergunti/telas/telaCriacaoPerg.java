@@ -1,5 +1,6 @@
 package com.example.mawluis.pergunti.telas;
 
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.example.mawluis.pergunti.conexao.conexaoBD;
 import com.example.mawluis.pergunti.global.global;
 
 public class telaCriacaoPerg extends AppCompatActivity {
+    private long mLastClickTime = 0; //macete para evitar criação de vários jogos com duplo clique.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,12 @@ public class telaCriacaoPerg extends AppCompatActivity {
         btnCriaPerg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 5000){  //macete para evitar criação de vários jogos com duplo clique.
+                    return;                                                  //macete para evitar criação de vários jogos com duplo clique.
+                }                                                            //macete para evitar criação de vários jogos com duplo clique.
+                mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
+
                global b = new global();
                 conexaoBD a = new conexaoBD();
                 a.novaPerg(String.valueOf(edtPerg.getText()),
