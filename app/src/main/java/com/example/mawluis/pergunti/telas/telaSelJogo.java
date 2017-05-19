@@ -80,12 +80,13 @@ public class telaSelJogo extends AppCompatActivity {
                 }                                                            //macete para evitar criação de vários jogos com duplo clique.
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
+                Toast.makeText(telaSelJogo.this, "Gerando jogo...", Toast.LENGTH_SHORT).show();
                 global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
                         select ="select id from pergunta where id not in(select pergunta from respondida where jogador = '"+global.getId()+"') " +
                         "and complexidade<'4' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
                         "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +
-                        " or tema = '"+insert_opt1+"')";
+                        " or tema = '"+insert_opt1+"') ORDER BY random()";
                 a.fazerJogo(select);
                 if (global.isVazio()){
                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaSelJogo.this);
@@ -93,6 +94,7 @@ public class telaSelJogo extends AppCompatActivity {
                             "Escolha mais temas ou mude sua dificuldade.\n " );
                     dlg.setNeutralButton("Ok, mudarei meus critérios!", null);
                     dlg.show();
+                    mLastClickTime = 0; //liberando botão novamente.
                 }else{
                     global.setGame("easy");
                     Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
@@ -110,13 +112,14 @@ public class telaSelJogo extends AppCompatActivity {
                 }                                                            //macete para evitar criação de vários jogos com duplo clique.
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
+                Toast.makeText(telaSelJogo.this, "Gerando jogo...", Toast.LENGTH_SHORT).show();
                 global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
                 //insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade<'4' and complexidade>'3' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
                 select ="select id from pergunta where id not in(select pergunta from respondida where jogador = 4) " +
                         "and complexidade>'3' and complexidade<'7' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
                         "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +
-                        " or tema = '"+insert_opt1+"')";
+                        " or tema = '"+insert_opt1+"') ORDER BY random()";
                 a.fazerJogo(select);
                 if (global.isVazio()){
                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaSelJogo.this);
@@ -124,6 +127,7 @@ public class telaSelJogo extends AppCompatActivity {
                                    "Escolha mais temas ou mude sua dificuldade.\n " );
                     dlg.setNeutralButton("Ok, mudarei meus critérios!", null);
                     dlg.show();
+                    mLastClickTime = 0;//liberando botão novamente.
                 }else{
                     global.setGame("normal");
                     Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
@@ -141,13 +145,13 @@ public class telaSelJogo extends AppCompatActivity {
                 }                                                            //macete para evitar criação de vários jogos com duplo clique.
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
+                Toast.makeText(telaSelJogo.this, "Gerando jogo...", Toast.LENGTH_SHORT).show();
                 global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
-                //insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade>'6' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
                 select ="select id from pergunta where id not in(select pergunta from respondida where jogador = 4) " +
                         "and complexidade>'6' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
                         "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +
-                        " or tema = '"+insert_opt1+"')";
+                        " or tema = '"+insert_opt1+"') ORDER BY random()";
                 a.fazerJogo(select);
                 if (global.isVazio()){
                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaSelJogo.this);
@@ -155,6 +159,7 @@ public class telaSelJogo extends AppCompatActivity {
                             "Escolha mais temas ou mude sua dificuldade.\n " );
                     dlg.setNeutralButton("Ok, mudarei meus critérios!", null);
                     dlg.show();
+                    mLastClickTime = 0;//liberando botão novamente.
                 }else{
                     global.setGame("hard");
                     Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
