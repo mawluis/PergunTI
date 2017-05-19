@@ -74,6 +74,7 @@ public class telaRanking extends AppCompatActivity {
         btnRankigSala.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                radioDificuldade.clearCheck();
                int numSala = Integer.parseInt(String.valueOf(edtRankingSala.getText()));
                 ranking("select SUM(CAST(acerto AS INT)), (select nome from usuario where sala.usuario=usuario.id)"+
                 "from sala where usuario not in(select id from usuario where tipo='professor')"+
@@ -99,7 +100,7 @@ public class telaRanking extends AppCompatActivity {
             ranking.clear();
             int i=0;
             while(rs1.next()){
-              if (i<5){ //exibir os 5 primeiros
+              if (i<10){ //exibir os 5 primeiros
                   ranking.add("| "+rs1.getObject(1).toString()+" |                                           "+rs1.getObject(2).toString());
                   i++;
               }
