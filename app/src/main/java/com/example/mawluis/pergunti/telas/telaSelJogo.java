@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mawluis.pergunti.R;
@@ -17,9 +18,10 @@ import com.example.mawluis.pergunti.global.global;
 
 public class telaSelJogo extends AppCompatActivity {
 
-    Button btnGo, btnEasy, btnNormal, btnHard;
+    Button btnGo, btnEasy, btnNormal, btnHard, btnTeste;
     CheckBox chkBanco, chkGeral, chkProgram, chkOpt1, chkOpt2, chkRede;
     EditText edtSala;
+    TextView txtQualDificuldade,txtTemaEsp;
     String select;
     String insert_banco = "";
     String insert_geral = "";
@@ -49,10 +51,46 @@ public class telaSelJogo extends AppCompatActivity {
         chkOpt2 = (CheckBox)findViewById(R.id.chkOpt2);
         chkRede = (CheckBox)findViewById(R.id.chkRede);
         edtSala = (EditText)findViewById(R.id.edtSala);
+        btnTeste = (Button)findViewById(R.id.btnTeste);
+        txtQualDificuldade = (TextView)findViewById(R.id.txtQualDificuldade);
+        txtTemaEsp = (TextView)findViewById(R.id.txtTemaEsp);
 
 
         conexaoBD a = new conexaoBD();
 
+
+        if (global.getTipo().equals("professor")) {
+            btnTeste.setVisibility(View.VISIBLE);
+            btnEasy.setVisibility(View.INVISIBLE);
+            btnNormal.setVisibility(View.INVISIBLE);
+            btnHard.setVisibility(View.INVISIBLE);
+            txtQualDificuldade.setVisibility(View.INVISIBLE);
+            txtTemaEsp.setVisibility(View.INVISIBLE);
+            chkBanco.setVisibility(View.INVISIBLE);
+            chkGeral.setVisibility(View.INVISIBLE);
+            chkOpt1.setVisibility(View.INVISIBLE);
+            chkOpt2.setVisibility(View.INVISIBLE);
+            chkProgram.setVisibility(View.INVISIBLE);
+            chkRede.setVisibility(View.INVISIBLE);
+
+        }else{
+            btnTeste.setVisibility(View.INVISIBLE);
+
+        }
+
+        btnTeste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 5000){  //macete para evitar criação de vários jogos com duplo clique.
+                    return;                                                  //macete para evitar criação de vários jogos com duplo clique.
+                }                                                            //macete para evitar criação de vários jogos com duplo clique.
+                mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
+
+                Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
+                startActivity(intent);
+            }
+        });
 
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override

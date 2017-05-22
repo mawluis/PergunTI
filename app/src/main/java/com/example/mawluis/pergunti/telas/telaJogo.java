@@ -9,6 +9,7 @@ import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +29,7 @@ public class telaJogo extends AppCompatActivity {
 
     private static String pergunta, opt1, opt2, opt3, opt4;
     private int resposta;
-    private int i=0;
+    private int i=0, chance=3;
     private int acertos=0;
     private long mLastClickTime = 0; //macete para evitar criação de vários jogos com duplo clique.
 
@@ -37,7 +38,7 @@ public class telaJogo extends AppCompatActivity {
     RadioGroup rg;
     RadioButton rBtnOpt1,rBtnOpt2,rBtnOpt3,rBtnOpt4;
     EditText codPergunta;
-    TextView txtNumPerg, txtPergunta, txtJogo, txtCountDown;
+    TextView txtNumPerg, txtPergunta, txtJogo, txtCountDown,txtChance;
     List<Integer> poolPergs = new ArrayList<Integer>();
     conexaoBD perguntar = new conexaoBD();
     boolean blink=false;
@@ -105,6 +106,7 @@ public class telaJogo extends AppCompatActivity {
         codPergunta = (EditText) findViewById(R.id.codPergunta);
         txtNumPerg = (TextView)findViewById(R.id.txtNumPerg);
         txtPergunta = (TextView)findViewById(R.id.txtPergunta);
+        txtChance = (TextView)findViewById(R.id.txtChance);
         rBtnOpt1 = (RadioButton)findViewById(R.id.rBtnOpt1);
         rBtnOpt2 = (RadioButton)findViewById(R.id.rBtnOpt2);
         rBtnOpt3 = (RadioButton)findViewById(R.id.rBtnOpt3);
@@ -112,6 +114,7 @@ public class telaJogo extends AppCompatActivity {
         txtJogo = (TextView)findViewById(R.id.txtJogo);
         txtCountDown = (TextView)findViewById(R.id.txtCountDown);
         rg = (RadioGroup) findViewById(R.id.radioGroupOpts);
+        txtPergunta.setMovementMethod(new ScrollingMovementMethod()); //dar movimento ao scroll
 
         i=0; acertos=0; //zerando varíaveis.
 
@@ -123,25 +126,29 @@ public class telaJogo extends AppCompatActivity {
             codPergunta.setVisibility(View.INVISIBLE);
         }
 
-        if ((global.getGame().equals("easy"))||(global.getGame().equals("normal"))||(global.getGame().equals("hard"))){
-            poolPergs=global.getPoolPergs(); //populando vetor local de perguntas
-            Toast.makeText(telaJogo.this, "Tamanho do array de perguntas:\n"+ global.getPoolPergs().size(), Toast.LENGTH_SHORT).show();
-            campanha();
-        }else{
-            perguntar.enviarSala(global.getGame(),global.getId());
-            if (global.isRepetido()){
-                AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
-                dlg.setMessage("Este usuário já começou este jogo nesta sala.\n " +
-                               "Portanto não será possível modificar os\n " +
-                                "resultados desta sala.");
-                dlg.setNeutralButton("Ok, entendi!", null);
-                dlg.show();
-            }
-            poolPergs=global.getPoolPergs(); //populando vetor local de perguntas
-            txtJogo.setText("Sala "+global.getGame()+" pergunta "+"1/"+poolPergs.size()+"");
-            perguntaSala();
-        }
 
+        if (global.getTipo().equals("aluno")) { //jogo se for aluno logado
+            if ((global.getGame().equals("easy")) || (global.getGame().equals("normal")) || (global.getGame().equals("hard"))) {
+                poolPergs = global.getPoolPergs(); //populando vetor local de perguntas
+                Toast.makeText(telaJogo.this, "Tamanho do array de perguntas:\n" + global.getPoolPergs().size(), Toast.LENGTH_SHORT).show();
+                campanha();
+            } else {
+                perguntar.enviarSala(global.getGame(), global.getId());
+                if (global.isRepetido()) {
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
+                    dlg.setMessage("Este usuário já começou este jogo nesta sala.\n " +
+                            "Portanto não será possível modificar os\n " +
+                            "resultados desta sala.");
+                    dlg.setNeutralButton("Ok, entendi!", null);
+                    dlg.show();
+                }
+                poolPergs = global.getPoolPergs(); //populando vetor local de perguntas
+                txtJogo.setText("Sala " + global.getGame() + " pergunta " + "1/" + poolPergs.size() + "");
+                perguntaSala();
+            }
+        }else{ //jogo se for o professor logado
+
+        }
 
 
         btnResponder.setOnClickListener(new View.OnClickListener() {
@@ -165,11 +172,19 @@ public class telaJogo extends AppCompatActivity {
                     setResposta(global.getResposta());
 
                     if(marcacao==resposta) {
+                        if (global.getTipo().equals("aluno")){
                         cancel();
-                        resposta(true);
+                        resposta(true);}
+                        else {
+                            Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
+                        if (global.getTipo().equals("aluno")){
                         cancel();
-                        resposta(false);
+                        resposta(false);}
+                        else {
+                            Toast.makeText(telaJogo.this, "Você errou! a resposta correta é: "+resposta, Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 }
@@ -205,7 +220,31 @@ public class telaJogo extends AppCompatActivity {
                 Toast.makeText(telaJogo.this, "Você errou!", Toast.LENGTH_SHORT).show();
                 String query = "INSERT INTO respondida (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','0')" ;
                 perguntar.executaUpdate(query);
-                campanha();
+                chance--;
+                if (chance<0){//game over
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
+                    dlg.setCancelable(false);
+                    dlg.setTitle("Game Over");
+                    dlg.setMessage("Jogo finalizado!\n\nResultado:\nTotal de perguntas: "+poolPergs.size()+"\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos));
+                    dlg.setNeutralButton("Ok!", new DialogInterface.OnClickListener()     {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    });
+                    AlertDialog alert = dlg.create();
+                    alert.show();
+                }else {
+                    txtChance.setText("Chance: "+chance);
+                    switch (chance){
+                        case 0:txtChance.setTextColor(Color.RED);
+                            break;
+                        case 1:txtChance.setTextColor(Color.parseColor("#DF7401"));
+                            break;
+                        case 2:txtChance.setTextColor(Color.parseColor("#FFFF00"));
+                            break;
+                    }
+                    campanha();
+                }
             }
         }   else{
             if (resp) { //---------------==========pergunta certa sala========-----
@@ -361,9 +400,10 @@ public class telaJogo extends AppCompatActivity {
         dlg.setMessage("Deseja sair do jogo?");
         dlg.setNeutralButton("Sim, desejo!", new DialogInterface.OnClickListener()     {
             public void onClick(DialogInterface dialog, int id) {
-
-                countDownTimer.cancel();
-                resposta(false);
+                if (global.getTipo().equals("aluno")){
+                    countDownTimer.cancel();
+                    resposta(false);
+                }
                 finish();
             }
         });
