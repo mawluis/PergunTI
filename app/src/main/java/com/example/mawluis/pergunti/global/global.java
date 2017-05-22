@@ -22,8 +22,6 @@ public class global {
     private static int resposta;
     private static boolean usuarioExistente = false;
     private static boolean usuarioCriado = false;
-   // private static int vetor[]; //verificar se eu uso bagaça
-   // private static String[] consulta; //verificar se eu uso essa bagaça
     private static boolean pergCriada= false;
     private static int id;
     private static String nome;

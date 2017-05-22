@@ -87,6 +87,7 @@ public class telaSelJogo extends AppCompatActivity {
                 }                                                            //macete para evitar criação de vários jogos com duplo clique.
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
+                global.setGame("normal");//zerando variável de jogo.
                 Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
                 startActivity(intent);
             }
