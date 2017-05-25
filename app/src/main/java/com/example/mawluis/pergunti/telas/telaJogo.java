@@ -136,7 +136,7 @@ public class telaJogo extends AppCompatActivity {
                 perguntar.enviarSala(global.getGame(), global.getId());
                 if (global.isRepetido()) {
                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
-                    dlg.setMessage("Este usuário já começou este jogo nesta sala.\n " +
+                    dlg.setMessage("Você já começou este jogo nesta sala.\n " +
                             "Portanto não será possível modificar os\n " +
                             "resultados desta sala.");
                     dlg.setNeutralButton("Ok, entendi!", null);
@@ -153,7 +153,7 @@ if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
     perguntar.enviarSala(global.getGame(), global.getId());
     if (global.isRepetido()) {
         AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
-        dlg.setMessage("Este usuário já começou este jogo nesta sala.\n " +
+        dlg.setMessage("Você é um professor.\n " +
                 "Portanto não será possível modificar os\n " +
                 "resultados desta sala.");
         dlg.setNeutralButton("Ok, entendi!", null);
@@ -289,7 +289,8 @@ if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
     }
 
     public void perguntaSala (){
-            rg.clearCheck();
+        txtCountDown.setVisibility(View.VISIBLE);
+        rg.clearCheck();
         cancel();
         if (poolPergs.size()>i) {
             perguntar.pergunta(poolPergs.get(i));
@@ -307,7 +308,7 @@ if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
             AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
             dlg.setCancelable(false);
             dlg.setTitle("Game Over");
-            dlg.setMessage("Jogo finalizado!\n\nResultado:\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos)+"\nTotal de perguntas:"+poolPergs.size());
+            dlg.setMessage("Jogo finalizado!\n\nResultado:\nTotal de perguntas:" + poolPergs.size()+"\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos));
             dlg.setNeutralButton("Ok!", new DialogInterface.OnClickListener()     {
                 public void onClick(DialogInterface dialog, int id) {
                     finish();
@@ -378,6 +379,8 @@ if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
 
 
     public void campanha (){
+        txtCountDown.setVisibility(View.VISIBLE);
+        txtChance.setText("Chance: "+chance);
         rg.clearCheck();
         cancel();
         if (poolPergs.size()>i) {
@@ -393,12 +396,12 @@ if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
             start(global.getTempo());
 
 
-
+//"\nTotal de perguntas:"+poolPergs.size()
     } else {
         AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
             dlg.setCancelable(false);
             dlg.setTitle("Game Over");
-            dlg.setMessage("Jogo finalizado!\n\nResultado:\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos)+"\nTotal de perguntas:"+poolPergs.size());
+            dlg.setMessage("Jogo finalizado!\n\nResultado:\nTotal de perguntas:"+poolPergs.size()+"\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos));
             dlg.setNeutralButton("Ok!", new DialogInterface.OnClickListener()     {
                 public void onClick(DialogInterface dialog, int id) {
                     finish();
