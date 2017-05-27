@@ -338,13 +338,13 @@ public class telaJogo extends AppCompatActivity {
                 }
                 if (millisUntilFinished < 10000) {
                     txtCountDown.setTextColor(Color.RED);
-             //       blink = !blink;
-             //   }
-           //     if (blink) {
-           //         txtCountDown.setVisibility(View.INVISIBLE);
+                    blink = !blink;
+                }
+                if (blink) {
+                    txtCountDown.setVisibility(View.INVISIBLE);
                     tick("tick");
-         //       } else {
-           //         txtCountDown.setVisibility(View.VISIBLE);
+                } else {
+                  txtCountDown.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -374,7 +374,7 @@ public class telaJogo extends AppCompatActivity {
     public final void cancel(){
         if (countDownTimer != null){
             countDownTimer.cancel();
-           // countDownTimer = null;
+            countDownTimer = null;
         }
     }
 
@@ -396,8 +396,6 @@ public class telaJogo extends AppCompatActivity {
             txtJogo.setText("Modo: " + global.getGame() + " Pergunta " + i + "/" + poolPergs.size() + "");
             start(global.getTempo());
 
-
-//"\nTotal de perguntas:"+poolPergs.size()
         } else {
             AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
             dlg.setCancelable(false);
