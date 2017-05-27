@@ -45,7 +45,7 @@ public class telaJogoCustom extends AppCompatActivity {
 
         lv = (ListView)findViewById(R.id.lv);
 
-        Toast.makeText(this, "Método OnResume com sucesso", Toast.LENGTH_SHORT).show();
+
         telaPerguntas a = new telaPerguntas();
         poolPergs = a.getPoolPergs();
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,a.getPoolPergs());
@@ -84,7 +84,7 @@ public class telaJogoCustom extends AppCompatActivity {
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
                 if (poolPergs.size()==0){
-                    Toast.makeText(telaJogoCustom.this, "Não há perguntas para criar sua sala", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(telaJogoCustom.this, "Não há perguntas para criar sua sala", Toast.LENGTH_LONG).show();
                 }else {
 
                     try {
@@ -114,7 +114,6 @@ public class telaJogoCustom extends AppCompatActivity {
                                     rs.close();
                                 }
                             }
-                            Toast.makeText(telaJogoCustom.this, "insert pergunta:" + pergunta + " na tabela. com usuário " + global.getId(), Toast.LENGTH_SHORT).show();
                             statement.executeUpdate(insert, statement.RETURN_GENERATED_KEYS); //tentativa de retornar o autoincrement
                             pegIncrement=true;
                         }

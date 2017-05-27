@@ -10,32 +10,34 @@
         android:id="@+id/txtJogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jogo:"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="13dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/txtNumPerg"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="0dp" />
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="0dp"
+        android:text="Jogo:"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@+id/txtNumPerg"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
         android:id="@+id/txtNumPerg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pergunta:"
-        tools:layout_constraintTop_creator="1"
         android:layout_marginStart="2dp"
-        tools:layout_constraintLeft_creator="1"
+        android:text="Pergunta:"
+        android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
         android:id="@+id/txtPergunta"
         style="@style/scrollbar_shape_style"
         android:layout_gravity="top"
-        android:layout_width="0dp"
-        android:layout_height="99dp"
+        android:layout_width="356dp"
+        android:layout_height="149dp"
         android:paddingRight="10dp"
         android:text="Texto Pergunta:"
         tools:layout_constraintTop_creator="1"
@@ -43,7 +45,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="20dp"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,25 +54,27 @@
         android:id="@+id/txtCountDown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tempo:"
         android:layout_marginEnd="16dp"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
+        android:text="Tempo:"
+        android:textSize="12sp"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
         android:id="@+id/txtChance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chance:"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
         android:layout_marginEnd="12dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/txtCountDown"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="0dp"
-        android:layout_marginRight="5dp" />
+        android:text="Chance:"
+        android:textSize="12sp"
+        app:layout_constraintRight_toLeftOf="@+id/txtCountDown"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <RadioGroup
         android:id="@+id/radioGroupOpts"
@@ -83,7 +87,7 @@
         android:layout_marginStart="11dp"
         android:layout_marginEnd="11dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintTop_toBottomOf="@+id/txtPergunta"
         tools:layout_constraintLeft_creator="1"
         android:layout_marginBottom="22dp"

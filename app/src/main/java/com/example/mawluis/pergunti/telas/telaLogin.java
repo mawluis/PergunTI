@@ -12,6 +12,11 @@ import com.example.mawluis.pergunti.R;
 import com.example.mawluis.pergunti.conexao.conexaoBD;
 import com.example.mawluis.pergunti.global.global;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import static com.example.mawluis.pergunti.global.global.hashPassword;
+
 public class telaLogin extends AppCompatActivity {
 
     EditText txtLogin, txtSenha;
@@ -44,17 +49,22 @@ public class telaLogin extends AppCompatActivity {
             public void onClick(View v) {
                 login = String.valueOf(txtLogin.getText());
                 String senha= String.valueOf(txtSenha.getText());
-                Toast.makeText(telaLogin.this, "Verificando "+login+" e senha "+senha+" no sistema", Toast.LENGTH_SHORT).show();
+                try{                                                                               //convertendo senha e hash
+                    senha = (hashPassword(senha));                                                 //convertendo senha e hash
+                }                                                                                  //convertendo senha e hash
+                catch(NoSuchAlgorithmException e){                                                 //convertendo senha e hash
+                    Toast.makeText(telaLogin.this,"Exceção:"+ (e), Toast.LENGTH_SHORT).show();     //convertendo senha e hash
+                }                                                                                  //convertendo senha e hash
                 conexaoBD logar = new conexaoBD();
                 logar.acessoSistema(login, senha);
 
                 if (global.isLogado() == true) {
                     global.setGame("normal");//zerando variável de jogo.
-                    Toast.makeText(telaLogin.this, "Logado com sucesso!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(telaLogin.this, "Logado com sucesso!", Toast.LENGTH_LONG).show();
                     Intent abremenu = new Intent(telaLogin.this, telaInicial.class);
                     startActivity(abremenu);
                 } else {
-                    Toast.makeText(telaLogin.this, "Dados informados inválidos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(telaLogin.this, "Dados informados inválidos.", Toast.LENGTH_LONG).show();
                 }
 
 

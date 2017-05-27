@@ -184,10 +184,10 @@ public class conexaoBD extends telaCadastro {
             while (rs1.next()){
                 poolPergs.add(Integer.parseInt(rs1.getObject(1).toString()));
                 }
-                global.setPoolPergs(poolPergs);
                 if (poolPergs.size()==0){
                     global.setVazio(true);
                 }
+            global.setPoolPergs(poolPergs);
                 rs1.close();
                 pst1.close();
                 con.close();

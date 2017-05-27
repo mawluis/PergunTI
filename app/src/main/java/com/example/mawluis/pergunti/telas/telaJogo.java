@@ -45,7 +45,7 @@ public class telaJogo extends AppCompatActivity {
     CountDownTimer countDownTimer;
 
 
-        //getters e setters
+    //getters e setters
 
     public static String getPergunta() {
         return pergunta;
@@ -147,22 +147,22 @@ public class telaJogo extends AppCompatActivity {
                 perguntaSala();
             }
         }else{ //jogo se for o professor logado
-if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
-    btnPergunta.setVisibility(View.INVISIBLE);
-    codPergunta.setVisibility(View.INVISIBLE);
-    perguntar.enviarSala(global.getGame(), global.getId());
-    if (global.isRepetido()) {
-        AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
-        dlg.setMessage("Você é um professor.\n " +
-                "Portanto não será possível modificar os\n " +
-                "resultados desta sala.");
-        dlg.setNeutralButton("Ok, entendi!", null);
-        dlg.show();
-    }
-    poolPergs = global.getPoolPergs(); //populando vetor local de perguntas
-    txtJogo.setText("Sala " + global.getGame() + " pergunta " + "1/" + poolPergs.size() + "");
-    perguntaSala();
-}
+            if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
+                btnPergunta.setVisibility(View.INVISIBLE);
+                codPergunta.setVisibility(View.INVISIBLE);
+                perguntar.enviarSala(global.getGame(), global.getId());
+                if (global.isRepetido()) {
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
+                    dlg.setMessage("Você é um professor.\n " +
+                            "Portanto não será possível modificar os\n " +
+                            "resultados desta sala.");
+                    dlg.setNeutralButton("Ok, entendi!", null);
+                    dlg.show();
+                }
+                poolPergs = global.getPoolPergs(); //populando vetor local de perguntas
+                txtJogo.setText("Sala " + global.getGame() + " pergunta " + "1/" + poolPergs.size() + "");
+                perguntaSala();
+            }
         }
 
 
@@ -185,8 +185,8 @@ if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
 
                     if(marcacao==resposta) {
                         if (global.getTipo().equals("aluno")){
-                        cancel();
-                        resposta(true);}
+                            cancel();
+                            resposta(true);}
                         else {
                             Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
                             if (!global.getTipo().equals("normal")){
@@ -195,8 +195,8 @@ if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
                         }
                     } else {
                         if (global.getTipo().equals("aluno")){
-                        cancel();
-                        resposta(false);}
+                            cancel();
+                            resposta(false);}
                         else {
                             Toast.makeText(telaJogo.this, "Você errou! a resposta correta é: "+resposta, Toast.LENGTH_SHORT).show();
                             if (!global.getTipo().equals("normal")){
@@ -289,6 +289,7 @@ if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
     }
 
     public void perguntaSala (){
+        txtChance.setText("");
         txtCountDown.setVisibility(View.VISIBLE);
         rg.clearCheck();
         cancel();
@@ -322,60 +323,60 @@ if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
         cancel();
         txtCountDown.setVisibility(View.VISIBLE);
         txtCountDown.setTextColor(Color.parseColor("#FFFFFF"));
-        countDownTimer = new CountDownTimer(tempo*1000, 500) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-            txtCountDown.setText("Tempo:" + millisUntilFinished / 1000);
-            if (millisUntilFinished < 25000) {
-                txtCountDown.setTextColor(Color.parseColor("#E1F5A9"));
-            }
-            if (millisUntilFinished < 20000) {
-                txtCountDown.setTextColor(Color.parseColor("#FFFF00"));
-            }
-            if (millisUntilFinished < 15000) {
-                txtCountDown.setTextColor(Color.parseColor("#DF7401"));
-            }
-            if (millisUntilFinished < 10000) {
-                txtCountDown.setTextColor(Color.RED);
-                blink = !blink;
-               }
-            if (blink) {
-                txtCountDown.setVisibility(View.INVISIBLE);
-                tick("tick");
-            } else {
-                txtCountDown.setVisibility(View.VISIBLE);
-            }
-
-        }
-        @Override
-        public void onFinish() {
-            txtCountDown.setVisibility(View.VISIBLE);
-            txtCountDown.setText("Acabou!");
-            blink=false;
-            tick("alarm");
-
-            AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
-            dlg.setCancelable(false);
-            dlg.setTitle("Acabou o tempo");
-            dlg.setMessage("Você não respondeu a tempo!");
-            dlg.setNeutralButton("Ok, me envie a próxima", new DialogInterface.OnClickListener()     {
-                public void onClick(DialogInterface dialog, int id) {
-                    resposta(false);
+        countDownTimer = new CountDownTimer(tempo*1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                txtCountDown.setText("Tempo:" + millisUntilFinished / 1000);
+                if (millisUntilFinished < 25000) {
+                    txtCountDown.setTextColor(Color.parseColor("#E1F5A9"));
                 }
-            });
-            AlertDialog alert = dlg.create();
-            alert.show();
+                if (millisUntilFinished < 20000) {
+                    txtCountDown.setTextColor(Color.parseColor("#FFFF00"));
+                }
+                if (millisUntilFinished < 15000) {
+                    txtCountDown.setTextColor(Color.parseColor("#DF7401"));
+                }
+                if (millisUntilFinished < 10000) {
+                    txtCountDown.setTextColor(Color.RED);
+             //       blink = !blink;
+             //   }
+           //     if (blink) {
+           //         txtCountDown.setVisibility(View.INVISIBLE);
+                    tick("tick");
+         //       } else {
+           //         txtCountDown.setVisibility(View.VISIBLE);
+                }
+
+            }
+            @Override
+            public void onFinish() {
+                txtCountDown.setVisibility(View.VISIBLE);
+                txtCountDown.setText("Acabou!");
+                blink=false;
+                tick("alarm");
+
+                AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
+                dlg.setCancelable(false);
+                dlg.setTitle("Acabou o tempo");
+                dlg.setMessage("Você não respondeu a tempo!");
+                dlg.setNeutralButton("Ok, me envie a próxima", new DialogInterface.OnClickListener()     {
+                    public void onClick(DialogInterface dialog, int id) {
+                        resposta(false);
+                    }
+                });
+                AlertDialog alert = dlg.create();
+                alert.show();
+            }
+
+        }; countDownTimer.start();
+    }
+
+    public final void cancel(){
+        if (countDownTimer != null){
+            countDownTimer.cancel();
+           // countDownTimer = null;
         }
-
-    }; countDownTimer.start();
     }
-
-    public void cancel(){
-    if (countDownTimer != null){
-        countDownTimer.cancel();
-        countDownTimer = null;
-    }
-}
 
 
     public void campanha (){
@@ -397,8 +398,8 @@ if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
 
 
 //"\nTotal de perguntas:"+poolPergs.size()
-    } else {
-        AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
+        } else {
+            AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
             dlg.setCancelable(false);
             dlg.setTitle("Game Over");
             dlg.setMessage("Jogo finalizado!\n\nResultado:\nTotal de perguntas:"+poolPergs.size()+"\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos));
@@ -411,7 +412,7 @@ if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
             alert.show();
             String query = "INSERT INTO ranking (dificuldade, jogador, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+acertos+"')" ;
             perguntar.executaUpdate(query);
-    }
+        }
 
 
     }

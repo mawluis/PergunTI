@@ -1,5 +1,7 @@
 package com.example.mawluis.pergunti.global;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +33,17 @@ public class global {
     private static boolean repetido = false;
     private static boolean vazio=false;
     private static int tempo;
+
+    public static String hashPassword(String password) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("sha");
+        md.update(password.getBytes());
+        byte[] b = md.digest();
+        StringBuffer sb = new StringBuffer();
+        for(byte b1 : b){
+            sb.append(Integer.toHexString(b1 & 0xff));
+        }
+        return sb.toString();
+    }
 
     public static int getTempo() {
         return tempo;

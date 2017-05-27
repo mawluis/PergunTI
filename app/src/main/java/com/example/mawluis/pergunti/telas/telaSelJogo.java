@@ -154,7 +154,6 @@ public class telaSelJogo extends AppCompatActivity {
                 Toast.makeText(telaSelJogo.this, "Gerando jogo...", Toast.LENGTH_SHORT).show();
                 global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
-                //insert = "select id from pergunta where id not in(select pergunta from respondida where jogador = "+global.getId()+") and complexidade<'4' and complexidade>'3' and (tema = '"+insert_banco+"' and tema = '"+insert_geral+"' and tema = '"+insert_program+"' and tema = '"+insert_opt1+"' and tema = '"+insert_opt2+"' and tema = '"+insert_rede+"')";
                 select ="select id from pergunta where id not in(select pergunta from respondida where jogador = '"+global.getId()+"') " +
                         "and complexidade>'3' and complexidade<'7' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
                         "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +

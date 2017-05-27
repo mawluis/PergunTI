@@ -1,6 +1,8 @@
 package com.example.mawluis.pergunti.telas;
 
+import android.content.DialogInterface;
 import android.os.SystemClock;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -56,10 +58,16 @@ public class telaCriacaoPerg extends AppCompatActivity {
                         Integer.parseInt(String.valueOf(edtTempo.getText())) );
 
                 if (global.isPergCriada()){
-                    Toast.makeText(telaCriacaoPerg.this, "Pergunta criada com sucesso", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(telaCriacaoPerg.this);
+                    dlg.setCancelable(false);
+                    dlg.setTitle("Sucesso");
+                    dlg.setMessage("Pergunta Criada");
+                    dlg.setNeutralButton("Ok!", null);
+                    AlertDialog alert = dlg.create();
+                    alert.show();
                     global.setPergCriada(false);
                 }else{
-                    Toast.makeText(telaCriacaoPerg.this, "Erro: \nPergunta não criada", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(telaCriacaoPerg.this, "Erro: \nPergunta não criada", Toast.LENGTH_LONG).show();
                 }
             }
         });

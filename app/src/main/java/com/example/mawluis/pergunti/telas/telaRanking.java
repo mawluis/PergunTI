@@ -62,7 +62,7 @@ public class telaRanking extends AppCompatActivity {
                         ranking(query);
                         break;
                     default:
-                        Toast.makeText(telaRanking.this, "Switch não configurado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(telaRanking.this, "Espaço reservado para novo tema a ser categorizado", Toast.LENGTH_SHORT).show();
                 }
                 ranking(query);
                ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaRanking.this,android.R.layout.simple_list_item_1,ranking);

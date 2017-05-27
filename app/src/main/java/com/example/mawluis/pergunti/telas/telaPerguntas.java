@@ -77,7 +77,7 @@ public class telaPerguntas extends AppCompatActivity {
                         enviarPerguntas("geral");
                         break;
                     default:
-                        Toast.makeText(telaPerguntas.this, "Switch não configurado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(telaPerguntas.this, "Espaço reservado para novo tema a ser categorizado", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -132,7 +132,7 @@ public class telaPerguntas extends AppCompatActivity {
                 rs2.close();
                 pst2.close();
             } else {
-                Toast.makeText(telaPerguntas.this, "Não há perguntas sobre esse tema", Toast.LENGTH_SHORT).show();
+                Toast.makeText(telaPerguntas.this, "Não há perguntas sobre esse tema", Toast.LENGTH_LONG).show();
             }
             rs1.close();
             pst1.close();
