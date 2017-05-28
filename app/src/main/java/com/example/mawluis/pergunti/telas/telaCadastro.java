@@ -65,49 +65,56 @@ public class telaCadastro extends AppCompatActivity {
                 RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroupTipo);
                 RadioButton selectOpt = (RadioButton) findViewById(rg.getCheckedRadioButtonId());
 
+if(nome.equals("")||login.equals("")||senha.equals("")||senha2.equals("")||email.equals("")){
+    Toast.makeText(telaCadastro.this, "Preencha todos os campos, apressadinho.", Toast.LENGTH_LONG).show();
+}else {
 
 
+    if (senha.equals(senha2)) {//teste de senha
 
-                if (senha.equals(senha2)) {//teste de senha
+
+        if (rg.getCheckedRadioButtonId() == -1) {//teste de tipo
+            Toast.makeText(telaCadastro.this, "Escolha um tipo", Toast.LENGTH_LONG).show();
+        } else {
+            tipo = String.valueOf(selectOpt.getText());
+            tipo = tipo.toLowerCase(); //tudo minúsculo
+            try {                                                                               //convertendo senha e hash
+                senha = (hashPassword(senha));                                                 //convertendo senha e hash
+            }                                                                                  //convertendo senha e hash
+            catch (NoSuchAlgorithmException e) {                                                 //convertendo senha e hash
+                Toast.makeText(telaCadastro.this, "Exceção:" + (e), Toast.LENGTH_LONG).show();   //convertendo senha e hash
+            }                                                                                  //convertendo senha e hash
+
+            conexaoBD conex = new conexaoBD();
+            conex.novoUsuario(login, nome, tipo, email, senha);
+            Toast.makeText(telaCadastro.this, "Verificando dados no sistema", Toast.LENGTH_SHORT).show();
+            if (global.isUsuarioExistente() == true) {
+                Toast.makeText(telaCadastro.this, "Login já está em uso!", Toast.LENGTH_LONG).show();
+            }
+            if (global.isUsuarioCriado() == true) {
+                global.setUsuarioCriado(false); //zerando variável de criação.
+                AlertDialog.Builder dlg = new AlertDialog.Builder(telaCadastro.this);
+                dlg.setCancelable(false);
+                dlg.setTitle("Sucesso!");
+                dlg.setMessage("Usuário " + login + " criado com sucesso!");
+                dlg.setNeutralButton("Ok!", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                });
+                AlertDialog alert = dlg.create();
+                alert.show();
+            }
+        }
+
+    } else {
+        Toast.makeText(telaCadastro.this, "As senhas digitadas não coincidem.", Toast.LENGTH_LONG).show();
+    }
 
 
-                    if (rg.getCheckedRadioButtonId() == -1) {//teste de tipo
-                        Toast.makeText(telaCadastro.this, "Escolha um tipo", Toast.LENGTH_LONG).show();
-                    }else{
-                        tipo = String.valueOf(selectOpt.getText());
-                        tipo = tipo.toLowerCase(); //tudo minúsculo
-                        try{                                                                               //convertendo senha e hash
-                            senha = (hashPassword(senha));                                                 //convertendo senha e hash
-                        }                                                                                  //convertendo senha e hash
-                        catch(NoSuchAlgorithmException e){                                                 //convertendo senha e hash
-                            Toast.makeText(telaCadastro.this,"Exceção:"+ (e), Toast.LENGTH_LONG).show();   //convertendo senha e hash
-                        }                                                                                  //convertendo senha e hash
+}
 
-                        conexaoBD conex = new conexaoBD();
-                        conex.novoUsuario(login, nome, tipo, email, senha);
-                        Toast.makeText(telaCadastro.this, "Verificando dados no sistema", Toast.LENGTH_SHORT).show();
-                        if (global.isUsuarioExistente()==true){
-                            Toast.makeText(telaCadastro.this, "Login já está em uso!", Toast.LENGTH_LONG).show();
-                        }
-                        if (global.isUsuarioCriado()==true) {
-                            global.setUsuarioCriado(false); //zerando variável de criação.
-                            AlertDialog.Builder dlg = new AlertDialog.Builder(telaCadastro.this);
-                            dlg.setCancelable(false);
-                            dlg.setTitle("Sucesso!");
-                            dlg.setMessage("Usuário "+login+" criado com sucesso!");
-                            dlg.setNeutralButton("Ok!", new DialogInterface.OnClickListener()     {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    finish();
-                                }
-                            });
-                            AlertDialog alert = dlg.create();
-                            alert.show();
-                        }
-                        }
 
-                } else{
-                    Toast.makeText(telaCadastro.this, "As senhas digitadas não coincidem.", Toast.LENGTH_LONG).show();
-                }
 
             }
 
