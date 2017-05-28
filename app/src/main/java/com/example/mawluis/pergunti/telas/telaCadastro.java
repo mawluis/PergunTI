@@ -78,12 +78,12 @@ if(nome.equals("")||login.equals("")||senha.equals("")||senha2.equals("")||email
         } else {
             tipo = String.valueOf(selectOpt.getText());
             tipo = tipo.toLowerCase(); //tudo minúsculo
-            try {                                                                               //convertendo senha e hash
-                senha = (hashPassword(senha));                                                 //convertendo senha e hash
-            }                                                                                  //convertendo senha e hash
+            try {                                                                                //convertendo senha e hash
+                senha = (hashPassword(senha));                                                   //convertendo senha e hash
+            }                                                                                    //convertendo senha e hash
             catch (NoSuchAlgorithmException e) {                                                 //convertendo senha e hash
                 Toast.makeText(telaCadastro.this, "Exceção:" + (e), Toast.LENGTH_LONG).show();   //convertendo senha e hash
-            }                                                                                  //convertendo senha e hash
+            }                                                                                    //convertendo senha e hash
 
             conexaoBD conex = new conexaoBD();
             conex.novoUsuario(login, nome, tipo, email, senha);
@@ -110,19 +110,8 @@ if(nome.equals("")||login.equals("")||senha.equals("")||senha2.equals("")||email
     } else {
         Toast.makeText(telaCadastro.this, "As senhas digitadas não coincidem.", Toast.LENGTH_LONG).show();
     }
-
-
 }
-
-
-
             }
-
-
         });
-
  }
-
-
-
 }
