@@ -338,13 +338,13 @@ public class telaJogo extends AppCompatActivity {
                 }
                 if (millisUntilFinished < 10000) {
                     txtCountDown.setTextColor(Color.RED);
-                    blink = !blink;
-                }
-                if (blink) {
-                    txtCountDown.setVisibility(View.INVISIBLE);
+             //       blink = !blink;
+             //   }
+           //     if (blink) {
+           //         txtCountDown.setVisibility(View.INVISIBLE);
                     tick("tick");
-                } else {
-                  txtCountDown.setVisibility(View.VISIBLE);
+         //       } else {
+           //         txtCountDown.setVisibility(View.VISIBLE);
                 }
 
             }

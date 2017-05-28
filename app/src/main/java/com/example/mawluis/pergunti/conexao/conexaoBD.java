@@ -134,7 +134,6 @@ public class conexaoBD extends telaCadastro {
 
     public void acessoSistema (String login, String senha){
 
-
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
