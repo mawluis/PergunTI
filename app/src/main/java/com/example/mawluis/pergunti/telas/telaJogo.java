@@ -251,6 +251,8 @@ public class telaJogo extends AppCompatActivity {
                     });
                     AlertDialog alert = dlg.create();
                     alert.show();
+                    String query2 = "INSERT INTO ranking (dificuldade, jogador, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+acertos+"')" ;
+                    perguntar.executaUpdate(query);
                 }else {
                     txtChance.setText("Chance: "+chance);
                     switch (chance){
