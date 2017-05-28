@@ -114,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.66"
-            android:text="Criar Pergunta"
+            android:background="@drawable/anima_button_criar_pergunta"
             tools:layout_editor_absoluteX="148dp"
             tools:layout_editor_absoluteY="450dp" />
 

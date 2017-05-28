@@ -26,9 +26,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Acertos"
+        android:layout_marginStart="46dp"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toTopOf="@+id/scrollView3"
-        android:layout_marginStart="46dp"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/scrollView3" />
 
@@ -41,7 +41,10 @@
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toTopOf="@+id/scrollView3"
-        app:layout_constraintRight_toRightOf="@+id/scrollView3" />
+        android:layout_marginStart="34dp"
+        app:layout_constraintRight_toRightOf="@+id/scrollView3"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/btnRankingSala" />
 
     <ScrollView
         android:id="@+id/scrollView3"
@@ -111,7 +114,7 @@
 
     <EditText
         android:id="@+id/edtRankingSala"
-        android:layout_width="110dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:ems="10"
         android:hint="Sala específica?"
@@ -120,23 +123,29 @@
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/btnRankingSala"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/radioDificuldade" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnRankingSala"
+        app:layout_constraintRight_toRightOf="@+id/btnRankingSala"
+        android:layout_marginTop="54dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="63dp"
+        app:layout_constraintLeft_toLeftOf="@+id/btnRankingSala"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnRankingSala"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Listar"
+        android:layout_width="112dp"
+        android:layout_height="48dp"
+        android:background="@drawable/anima_button_listar"
         android:textSize="12sp"
         tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="92dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/edtRankingSala"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="@+id/textView15"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="53dp"
+        android:layout_marginBottom="51dp"
+        app:layout_constraintTop_toTopOf="@+id/radioDificuldade" />
 
 </android.support.constraint.ConstraintLayout>
 
