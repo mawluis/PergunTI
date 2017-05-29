@@ -184,6 +184,7 @@ public class telaJogo extends AppCompatActivity {
                     setResposta(global.getResposta());
 
                     if(marcacao==resposta) {
+                        acertos++;
                         if (global.getTipo().equals("aluno")){
                             cancel();
                             resposta(true);}
@@ -232,7 +233,6 @@ public class telaJogo extends AppCompatActivity {
                 Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
                 String query = "INSERT INTO respondida (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
                 perguntar.executaUpdate(query);
-                acertos++;
                 campanha();
             } else {//pergunta errada campanha
                 Toast.makeText(telaJogo.this, "Você errou!", Toast.LENGTH_SHORT).show();
@@ -272,7 +272,6 @@ public class telaJogo extends AppCompatActivity {
                 if (!(global.isRepetido()||global.getTipo().equals("professor"))){
                     String query = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
                     perguntar.executaUpdate(query);
-                    acertos++;
                 }
                 perguntaSala();
             } else {//--------------========pergunta errada sala==========-----
