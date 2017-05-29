@@ -34,6 +34,17 @@ public class global {
     private static boolean vazio=false;
     private static int tempo;
     private static String numPergunta;
+    private static boolean statuslist=false;
+
+    public static boolean isStatuslist() {
+        return statuslist;
+    }
+
+    public static void setStatuslist(boolean statuslist) {
+        global.statuslist = statuslist;
+    }
+
+
 
     public static String getNumPergunta() {
         return numPergunta;

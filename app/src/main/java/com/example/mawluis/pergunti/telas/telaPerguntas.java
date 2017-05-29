@@ -28,7 +28,10 @@ public class telaPerguntas extends AppCompatActivity {
 
 
     ListView lv;
+
+
     private static String[][] consulta;
+
 
     static ArrayList<String> poolPergs = new ArrayList();
 
@@ -38,6 +41,17 @@ public class telaPerguntas extends AppCompatActivity {
 
     public void setPoolPergs(ArrayList<String> poolPergs) {
         this.poolPergs = poolPergs;
+    }
+
+
+    static ArrayList<String> poolPergsid = new ArrayList();
+
+    public ArrayList<String> getPoolPergsid() {
+        return poolPergsid;
+    }
+
+    public void setPoolPergsid(ArrayList<String> poolPergsid) {
+        this.poolPergsid = poolPergsid;
     }
 
 
@@ -88,18 +102,28 @@ public class telaPerguntas extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if (poolPergs.contains(consulta[0][i])) {
+                if (poolPergsid.contains(consulta[0][i])) {
                     Toast.makeText(telaPerguntas.this, "Erro: \nA pergunta: " + consulta[0][i] + " já está na sua lista.", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    poolPergs.add(consulta[0][i]);
+                    poolPergsid.add(consulta[0][i]);//aqui eu add o ID ao arraylist de perguntas.
+                    poolPergs.add("(ID:"+consulta[0][i]+")  (Perg:"+consulta[1][i]+")");
                     Toast.makeText(telaPerguntas.this, "A pergunta: " + consulta[0][i] + " foi adicionada na sua lista.", Toast.LENGTH_SHORT).show();
+                    global.setStatuslist(true);
                 }
 
             }
         });
 
 
+    }
+
+    public ListView getLv() {
+        return lv;
+    }
+
+    public void setLv(ListView lv) {
+        this.lv = lv;
     }
 
     public void enviarPerguntas(String tema){ //conexão criada fora da classes de conexão por erros de passagem de vetor entre activities
@@ -122,12 +146,12 @@ public class telaPerguntas extends AppCompatActivity {
                 ResultSet rs2 = pst2.executeQuery();
                 int x=0;
                 while (rs2.next()){
-                    vetorPerg[0][x] = rs2.getObject(1).toString(); //id
-                    vetorPerg[1][x] = rs2.getObject(2).toString(); //pergunta
+                    vetorPerg[0][x] = rs2.getObject(1).toString(); //populando vetor de id
+                    vetorPerg[1][x] = rs2.getObject(2).toString(); //populando vetor de perguntas
                     x++;
                 }
                 setConsulta(vetorPerg);
-                ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaPerguntas.this,android.R.layout.simple_list_item_1,consulta[1]);
+                ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaPerguntas.this,android.R.layout.simple_list_item_1,consulta[1]);//pegar vetor
                 lv.setAdapter(adapter);
                 rs2.close();
                 pst2.close();

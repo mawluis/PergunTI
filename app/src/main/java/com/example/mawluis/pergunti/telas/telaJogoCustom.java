@@ -27,10 +27,12 @@ import java.util.ArrayList;
 public class telaJogoCustom extends AppCompatActivity {
 
     ListView lv;
-    ArrayList<String> poolPergs = new ArrayList();
+    ArrayList<String> poolPergslocal = new ArrayList();
+    ArrayList<String> poolPergslocalid = new ArrayList();
     String pergunta, insert, idsala;
     boolean pegIncrement=false;
     private long mLastClickTime = 0; //macete para evitar criação de vários jogos com duplo clique.
+  //  private static String[][] consulta;
 
 
     @Override
@@ -47,17 +49,22 @@ public class telaJogoCustom extends AppCompatActivity {
 
 
         telaPerguntas a = new telaPerguntas();
-        poolPergs = a.getPoolPergs();
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,a.getPoolPergs());
-        lv.setAdapter(adapter);
+        poolPergslocal = a.getPoolPergs();
+        poolPergslocalid = a.getPoolPergsid();
+      //  consulta=a.getConsulta();
+
+
+        if(global.isStatuslist()){
+            Toast.makeText(telaJogoCustom.this, "list on", Toast.LENGTH_SHORT).show();
+            ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,poolPergslocal);
+            lv.setAdapter(adapter);
+        }else {
+            Toast.makeText(telaJogoCustom.this, "list false", Toast.LENGTH_SHORT).show();
+        }
 
         Button btnEscolherPerg = (Button)findViewById(R.id.btnEscolherPerg);
         Button btnCriarPerg = (Button)findViewById(R.id.btnCriarPerg);
         Button btnCriarSala = (Button)findViewById(R.id.btnCriarSala);
-
-
-
-
 
         btnEscolherPerg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +91,7 @@ public class telaJogoCustom extends AppCompatActivity {
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
                 pegIncrement=false;
-                if (poolPergs.size()==0){
+                if (a.getPoolPergsid().size()==0){
                     Toast.makeText(telaJogoCustom.this, "Não há perguntas para criar sua sala", Toast.LENGTH_LONG).show();
                 }else {
 
@@ -100,10 +107,10 @@ public class telaJogoCustom extends AppCompatActivity {
                         Class.forName(classforname);
                         Connection con = DriverManager.getConnection(URL, user, pass);
 
-                        poolPergs.trimToSize(); //aparando o arraylist (tirando os espaço vazios tipo null)
+                        a.getPoolPergsid().trimToSize(); //aparando o arraylist (tirando os espaço vazios tipo null)
 
                         Statement statement = con.createStatement();
-                        for (String pergunta : poolPergs) {
+                        for (String pergunta : a.getPoolPergsid()) {
                             if (pegIncrement==false){
                             insert = "INSERT INTO sala (usuario, pergunta, acerto) VALUES ('" + global.getId() + "', '" + pergunta + "', '0');";
                             }else{
@@ -148,9 +155,11 @@ public class telaJogoCustom extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    pergunta= poolPergs.get(i);
-                    Toast.makeText(telaJogoCustom.this, "A pergunta: "+ pergunta +" foi removida da sua lista.", Toast.LENGTH_SHORT).show();
-                    poolPergs.remove(i);
+                    Toast.makeText(telaJogoCustom.this, "A pergunta: "+ poolPergslocalid.get(i) +" foi removida da sua lista.", Toast.LENGTH_SHORT).show();
+                    poolPergslocal.remove(i);
+                    poolPergslocalid.remove(i);
+                    a.setPoolPergs(poolPergslocal);
+                    a.setPoolPergsid(poolPergslocalid);
                     onResume();
 
 
