@@ -57,11 +57,13 @@ public class telaCriacaoPerg extends AppCompatActivity {
                         String.valueOf(edtTema.getText()).toLowerCase(),//tema para minúsculo.
                         Integer.parseInt(String.valueOf(edtTempo.getText())) );
 
+
+
                 if (global.isPergCriada()){
                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaCriacaoPerg.this);
                     dlg.setCancelable(false);
                     dlg.setTitle("Sucesso");
-                    dlg.setMessage("Pergunta Criada");
+                    dlg.setMessage("Pergunta nº"+global.getNumPergunta()+" criada");
                     dlg.setNeutralButton("Ok!", null);
                     AlertDialog alert = dlg.create();
                     alert.show();

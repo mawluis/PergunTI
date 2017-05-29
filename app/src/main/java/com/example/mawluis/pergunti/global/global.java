@@ -33,6 +33,17 @@ public class global {
     private static boolean repetido = false;
     private static boolean vazio=false;
     private static int tempo;
+    private static String numPergunta;
+
+    public static String getNumPergunta() {
+        return numPergunta;
+    }
+
+    public static void setNumPergunta(String numPergunta) {
+        global.numPergunta = numPergunta;
+    }
+
+
 
     public static String hashPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("sha");

@@ -83,6 +83,7 @@ public class telaJogoCustom extends AppCompatActivity {
                 }                                                            //macete para evitar criação de vários jogos com duplo clique.
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
+                pegIncrement=false;
                 if (poolPergs.size()==0){
                     Toast.makeText(telaJogoCustom.this, "Não há perguntas para criar sua sala", Toast.LENGTH_LONG).show();
                 }else {
@@ -106,7 +107,6 @@ public class telaJogoCustom extends AppCompatActivity {
                             if (pegIncrement==false){
                             insert = "INSERT INTO sala (usuario, pergunta, acerto) VALUES ('" + global.getId() + "', '" + pergunta + "', '0');";
                             }else{
-
                                 ResultSet rs = statement.getGeneratedKeys();
                                 if (rs.next()) {
                                     idsala = rs.getObject(1).toString();

@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,10 +88,15 @@ public class conexaoBD extends telaCadastro {
             Class.forName(global.getClassforname());
             Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
             String insert = "INSERT INTO pergunta (pergunta, opt1, opt2, opt3, opt4, resposta, criador, complexidade, tema, tempo) VALUES ('"+pergunta+"', '"+opt1+"', '"+opt2+"', '"+opt3+"', '"+opt4+"', '"+resposta+"', '"+criador+"', '"+complexidade+"', '"+tema+"','"+tempo+"');";
-            PreparedStatement pst1 = con.prepareStatement(insert);
-            int rs1 = pst1.executeUpdate();
+            Statement statement = con.createStatement();
+            statement.executeUpdate(insert, statement.RETURN_GENERATED_KEYS);
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()){
+                global.setNumPergunta(rs.getObject(1).toString());
+            }
             global.setPergCriada(true);
-            pst1.close();
+            statement.close();
+            rs.close();
             con.close();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
