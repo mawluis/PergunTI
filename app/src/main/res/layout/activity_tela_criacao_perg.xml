@@ -93,13 +93,27 @@
             tools:layout_editor_absoluteX="-28dp"
             tools:layout_editor_absoluteY="307dp" />
 
-        <EditText
-            android:id="@+id/edtTema"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:hint="Insira o tema"
-            android:inputType="textPersonName" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spinTema"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+
+            <EditText
+                android:id="@+id/edtTema"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Tema não está listado?"
+                android:inputType="textPersonName" />
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/edtTempo"
