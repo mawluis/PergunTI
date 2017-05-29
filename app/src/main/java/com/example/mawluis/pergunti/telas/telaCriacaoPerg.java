@@ -53,7 +53,8 @@ public class telaCriacaoPerg extends AppCompatActivity  implements AdapterView.O
                 }                                                            //macete para evitar criação de vários jogos com duplo clique.
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
-                if (edtResp.toString().equals("1")||edtResp.toString().equals("2")||edtResp.toString().equals("3")||edtResp.toString().equals("4")){
+                if (Integer.parseInt(String.valueOf(edtResp.getText()))==1||Integer.parseInt(String.valueOf(edtResp.getText()))==2 //verificando se está
+                   ||Integer.parseInt(String.valueOf(edtResp.getText()))==3||Integer.parseInt(String.valueOf(edtResp.getText()))==4){// 1 a 4
                     global b = new global();
                     conexaoBD a = new conexaoBD();
                     a.novaPerg(String.valueOf(edtPerg.getText()),
