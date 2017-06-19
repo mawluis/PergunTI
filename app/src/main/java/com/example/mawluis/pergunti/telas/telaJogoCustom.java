@@ -59,7 +59,7 @@ public class telaJogoCustom extends AppCompatActivity {
             ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,poolPergslocal);
             lv.setAdapter(adapter);
         }else {
-            Toast.makeText(telaJogoCustom.this, "list false", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(telaJogoCustom.this, "list false", Toast.LENGTH_SHORT).show();
         }
 
         Button btnEscolherPerg = (Button)findViewById(R.id.btnEscolherPerg);

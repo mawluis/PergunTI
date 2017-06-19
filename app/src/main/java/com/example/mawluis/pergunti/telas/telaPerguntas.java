@@ -90,6 +90,9 @@ public class telaPerguntas extends AppCompatActivity {
                     case R.id.rbGeral:
                         enviarPerguntas("geral");
                         break;
+                    case R.id.rbSistema:
+                        enviarPerguntas("sistema");
+                        break;
                     default:
                         Toast.makeText(telaPerguntas.this, "Espaço reservado para novo tema a ser categorizado", Toast.LENGTH_SHORT).show();
                 }

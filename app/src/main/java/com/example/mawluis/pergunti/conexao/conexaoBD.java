@@ -15,15 +15,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Created by Mawluis on 23/04/2017.
  */
 
 public class conexaoBD extends telaCadastro {
-
-
-
 
     public void enviarSala(String sala, int id){
         global.setRepetido(false);
@@ -34,10 +30,13 @@ public class conexaoBD extends telaCadastro {
 
             Class.forName(global.getClassforname());
             Connection con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
-            PreparedStatement pst1 = con.prepareStatement("select pergunta from sala where id='"+sala+"' and usuario='"+id+"'");
-            PreparedStatement pst2 = con.prepareStatement("select pergunta from sala where usuario in(select id from usuario where tipo='professor') and id='"+sala+"'");
+            PreparedStatement pst1 = con.prepareStatement("select pergunta from sala where id=? and usuario=?");
+            PreparedStatement pst2 = con.prepareStatement("select pergunta from sala where usuario in(select id from usuario where tipo='professor') and id=?");
             //pst1: "ver se o usuario já respondeu."
             //pst2: "resultado das perguntas ref. desta sala com select só no tipo professor."
+            pst1.setInt(1, Integer.parseInt(sala));
+            pst1.setInt(2,id);
+            pst2.setInt(1, Integer.parseInt(sala));
             ResultSet rs1 = pst1.executeQuery();
             if (rs1.next()){
                 global.setRepetido(true);
@@ -87,15 +86,25 @@ public class conexaoBD extends telaCadastro {
 
             Class.forName(global.getClassforname());
             Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
-            String insert = "INSERT INTO pergunta (pergunta, opt1, opt2, opt3, opt4, resposta, criador, complexidade, tema, tempo) VALUES ('"+pergunta+"', '"+opt1+"', '"+opt2+"', '"+opt3+"', '"+opt4+"', '"+resposta+"', '"+criador+"', '"+complexidade+"', '"+tema+"','"+tempo+"');";
-            Statement statement = con.createStatement();
-            statement.executeUpdate(insert, statement.RETURN_GENERATED_KEYS);
-            ResultSet rs = statement.getGeneratedKeys();
+            String insert = "INSERT INTO pergunta (pergunta, opt1, opt2, opt3, opt4, resposta, criador, complexidade, tema, tempo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?);";
+            PreparedStatement pst = con.prepareStatement(insert, PreparedStatement.RETURN_GENERATED_KEYS);
+            pst.setString(1, pergunta);
+            pst.setString(2, opt1);
+            pst.setString(3, opt2);
+            pst.setString(4, opt3);
+            pst.setString(5, opt4);
+            pst.setInt(6, resposta);
+            pst.setString(7, criador);
+            pst.setInt(8, complexidade);
+            pst.setString(9, tema);
+            pst.setInt(10, tempo);
+            pst.executeUpdate();
+            ResultSet rs = pst.getGeneratedKeys();
             if (rs.next()){
                 global.setNumPergunta(rs.getObject(1).toString());
             }
             global.setPergCriada(true);
-            statement.close();
+            pst.close();
             rs.close();
             con.close();
         } catch (ClassNotFoundException e) {
@@ -114,15 +123,21 @@ public class conexaoBD extends telaCadastro {
             Class.forName(global.getClassforname());
             Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
             global.setUsuarioExistente(false);
-            String insert = "INSERT INTO usuario (login, nome, tipo, email, senha) VALUES ('"+login+"', '"+nome+"', '"+tipo+"', '"+email+"', '"+senha+"');";
-            String sql = "select * from usuario where login='"+login+"'";
+            String insert = "INSERT INTO usuario (login, nome, tipo, email, senha) VALUES (?, ?, ?, ?, ?);";
+            String sql = "select * from usuario where login=?";
             PreparedStatement pst1 = con.prepareStatement(sql);
+            pst1.setString(1, login);
+            pst1.setString(2, nome);
+            pst1.setString(3, tipo);
+            pst1.setString(4, email);
+            pst1.setString(5, senha);
             ResultSet rs1 = pst1.executeQuery();
 
             if(rs1.next()){
                    global.setUsuarioExistente(true);
             } else {
                 PreparedStatement pst2 = con.prepareStatement(insert);
+                pst2.setString(1, login);
                 int rs2 = pst2.executeUpdate();
                 global.setUsuarioCriado(true);
                 pst2.close();
@@ -146,13 +161,13 @@ public class conexaoBD extends telaCadastro {
 
             Class.forName(global.getClassforname());
             Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
-            String sql = "select * from usuario where login='"+login+"' and senha= '"+senha+"'";
+            String sql = "select * from usuario where login=? and senha=?";
             PreparedStatement pst1 = con.prepareStatement(sql);
+            pst1.setString(1, login);
+            pst1.setString(2, senha);
             ResultSet rs1 = pst1.executeQuery();
 
-
             if(rs1.next()){
-
 
                 global.setId(Integer.parseInt(rs1.getObject(1).toString()));
                 global.setLogin(login);
@@ -160,14 +175,10 @@ public class conexaoBD extends telaCadastro {
                 global.setTipo(rs1.getObject(4).toString());
                 global.setLogado(true);
 
-
             } else {
-
                 global.setLogado(false);
             }
-
             con.close();
-
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -212,10 +223,10 @@ public class conexaoBD extends telaCadastro {
 
             Class.forName(global.getClassforname());
             Connection  con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
-            String sql = "select pergunta,opt1,opt2,opt3,opt4,resposta,tempo from pergunta where id= "+pergunta;
+            String sql = "select pergunta,opt1,opt2,opt3,opt4,resposta,tempo from pergunta where id=?";
             PreparedStatement pst1 = con.prepareStatement(sql);
+            pst1.setInt(1, pergunta);
             ResultSet rs1 = pst1.executeQuery();
-
 
             if(rs1.next()){
 
@@ -237,27 +248,16 @@ public class conexaoBD extends telaCadastro {
                 global.setResposta(Integer.parseInt(rs1.getObject(6).toString()));
                 global.setTempo(Integer.parseInt(rs1.getObject(7).toString()));
 
-
-
             } else {
                 //pergunta não existe
-
             }
-
             rs1.close();
             pst1.close();
             con.close();
-
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-
-
     }
-
 }

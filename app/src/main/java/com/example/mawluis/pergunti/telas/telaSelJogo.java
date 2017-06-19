@@ -19,14 +19,14 @@ import com.example.mawluis.pergunti.global.global;
 public class telaSelJogo extends AppCompatActivity {
 
     Button btnGo, btnEasy, btnNormal, btnHard, btnTeste;
-    CheckBox chkBanco, chkGeral, chkProgram, chkOpt1, chkOpt2, chkRede;
+    CheckBox chkBanco, chkGeral, chkProgram, chkSistema, chkOpt2, chkRede;
     EditText edtSala;
     TextView txtQualDificuldade,txtTemaEsp;
     String select;
     String insert_banco = "";
     String insert_geral = "";
     String insert_program = "";
-    String insert_opt1 = "";
+    String insert_sistema = "";
     String insert_opt2 = "";
     String insert_rede = "";
     private long mLastClickTime = 0; //macete para evitar criação de vários jogos com duplo clique.
@@ -47,7 +47,7 @@ public class telaSelJogo extends AppCompatActivity {
         chkBanco = (CheckBox)findViewById(R.id.chkBanco);
         chkGeral = (CheckBox)findViewById(R.id.chkGeral);
         chkProgram = (CheckBox)findViewById(R.id.chkProgram);
-        chkOpt1 = (CheckBox)findViewById(R.id.chkOpt1);
+        chkSistema = (CheckBox)findViewById(R.id.chkSistema);
         chkOpt2 = (CheckBox)findViewById(R.id.chkOpt2);
         chkRede = (CheckBox)findViewById(R.id.chkRede);
         edtSala = (EditText)findViewById(R.id.edtSala);
@@ -68,7 +68,7 @@ public class telaSelJogo extends AppCompatActivity {
             txtTemaEsp.setVisibility(View.INVISIBLE);
             chkBanco.setVisibility(View.INVISIBLE);
             chkGeral.setVisibility(View.INVISIBLE);
-            chkOpt1.setVisibility(View.INVISIBLE);
+            chkSistema.setVisibility(View.INVISIBLE);
             chkOpt2.setVisibility(View.INVISIBLE);
             chkProgram.setVisibility(View.INVISIBLE);
             chkRede.setVisibility(View.INVISIBLE);
@@ -125,7 +125,7 @@ public class telaSelJogo extends AppCompatActivity {
                         select ="select id from pergunta where id not in(select pergunta from respondida where jogador = '"+global.getId()+"') " +
                         "and complexidade<'4' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
                         "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +
-                        " or tema = '"+insert_opt1+"') ORDER BY random()";
+                        " or tema = '"+insert_sistema+"') ORDER BY random()";
                 a.fazerJogo(select);
                 if (global.isVazio()){
                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaSelJogo.this);
@@ -157,7 +157,7 @@ public class telaSelJogo extends AppCompatActivity {
                 select ="select id from pergunta where id not in(select pergunta from respondida where jogador = '"+global.getId()+"') " +
                         "and complexidade>'3' and complexidade<'7' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
                         "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +
-                        " or tema = '"+insert_opt1+"') ORDER BY random()";
+                        " or tema = '"+insert_sistema+"') ORDER BY random()";
                 a.fazerJogo(select);
                 if (global.isVazio()){
                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaSelJogo.this);
@@ -189,7 +189,7 @@ public class telaSelJogo extends AppCompatActivity {
                 select ="select id from pergunta where id not in(select pergunta from respondida where jogador = '"+global.getId()+"'   ) " +
                         "and complexidade>'6' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
                         "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +
-                        " or tema = '"+insert_opt1+"') ORDER BY random()";
+                        " or tema = '"+insert_sistema+"') ORDER BY random()";
                 a.fazerJogo(select);
                 if (global.isVazio()){
                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaSelJogo.this);
@@ -223,10 +223,10 @@ public class telaSelJogo extends AppCompatActivity {
         }else{
             insert_program = "";
         }
-        if (chkOpt1.isChecked()){
-            insert_opt1 = "opt1";
+        if (chkSistema.isChecked()){
+            insert_sistema = "sistema";
         }else{
-            insert_opt1 = "";
+            insert_sistema = "";
         }
         if (chkOpt2.isChecked()){
             insert_opt2 = "opt2";

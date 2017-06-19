@@ -85,25 +85,26 @@
             android:text="Banco" />
 
         <RadioButton
-            android:id="@+id/radioButton4"
+            android:id="@+id/rbGeral"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Opção" />
+            android:text="Geral" />
+
+        <RadioButton
+            android:id="@+id/rbSistema"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sistema" />
 
         <RadioButton
             android:id="@+id/radioButton7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:visibility="invisible"
             android:text="Opção" />
-
-        <RadioButton
-            android:id="@+id/rbGeral"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Geral" />
 
     </RadioGroup>
 </android.support.constraint.ConstraintLayout>

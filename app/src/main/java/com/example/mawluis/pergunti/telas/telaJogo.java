@@ -31,7 +31,7 @@ public class telaJogo extends AppCompatActivity {
     private int resposta;
     private int i=0, chance=3;
     private int acertos=0;
-    private long mLastClickTime = 0; //macete para evitar criação de vários jogos com duplo clique.
+    private long mLastClickTime = 0; //técnica para evitar criação de vários jogos com duplo clique.
 
 
     Button btnResponder, btnPergunta;

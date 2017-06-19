@@ -11,8 +11,6 @@ import android.widget.Toast;
 import com.example.mawluis.pergunti.R;
 import com.example.mawluis.pergunti.conexao.conexaoBD;
 import com.example.mawluis.pergunti.global.global;
-
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import static com.example.mawluis.pergunti.global.global.hashPassword;

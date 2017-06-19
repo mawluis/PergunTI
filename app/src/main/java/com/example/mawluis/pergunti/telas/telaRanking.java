@@ -75,7 +75,7 @@ public class telaRanking extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 radioDificuldade.clearCheck();
-               int numSala = Integer.parseInt(String.valueOf(edtRankingSala.getText()));
+               int numSala = Integer.parseInt(String.valueOf(edtRankingSala.getText())); //conversão faz proteção contra sql injection
                 ranking("select SUM(CAST(acerto AS INT)), (select nome from usuario where sala.usuario=usuario.id)"+
                 "from sala where usuario not in(select id from usuario where tipo='professor')"+
                 "and id='"+numSala+"' group by usuario ORDER BY SUM DESC");
