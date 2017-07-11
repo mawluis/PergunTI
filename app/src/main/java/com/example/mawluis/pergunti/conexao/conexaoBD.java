@@ -127,10 +127,6 @@ public class conexaoBD extends telaCadastro {
             String sql = "select * from usuario where login=?";
             PreparedStatement pst1 = con.prepareStatement(sql);
             pst1.setString(1, login);
-            pst1.setString(2, nome);
-            pst1.setString(3, tipo);
-            pst1.setString(4, email);
-            pst1.setString(5, senha);
             ResultSet rs1 = pst1.executeQuery();
 
             if(rs1.next()){
@@ -138,6 +134,10 @@ public class conexaoBD extends telaCadastro {
             } else {
                 PreparedStatement pst2 = con.prepareStatement(insert);
                 pst2.setString(1, login);
+                pst2.setString(2, nome);
+                pst2.setString(3, tipo);
+                pst2.setString(4, email);
+                pst2.setString(5, senha);
                 int rs2 = pst2.executeUpdate();
                 global.setUsuarioCriado(true);
                 pst2.close();

@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".telas.telaLogin"
-                  android:launchMode="singleTop">
+                  android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,15 +22,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".telas.telaCadastro" />
-        <activity android:name=".conexao.conexaoBD" />
-        <activity android:name=".telas.telaInicial" />
-        <activity android:name=".telas.telaJogo" />
-        <activity android:name=".telas.telaJogoCustom" />
-        <activity android:name=".telas.telaPerguntas" />
-        <activity android:name=".telas.telaCriacaoPerg" />
-        <activity android:name=".telas.telaRanking" />
-        <activity android:name=".telas.telaSelJogo"></activity>
+        <activity android:name=".telas.telaCadastro"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".conexao.conexaoBD"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".telas.telaInicial"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".telas.telaJogo"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".telas.telaJogoCustom"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".telas.telaPerguntas"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".telas.telaCriacaoPerg"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".telas.telaRanking"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".telas.telaSelJogo"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
