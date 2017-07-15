@@ -35,6 +35,17 @@ public class global {
     private static int tempo;
     private static String numPergunta;
     private static boolean statuslist=false;
+    private static boolean completed=false;
+
+    public static boolean isCompleted() {
+        return completed;
+    }
+
+    public static void setCompleted(boolean completed) {
+        global.completed = completed;
+    }
+
+
 
     public static boolean isStatuslist() {
         return statuslist;
