@@ -55,7 +55,7 @@ public class telaCadastro extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                global.setCompleted(true);
+                global.setCompleted(false);  //zerando o completed
                 final ProgressDialog dialog = new ProgressDialog(telaCadastro.this); //,"","Realizando consulta",true,true);
                 dialog.setTitle("Aguarde...");
                 dialog.setMessage("Enviando seus dados");
@@ -103,17 +103,20 @@ public class telaCadastro extends AppCompatActivity {
                                 new Thread() {
                                     public void run() {
                                         try {
-                                            URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
-                                            HttpURLConnection connection;
-                                            connection = (HttpURLConnection) url.openConnection();
-                                            connection.setDoInput(true);
-                                            connection.connect();  //treta para fazer loading
+                                            //URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
+                                            //HttpURLConnection connection;
+                                            //connection = (HttpURLConnection) url.openConnection();
+                                            //connection.setDoInput(true);
+                                            //connection.connect();  //    treta que funcionou para fazer loading
                                             //InputStream input = connection.getInputStream();
                                             //final Bitmap imagem = BitmapFactory.decodeStream(input);
                                             handler.post(new Runnable() {
                                                 public void run() {
                                                     conexaoBD conex = new conexaoBD();
                                                     conex.novoUsuario(login, nome, tipo, email, senha);
+                                                    while (!global.isCompleted()){  //enquanto global for diferente de completo...
+                                                                                    //tentativa de prender o progress até o parâmetro mudar.
+                                                    }
                                                 }
                                             });
                                         } catch (Exception e) {
@@ -122,6 +125,7 @@ public class telaCadastro extends AppCompatActivity {
                                             @Override
                                             public void run() {
                                                 dialog.setMessage("Feito!" + completed);
+                                                dialog.dismiss();
                                                 if (global.isUsuarioExistente() == true) {
                                                     global.setUsuarioExistente(false);//zerando variável.
                                                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaCadastro.this);
@@ -131,7 +135,6 @@ public class telaCadastro extends AppCompatActivity {
                                                     dlg.setNeutralButton("Ok!", null);
                                                     dlg.show();
                                                     Toast.makeText(telaCadastro.this, "Login já está em uso!" + completed, Toast.LENGTH_LONG).show();
-                                                    dialog.dismiss();
                                                 }
                                                 if (global.isUsuarioCriado() == true) {
                                                     global.setUsuarioCriado(false); //zerando variável de criação.

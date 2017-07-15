@@ -153,7 +153,7 @@ public class conexaoBD extends telaCadastro {
             pst1.close();
             rs1.close();
             con.close();
-            global.setCompleted(false);
+            global.setCompleted(true);
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
