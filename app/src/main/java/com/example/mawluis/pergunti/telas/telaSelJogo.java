@@ -26,7 +26,7 @@ public class telaSelJogo extends AppCompatActivity {
     Button btnGo, btnEasy, btnNormal, btnHard, btnTeste;
     CheckBox chkBanco, chkGeral, chkProgram, chkSistema, chkOpt2, chkRede;
     EditText edtSala;
-    TextView txtQualDificuldade,txtTemaEsp;
+    TextView txtQualDificuldade,txtTemaEsp, txtJogoSala;
     String select;
     String insert_banco = "";
     String insert_geral = "";
@@ -34,6 +34,7 @@ public class telaSelJogo extends AppCompatActivity {
     String insert_sistema = "";
     String insert_opt2 = "";
     String insert_rede = "";
+    int show=0;
     private long mLastClickTime = 0; //macete para evitar criação de vários jogos com duplo clique.
     private Handler handler = new Handler();
 
@@ -60,10 +61,16 @@ public class telaSelJogo extends AppCompatActivity {
         btnTeste = (Button)findViewById(R.id.btnTeste);
         txtQualDificuldade = (TextView)findViewById(R.id.txtQualDificuldade);
         txtTemaEsp = (TextView)findViewById(R.id.txtTemaEsp);
+        txtJogoSala = (TextView)findViewById(R.id.txtJogoSala);
 
 
         conexaoBD a = new conexaoBD();
 
+
+        btnEasy.setVisibility(View.INVISIBLE);//deixando passo dois do single player invi.
+        btnNormal.setVisibility(View.INVISIBLE);
+        btnHard.setVisibility(View.INVISIBLE);
+        txtQualDificuldade.setVisibility(View.INVISIBLE);
 
         if (global.getTipo().equals("professor")) {
             btnTeste.setVisibility(View.VISIBLE);
@@ -83,6 +90,44 @@ public class telaSelJogo extends AppCompatActivity {
             btnTeste.setVisibility(View.INVISIBLE);
 
         }
+
+        chkBanco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select();
+            }
+        });
+        chkRede.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select();
+            }
+        });
+        chkProgram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select();
+            }
+        });
+        chkSistema.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select();
+            }
+        });
+        chkOpt2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select();
+            }
+        });
+        chkGeral.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                select();
+            }
+        });
+
 
         btnTeste.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -313,35 +358,59 @@ public class telaSelJogo extends AppCompatActivity {
     public void select (){
         if (chkBanco.isChecked()){
             insert_banco = "banco";
+            show++;
         }else{
             insert_banco = "";//zerar caso não esteja marcado.
         }
         if (chkGeral.isChecked()){
             insert_geral = "geral";
+            show++;
         }else{
             insert_geral = "";
         }
         if (chkProgram.isChecked()){
             insert_program = "programação";
+            show++;
         }else{
             insert_program = "";
         }
         if (chkSistema.isChecked()){
             insert_sistema = "sistema";
+            show++;
         }else{
             insert_sistema = "";
         }
         if (chkOpt2.isChecked()){
             insert_opt2 = "opt2";
+            show++;
         }else{
             insert_opt2 = "";
         }
         if (chkRede.isChecked()){
             insert_rede = "rede";
+            show++;
         }else{
             insert_rede = "";
         }
+if (show>0){
+    btnEasy.setVisibility(View.VISIBLE);
+    btnNormal.setVisibility(View.VISIBLE);
+    btnHard.setVisibility(View.VISIBLE);
+    txtQualDificuldade.setVisibility(View.VISIBLE);
+    txtJogoSala.setText("Para jogar em sala retire os temas.");
+    edtSala.setVisibility(View.INVISIBLE);
+    btnGo.setVisibility(View.INVISIBLE);
+}else{
+    btnEasy.setVisibility(View.INVISIBLE);
+    btnNormal.setVisibility(View.INVISIBLE);
+    btnHard.setVisibility(View.INVISIBLE);
+    txtQualDificuldade.setVisibility(View.INVISIBLE);
+    txtJogoSala.setText("Jogar em uma sala:");
+    edtSala.setVisibility(View.VISIBLE);
+    btnGo.setVisibility(View.VISIBLE);
 
+}
+show=0;
     }
 
 }
