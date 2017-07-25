@@ -1,5 +1,7 @@
 package com.example.mawluis.pergunti.telas;
 
+import android.app.ProgressDialog;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,8 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import com.example.mawluis.pergunti.R;
 import com.example.mawluis.pergunti.global.global;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,6 +32,7 @@ public class telaPerguntas extends AppCompatActivity {
 
 
     ListView lv;
+    private Handler handler = new Handler();
 
 
     private static String[][] consulta;
@@ -130,44 +135,78 @@ public class telaPerguntas extends AppCompatActivity {
     }
 
     public void enviarPerguntas(String tema){ //conexão criada fora da classes de conexão por erros de passagem de vetor entre activities
-        try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+        final ProgressDialog dialog = new ProgressDialog(telaPerguntas.this); //,"","Realizando consulta",true,true);
+        dialog.setTitle("Aguarde...");
+        dialog.setMessage("Baixando perguntas...");
+        dialog.setIcon(R.drawable.ampulheta);
+        dialog.show();
 
-            Class.forName(global.getClassforname());
-            Connection con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
-            String count = "SELECT count(*) id from pergunta where tema='"+tema+"'";
-            String sql = "select id,pergunta from pergunta where tema='"+tema+"'";
-            PreparedStatement pst1 = con.prepareStatement(count);
-            ResultSet rs1 = pst1.executeQuery();
-            if (rs1.next()){
-                int n = Integer.parseInt(rs1.getObject(1).toString());
-                String vetorPerg[][] = new String[2][n]; //criei em vetor por não saber usar arraylist multidimensional
-                //primeiro termo: id/pergunta
-                // segundo termo: registro(s)
-                PreparedStatement pst2 = con.prepareStatement(sql);
-                ResultSet rs2 = pst2.executeQuery();
-                int x=0;
-                while (rs2.next()){
-                    vetorPerg[0][x] = rs2.getObject(1).toString(); //populando vetor de id
-                    vetorPerg[1][x] = rs2.getObject(2).toString(); //populando vetor de perguntas
-                    x++;
+        new Thread() {
+            public void run() {
+                try {
+                    URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
+                    HttpURLConnection connection;
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();  //    treta que funcionou para fazer loading
+                    //InputStream input = connection.getInputStream();
+                    //final Bitmap imagem = BitmapFactory.decodeStream(input);
+                    handler.post(new Runnable() {
+                        public void run() {
+                            try {
+                                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                StrictMode.setThreadPolicy(policy);
+
+                                Class.forName(global.getClassforname());
+                                Connection con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
+                                String count = "SELECT count(*) id from pergunta where tema='"+tema+"'";
+                                String sql = "select id,pergunta from pergunta where tema='"+tema+"'";
+                                PreparedStatement pst1 = con.prepareStatement(count);
+                                ResultSet rs1 = pst1.executeQuery();
+                                if (rs1.next()){
+                                    int n = Integer.parseInt(rs1.getObject(1).toString());
+                                    String vetorPerg[][] = new String[2][n]; //criei em vetor por não saber usar arraylist multidimensional
+                                    //primeiro termo: id/pergunta
+                                    // segundo termo: registro(s)
+                                    PreparedStatement pst2 = con.prepareStatement(sql);
+                                    ResultSet rs2 = pst2.executeQuery();
+                                    int x=0;
+                                    while (rs2.next()){
+                                        vetorPerg[0][x] = rs2.getObject(1).toString(); //populando vetor de id
+                                        vetorPerg[1][x] = rs2.getObject(2).toString(); //populando vetor de perguntas
+                                        x++;
+                                    }
+                                    setConsulta(vetorPerg);
+                                    ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaPerguntas.this,android.R.layout.simple_list_item_1,consulta[1]);//pegar vetor
+                                    lv.setAdapter(adapter);
+                                    rs2.close();
+                                    pst2.close();
+                                } else {
+                                    Toast.makeText(telaPerguntas.this, "Não há perguntas sobre esse tema", Toast.LENGTH_LONG).show();
+                                }
+                                rs1.close();
+                                pst1.close();
+                                con.close();
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
                 }
-                setConsulta(vetorPerg);
-                ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaPerguntas.this,android.R.layout.simple_list_item_1,consulta[1]);//pegar vetor
-                lv.setAdapter(adapter);
-                rs2.close();
-                pst2.close();
-            } else {
-                Toast.makeText(telaPerguntas.this, "Não há perguntas sobre esse tema", Toast.LENGTH_LONG).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.setMessage("Feito!");
+                        dialog.dismiss();
+
+                    }
+                });
             }
-            rs1.close();
-            pst1.close();
-            con.close();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        }.start();
+
+
     }
 }

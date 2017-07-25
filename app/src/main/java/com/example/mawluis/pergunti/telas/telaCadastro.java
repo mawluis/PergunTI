@@ -25,7 +25,7 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 
 import static com.example.mawluis.pergunti.global.global.hashPassword;
-import static com.example.mawluis.pergunti.global.global.isCompleted;
+
 
 public class telaCadastro extends AppCompatActivity {
 
@@ -34,7 +34,7 @@ public class telaCadastro extends AppCompatActivity {
     String tipo = "";
     String senha = "";
     String senha2 ="";
-    int completed =0;
+    //int completed =0;
     private Handler handler = new Handler();
     //private ProgressDialog dialog;
 
@@ -55,7 +55,7 @@ public class telaCadastro extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                global.setCompleted(false);  //zerando o completed
+
                 final ProgressDialog dialog = new ProgressDialog(telaCadastro.this); //,"","Realizando consulta",true,true);
                 dialog.setTitle("Aguarde...");
                 dialog.setMessage("Enviando seus dados");
@@ -103,28 +103,25 @@ public class telaCadastro extends AppCompatActivity {
                                 new Thread() {
                                     public void run() {
                                         try {
-                                            //URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
-                                            //HttpURLConnection connection;
-                                            //connection = (HttpURLConnection) url.openConnection();
-                                            //connection.setDoInput(true);
-                                            //connection.connect();  //    treta que funcionou para fazer loading
+                                            URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
+                                            HttpURLConnection connection;
+                                            connection = (HttpURLConnection) url.openConnection();
+                                            connection.setDoInput(true);
+                                            connection.connect();  //    treta que funcionou para fazer loading
                                             //InputStream input = connection.getInputStream();
                                             //final Bitmap imagem = BitmapFactory.decodeStream(input);
                                             handler.post(new Runnable() {
                                                 public void run() {
                                                     conexaoBD conex = new conexaoBD();
                                                     conex.novoUsuario(login, nome, tipo, email, senha);
-                                                    while (!global.isCompleted()){  //enquanto global for diferente de completo...
-                                                                                    //tentativa de prender o progress até o parâmetro mudar.
-                                                    }
-                                                }
+                                                 }
                                             });
                                         } catch (Exception e) {
                                         }
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                dialog.setMessage("Feito!" + completed);
+                                                dialog.setMessage("Feito!");
                                                 dialog.dismiss();
                                                 if (global.isUsuarioExistente() == true) {
                                                     global.setUsuarioExistente(false);//zerando variável.
@@ -134,7 +131,7 @@ public class telaCadastro extends AppCompatActivity {
                                                     dlg.setMessage("Usuário " + login + " já está em uso!");
                                                     dlg.setNeutralButton("Ok!", null);
                                                     dlg.show();
-                                                    Toast.makeText(telaCadastro.this, "Login já está em uso!" + completed, Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(telaCadastro.this, "Login já está em uso!", Toast.LENGTH_LONG).show();
                                                 }
                                                 if (global.isUsuarioCriado() == true) {
                                                     global.setUsuarioCriado(false); //zerando variável de criação.

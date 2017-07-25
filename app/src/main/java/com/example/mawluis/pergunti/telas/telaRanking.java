@@ -1,5 +1,7 @@
 package com.example.mawluis.pergunti.telas;
 
+import android.app.ProgressDialog;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,8 @@ import com.example.mawluis.pergunti.R;
 import com.example.mawluis.pergunti.conexao.conexaoBD;
 import com.example.mawluis.pergunti.global.global;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -30,6 +34,7 @@ public class telaRanking extends AppCompatActivity {
     ArrayList<String> ranking = new ArrayList();
     Button btnRankigSala;
     EditText edtRankingSala;
+    private Handler handler = new Handler();
 
 
 
@@ -55,11 +60,9 @@ public class telaRanking extends AppCompatActivity {
                         break;
                     case R.id.rbNomal:
                         query=("select acerto, (select nome from usuario where ranking.jogador=usuario.id) from ranking where dificuldade='normal' and acerto>'0' order by  acerto desc");
-                        ranking(query);
                         break;
                     case R.id.rbHard:
                         query=("select acerto, (select nome from usuario where ranking.jogador=usuario.id) from ranking where dificuldade='hard' and acerto>'0' order by  acerto desc");
-                        ranking(query);
                         break;
                     default:
                         Toast.makeText(telaRanking.this, "Espaço reservado para novo tema a ser categorizado", Toast.LENGTH_SHORT).show();
@@ -75,12 +78,16 @@ public class telaRanking extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 radioDificuldade.clearCheck();
-               int numSala = Integer.parseInt(String.valueOf(edtRankingSala.getText())); //conversão faz proteção contra sql injection
-                ranking("select SUM(CAST(acerto AS INT)), (select nome from usuario where sala.usuario=usuario.id)"+
-                "from sala where usuario not in(select id from usuario where tipo='professor')"+
-                "and id='"+numSala+"' group by usuario ORDER BY SUM DESC");
-                ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaRanking.this,android.R.layout.simple_list_item_1,ranking);
-                lvt.setAdapter(adapter);
+                if (String.valueOf(edtRankingSala.getText()).equals("")){
+                    Toast.makeText(telaRanking.this, "Digite uma sala", Toast.LENGTH_LONG).show();
+                }else {
+                    int numSala = Integer.parseInt(String.valueOf(edtRankingSala.getText())); //conversão faz proteção contra sql injection
+                    ranking("select SUM(CAST(acerto AS INT)), (select nome from usuario where sala.usuario=usuario.id)" +
+                            "from sala where usuario not in(select id from usuario where tipo='professor')" +
+                            "and id='" + numSala + "' group by usuario ORDER BY SUM DESC");
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(telaRanking.this, android.R.layout.simple_list_item_1, ranking);
+                    lvt.setAdapter(adapter);
+                }
             }
         });
 
@@ -89,29 +96,63 @@ public class telaRanking extends AppCompatActivity {
     }
 
     public void ranking(String query){
-        try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+        final ProgressDialog dialog = new ProgressDialog(telaRanking.this); //,"","Realizando consulta",true,true);
+        dialog.setTitle("Aguarde...");
+        dialog.setMessage("Trazendo ranking...");
+        dialog.setIcon(R.drawable.ampulheta);
+        dialog.show();
 
-            Class.forName(global.getClassforname());
-            Connection con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
-            PreparedStatement pst1 = con.prepareStatement(query);
-            ResultSet rs1 = pst1.executeQuery();
-            ranking.clear();
-            int i=0;
-            while(rs1.next()){
-              if (i<10){ //exibir os 5 primeiros
-                  ranking.add("| "+rs1.getObject(1).toString()+" |                                           "+rs1.getObject(2).toString());
-                  i++;
-              }
-                           }
-            rs1.close();
-            pst1.close();
-            con.close();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        new Thread() {
+            public void run() {
+                try {
+                    URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
+                    HttpURLConnection connection;
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();  //    treta que funcionou para fazer loading
+                    //InputStream input = connection.getInputStream();
+                    //final Bitmap imagem = BitmapFactory.decodeStream(input);
+                    handler.post(new Runnable() {
+                        public void run() {
+                            try {
+                                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                StrictMode.setThreadPolicy(policy);
+
+                                Class.forName(global.getClassforname());
+                                Connection con = DriverManager.getConnection(global.getURL(), global.getUser(), global.getPass());
+                                PreparedStatement pst1 = con.prepareStatement(query);
+                                ResultSet rs1 = pst1.executeQuery();
+                                ranking.clear();
+                                int i=0;
+                                while(rs1.next()){
+                                    if (i<10){ //exibir os 5 primeiros
+                                        ranking.add("| "+rs1.getObject(1).toString()+" |                                           "+rs1.getObject(2).toString());
+                                        i++;
+                                    }
+                                }
+                                rs1.close();
+                                pst1.close();
+                                con.close();
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.setMessage("Feito!");
+                        dialog.dismiss();
+
+                    }
+                });
+            }
+        }.start();
+
+
     }
 }

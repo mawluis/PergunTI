@@ -21,7 +21,7 @@
         app:layout_constraintBottom_toTopOf="@+id/txtSenha"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="59dp"
+        android:layout_marginBottom="55dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
@@ -60,35 +60,73 @@
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toTopOf="@+id/txtSenha"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintLeft_toLeftOf="@+id/txtSenha" />
 
     <Button
         android:id="@+id/btnLogar"
-        android:layout_width="147dp"
+        android:layout_width="0dp"
         android:layout_height="51dp"
         android:background="@drawable/anima_button_entrar"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintBottom_creator="1"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="101dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        android:layout_marginEnd="17dp"
+        app:layout_constraintRight_toLeftOf="@+id/btnNovoUsuario"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnNovoUsuario"
+        tools:layout_constraintBaseline_creator="1"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="100dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
         android:id="@+id/btnNovoUsuario"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_width="145dp"
+        android:layout_height="50dp"
         android:background="@drawable/anima_button_novo_usuario"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="29dp"
+        tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
-        android:layout_marginStart="23dp"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/btnSobre"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btnLogar"
-        tools:layout_constraintBaseline_creator="1"
+        android:layout_marginTop="44dp"
+        app:layout_constraintTop_toBottomOf="@+id/txtSenha"
+        android:layout_marginBottom="42dp" />
+
+    <Button
+        android:id="@+id/btnSobre"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:background="@drawable/anima_button_sobre"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="13dp" />
+
+    <TextView
+        android:id="@+id/txtVersao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Versão"
+        android:textSize="10sp"
+        android:layout_marginStart="72dp"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toRightOf="@+id/btnLogar" />
+        android:layout_marginBottom="21dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/btnHelp"
+        android:layout_width="49dp"
+        android:layout_height="42dp"
+        android:background="@drawable/question_mark"
+        android:layout_marginStart="304dp"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginTop="16dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="304dp"
+        tools:layout_editor_absoluteX="331dp" />
 </android.support.constraint.ConstraintLayout>

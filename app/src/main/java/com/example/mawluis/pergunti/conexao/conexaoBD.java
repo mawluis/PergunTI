@@ -128,15 +128,7 @@ public class conexaoBD extends telaCadastro {
             PreparedStatement pst1 = con.prepareStatement(sql);
             pst1.setString(1, login);
             ResultSet rs1 = pst1.executeQuery();
-/*
-            new Thread(){
-                public void run(){
 
-
-
-                }
-            }.start();
-*/
             if(rs1.next()){
                    global.setUsuarioExistente(true);
             } else {
@@ -153,7 +145,7 @@ public class conexaoBD extends telaCadastro {
             pst1.close();
             rs1.close();
             con.close();
-            global.setCompleted(true);
+
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

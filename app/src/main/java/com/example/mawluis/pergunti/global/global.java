@@ -35,17 +35,11 @@ public class global {
     private static int tempo;
     private static String numPergunta;
     private static boolean statuslist=false;
-    private static boolean completed=false;
+    private final static String versao= "2017 (1.0.01)";
 
-    public static boolean isCompleted() {
-        return completed;
+    public static String getVersao() {
+        return versao;
     }
-
-    public static void setCompleted(boolean completed) {
-        global.completed = completed;
-    }
-
-
 
     public static boolean isStatuslist() {
         return statuslist;
@@ -55,8 +49,6 @@ public class global {
         global.statuslist = statuslist;
     }
 
-
-
     public static String getNumPergunta() {
         return numPergunta;
     }
@@ -64,8 +56,6 @@ public class global {
     public static void setNumPergunta(String numPergunta) {
         global.numPergunta = numPergunta;
     }
-
-
 
     public static String hashPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("sha");
@@ -86,11 +76,6 @@ public class global {
         global.tempo = tempo;
     }
 
-
-
-
-
-
     public static String getURL() {
         return URL;
     }
@@ -107,11 +92,6 @@ public class global {
         return classforname;
     }
 
-
-
-
-
-
     public static boolean isVazio() {
         return vazio;
     }
@@ -119,8 +99,6 @@ public class global {
     public static void setVazio(boolean vazio) {
         global.vazio = vazio;
     }
-
-
 
     public static boolean isRepetido() {
         return repetido;
@@ -130,9 +108,6 @@ public class global {
         global.repetido = repetido;
     }
 
-
-
-
     public static String getGame() {
         return game;
     }
@@ -141,8 +116,6 @@ public class global {
         global.game = game;
     }
 
-
-
     public static List<Integer> getPoolPergs() {
         return poolPergs;
     }
@@ -150,8 +123,6 @@ public class global {
     public static void setPoolPergs(List<Integer> poolPergs) {
         global.poolPergs = poolPergs;
     }
-
-
 
     public static String getNome() {
         return nome;
@@ -169,8 +140,6 @@ public class global {
         global.tipo = tipo;
     }
 
-
-
     public static int getId() {
         return id;
     }
@@ -178,8 +147,6 @@ public class global {
     public static void setId(int id) {
         global.id = id;
     }
-
-
 
     public static boolean isPergCriada() {
         return pergCriada;
@@ -189,7 +156,6 @@ public class global {
         global.pergCriada = pergCriada;
     }
 
-
     public static boolean isUsuarioCriado() {
         return usuarioCriado;
     }
@@ -197,8 +163,6 @@ public class global {
     public static void setUsuarioCriado(boolean usuarioCriado) {
         global.usuarioCriado = usuarioCriado;
     }
-
-
 
     public static boolean isUsuarioExistente() {
         return usuarioExistente;
@@ -208,8 +172,6 @@ public class global {
         global.usuarioExistente = usuarioExistente;
     }
 
-
-
     public static int getResposta() {
         return resposta;
     }
@@ -218,8 +180,6 @@ public class global {
         global.resposta = resposta;
     }
 
-
-
     public static boolean isLogado() {
         return logado;
     }
@@ -227,9 +187,6 @@ public class global {
     public static void setLogado(boolean logado) {
         global.logado = logado;
     }
-
-
-
 
     public static String getLogin() {
         return login;

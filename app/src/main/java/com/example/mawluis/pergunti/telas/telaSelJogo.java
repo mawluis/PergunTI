@@ -1,6 +1,8 @@
 package com.example.mawluis.pergunti.telas;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,9 @@ import com.example.mawluis.pergunti.R;
 import com.example.mawluis.pergunti.conexao.conexaoBD;
 import com.example.mawluis.pergunti.global.global;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class telaSelJogo extends AppCompatActivity {
 
     Button btnGo, btnEasy, btnNormal, btnHard, btnTeste;
@@ -30,6 +35,7 @@ public class telaSelJogo extends AppCompatActivity {
     String insert_opt2 = "";
     String insert_rede = "";
     private long mLastClickTime = 0; //macete para evitar criação de vários jogos com duplo clique.
+    private Handler handler = new Handler();
 
 
 
@@ -102,11 +108,14 @@ public class telaSelJogo extends AppCompatActivity {
                 }                                                            //macete para evitar criação de vários jogos com duplo clique.
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
-                global.setGame(String.valueOf(edtSala.getText()));
-                Toast.makeText(telaSelJogo.this, "Entrando na sala "+String.valueOf(edtSala.getText()), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
-                startActivity(intent);
-
+                if (String.valueOf(edtSala.getText()).equals("")){
+                    Toast.makeText(telaSelJogo.this, "Digite uma sala", Toast.LENGTH_LONG).show();
+                }else {
+                    global.setGame(String.valueOf(edtSala.getText()));
+                    Toast.makeText(telaSelJogo.this, "Entrando na sala " + String.valueOf(edtSala.getText()), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(telaSelJogo.this, telaJogo.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -119,6 +128,11 @@ public class telaSelJogo extends AppCompatActivity {
                 }                                                            //macete para evitar criação de vários jogos com duplo clique.
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
+                final ProgressDialog dialog = new ProgressDialog(telaSelJogo.this); //,"","Realizando consulta",true,true);
+                dialog.setTitle("Aguarde...");
+                dialog.setMessage("Criando jogo...");
+                dialog.setIcon(R.drawable.ampulheta);
+                dialog.show();
                 Toast.makeText(telaSelJogo.this, "Gerando jogo...", Toast.LENGTH_SHORT).show();
                 global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
@@ -126,7 +140,34 @@ public class telaSelJogo extends AppCompatActivity {
                         "and complexidade<'4' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
                         "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +
                         " or tema = '"+insert_sistema+"') ORDER BY random()";
-                a.fazerJogo(select);
+                new Thread() {
+                    public void run() {
+                        try {
+                            URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
+                            HttpURLConnection connection;
+                            connection = (HttpURLConnection) url.openConnection();
+                            connection.setDoInput(true);
+                            connection.connect();  //    treta que funcionou para fazer loading
+                            //InputStream input = connection.getInputStream();
+                            //final Bitmap imagem = BitmapFactory.decodeStream(input);
+                            handler.post(new Runnable() {
+                                public void run() {
+                                    a.fazerJogo(select);
+                                }
+                            });
+                        } catch (Exception e) {
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.setMessage("Feito!");
+                                dialog.dismiss();
+
+                            }
+                        });
+                    }
+                }.start();
+
                 if (global.isVazio()){
                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaSelJogo.this);
                     dlg.setMessage("Perguntas insuficentes para criação de jogo fácil.\n " +
@@ -151,6 +192,11 @@ public class telaSelJogo extends AppCompatActivity {
                 }                                                            //macete para evitar criação de vários jogos com duplo clique.
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
+                final ProgressDialog dialog = new ProgressDialog(telaSelJogo.this); //,"","Realizando consulta",true,true);
+                dialog.setTitle("Aguarde...");
+                dialog.setMessage("Criando jogo...");
+                dialog.setIcon(R.drawable.ampulheta);
+                dialog.show();
                 Toast.makeText(telaSelJogo.this, "Gerando jogo...", Toast.LENGTH_SHORT).show();
                 global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
@@ -158,7 +204,33 @@ public class telaSelJogo extends AppCompatActivity {
                         "and complexidade>'3' and complexidade<'7' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
                         "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +
                         " or tema = '"+insert_sistema+"') ORDER BY random()";
-                a.fazerJogo(select);
+                new Thread() {
+                    public void run() {
+                        try {
+                            URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
+                            HttpURLConnection connection;
+                            connection = (HttpURLConnection) url.openConnection();
+                            connection.setDoInput(true);
+                            connection.connect();  //    treta que funcionou para fazer loading
+                            //InputStream input = connection.getInputStream();
+                            //final Bitmap imagem = BitmapFactory.decodeStream(input);
+                            handler.post(new Runnable() {
+                                public void run() {
+                                    a.fazerJogo(select);
+                                }
+                            });
+                        } catch (Exception e) {
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.setMessage("Feito!");
+                                dialog.dismiss();
+
+                            }
+                        });
+                    }
+                }.start();
                 if (global.isVazio()){
                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaSelJogo.this);
                     dlg.setMessage("Perguntas insuficentes para criação de jogo normal.\n " +
@@ -183,6 +255,11 @@ public class telaSelJogo extends AppCompatActivity {
                 }                                                            //macete para evitar criação de vários jogos com duplo clique.
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
 
+                final ProgressDialog dialog = new ProgressDialog(telaSelJogo.this); //,"","Realizando consulta",true,true);
+                dialog.setTitle("Aguarde...");
+                dialog.setMessage("Criando jogo...");
+                dialog.setIcon(R.drawable.ampulheta);
+                dialog.show();
                 Toast.makeText(telaSelJogo.this, "Gerando jogo...", Toast.LENGTH_SHORT).show();
                 global.setVazio(false); //zerar varíavel
                 select(); //passando checkboxes para a String insert
@@ -190,7 +267,33 @@ public class telaSelJogo extends AppCompatActivity {
                         "and complexidade>'6' and (tema = '"+insert_banco+"' or tema = '"+insert_geral+"' " +
                         "or tema = '"+insert_program+"' or tema = '"+insert_opt2+"' or tema = '"+insert_rede+"'" +
                         " or tema = '"+insert_sistema+"') ORDER BY random()";
-                a.fazerJogo(select);
+                new Thread() {
+                    public void run() {
+                        try {
+                            URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
+                            HttpURLConnection connection;
+                            connection = (HttpURLConnection) url.openConnection();
+                            connection.setDoInput(true);
+                            connection.connect();  //    treta que funcionou para fazer loading
+                            //InputStream input = connection.getInputStream();
+                            //final Bitmap imagem = BitmapFactory.decodeStream(input);
+                            handler.post(new Runnable() {
+                                public void run() {
+                                    a.fazerJogo(select);
+                                }
+                            });
+                        } catch (Exception e) {
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.setMessage("Feito!");
+                                dialog.dismiss();
+
+                            }
+                        });
+                    }
+                }.start();
                 if (global.isVazio()){
                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaSelJogo.this);
                     dlg.setMessage("Perguntas insuficentes para criação de jogo avançado.\n " +

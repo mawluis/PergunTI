@@ -1,10 +1,12 @@
 package com.example.mawluis.pergunti.telas;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,8 @@ import com.example.mawluis.pergunti.R;
 import com.example.mawluis.pergunti.conexao.conexaoBD;
 import com.example.mawluis.pergunti.global.global;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +47,7 @@ public class telaJogo extends AppCompatActivity {
     conexaoBD perguntar = new conexaoBD();
     boolean blink=false;
     CountDownTimer countDownTimer;
+    private Handler handler = new Handler();
 
 
     //getters e setters
@@ -181,7 +186,7 @@ public class telaJogo extends AppCompatActivity {
                     marcacao++; // 1-4
 
                     Toast.makeText(telaJogo.this, "Você escolheu "+marcacao+" !", Toast.LENGTH_SHORT).show();
-                    setResposta(global.getResposta());
+                    resposta = global.getResposta();
 
                     if(marcacao==resposta) {
                         acertos++;
@@ -215,95 +220,192 @@ public class telaJogo extends AppCompatActivity {
         btnPergunta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                perguntar.pergunta(Integer.parseInt(codPergunta.getText().toString())); // mandei o editText convertido para inteiro para o método pergunta
-                txtNumPerg.setText("Pergunta nº "+codPergunta.getText()+": ");
-                txtPergunta.setText(getPergunta());
-                rBtnOpt1.setText(getOpt1());
-                rBtnOpt2.setText(getOpt2());
-                rBtnOpt3.setText(getOpt3());
-                rBtnOpt4.setText(getOpt4());
+                final ProgressDialog dialog = new ProgressDialog(telaJogo.this); //,"","Realizando consulta",true,true);
+                dialog.setTitle("Aguarde...");
+                dialog.setMessage("Procurando pergunta " + Integer.parseInt(codPergunta.getText().toString()) );
+                dialog.setIcon(R.drawable.ampulheta);
+                dialog.show();
+
+                new Thread() {
+                    public void run() {
+                        try {
+                            URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
+                            HttpURLConnection connection;
+                            connection = (HttpURLConnection) url.openConnection();
+                            connection.setDoInput(true);
+                            connection.connect();  //    treta que funcionou para fazer loading
+                            //InputStream input = connection.getInputStream();
+                            //final Bitmap imagem = BitmapFactory.decodeStream(input);
+                            handler.post(new Runnable() {
+                                public void run() {
+                                    perguntar.pergunta(Integer.parseInt(codPergunta.getText().toString())); // mandei o editText convertido para inteiro para o método pergunta
+                                }
+                            });
+                        } catch (Exception e) {
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.setMessage("Feito!");
+                                dialog.dismiss();
+                                txtNumPerg.setText("Pergunta nº "+codPergunta.getText()+": ");
+                                txtPergunta.setText(getPergunta());
+                                rBtnOpt1.setText(getOpt1());
+                                rBtnOpt2.setText(getOpt2());
+                                rBtnOpt3.setText(getOpt3());
+                                rBtnOpt4.setText(getOpt4());
+                            }
+                        });
+                    }
+                }.start();
+
 
             }
         });
 
     }
     public void resposta(boolean resp){
-        if ((global.getGame().equals("easy"))||(global.getGame().equals("normal"))||(global.getGame().equals("hard"))) {
-            if (resp) { //pergunta certa campanha
-                Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
-                String query = "INSERT INTO respondida (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
-                perguntar.executaUpdate(query);
-                campanha();
-            } else {//pergunta errada campanha
-                Toast.makeText(telaJogo.this, "Você errou!", Toast.LENGTH_SHORT).show();
-                String query = "INSERT INTO respondida (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','0')" ;
-                perguntar.executaUpdate(query);
-                chance--;
-                if (chance<0){//game over
-                    AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
-                    dlg.setCancelable(false);
-                    dlg.setTitle("Game Over");
-                    dlg.setMessage("Jogo finalizado!\n\nResultado:\nTotal de perguntas: "+poolPergs.size()+"\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos));
-                    dlg.setNeutralButton("Ok!", new DialogInterface.OnClickListener()     {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finish();
+        final ProgressDialog dialog = new ProgressDialog(telaJogo.this); //,"","Realizando consulta",true,true);
+        dialog.setTitle("Aguarde...");
+        dialog.setMessage("Respondendo..." + Integer.parseInt(codPergunta.getText().toString()) );
+        dialog.setIcon(R.drawable.ampulheta);
+        dialog.show();
+
+            new Thread() {
+                public void run() {
+                    try {
+                        URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
+                        HttpURLConnection connection;
+                        connection = (HttpURLConnection) url.openConnection();
+                        connection.setDoInput(true);
+                        connection.connect();  //    treta que funcionou para fazer loading
+                        //InputStream input = connection.getInputStream();
+                        //final Bitmap imagem = BitmapFactory.decodeStream(input);
+                        handler.post(new Runnable() {
+                            public void run() {
+                                if ((global.getGame().equals("easy"))||(global.getGame().equals("normal"))||(global.getGame().equals("hard"))) {
+                                    if (resp) { //pergunta certa campanha
+                                        Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
+                                        String query = "INSERT INTO respondida (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
+                                        perguntar.executaUpdate(query);
+                                        campanha();
+                                    } else {//pergunta errada campanha
+                                        Toast.makeText(telaJogo.this, "Você errou!", Toast.LENGTH_SHORT).show();
+                                        String query = "INSERT INTO respondida (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','0')" ;
+                                        perguntar.executaUpdate(query);
+                                        chance--;
+                                        if (chance<0){//game over
+                                            AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
+                                            dlg.setCancelable(false);
+                                            dlg.setTitle("Game Over");
+                                            dlg.setMessage("Jogo finalizado!\n\nResultado:\nTotal de perguntas: "+poolPergs.size()+"\nAcertos:"+acertos+"\nErros:"+(poolPergs.size()-acertos));
+                                            dlg.setNeutralButton("Ok!", new DialogInterface.OnClickListener()     {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    finish();
+                                                }
+                                            });
+                                            AlertDialog alert = dlg.create();
+                                            alert.show();
+                                            String query2 = "INSERT INTO ranking (dificuldade, jogador, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+acertos+"')" ;
+                                            perguntar.executaUpdate(query2);
+                                        }else {
+                                            txtChance.setText("Chance: "+chance);
+                                            switch (chance){
+                                                case 0:txtChance.setTextColor(Color.RED);
+                                                    break;
+                                                case 1:txtChance.setTextColor(Color.parseColor("#DF7401"));
+                                                    break;
+                                                case 2:txtChance.setTextColor(Color.parseColor("#FFFF00"));
+                                                    break;
+                                            }
+                                            campanha();
+                                        }
+                                    }
+                                }   else{
+                                    if (resp) { //---------------==========pergunta certa sala========-----
+                                        Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
+                                        if (!(global.isRepetido()||global.getTipo().equals("professor"))){
+                                            String query = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
+                                            perguntar.executaUpdate(query);
+                                        }
+                                        perguntaSala();
+                                    } else {//--------------========pergunta errada sala==========-----
+                                        if (global.getTipo().equals("professor")){
+                                            Toast.makeText(telaJogo.this, "Você errou! a resposta correta é: "+resposta, Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            Toast.makeText(telaJogo.this, "Você errou!", Toast.LENGTH_SHORT).show();
+                                        }
+                                        if (!global.isRepetido()){
+                                            String query = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+poolPergs.get(i-1)+"','0')" ;
+                                            perguntar.executaUpdate(query);
+                                        }
+                                        perguntaSala();
+                                    }
+                                }
+                            }
+                        });
+                    } catch (Exception e) {
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.setMessage("Feito!");
+                            dialog.dismiss();
                         }
                     });
-                    AlertDialog alert = dlg.create();
-                    alert.show();
-                    String query2 = "INSERT INTO ranking (dificuldade, jogador, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+acertos+"')" ;
-                    perguntar.executaUpdate(query2);
-                }else {
-                    txtChance.setText("Chance: "+chance);
-                    switch (chance){
-                        case 0:txtChance.setTextColor(Color.RED);
-                            break;
-                        case 1:txtChance.setTextColor(Color.parseColor("#DF7401"));
-                            break;
-                        case 2:txtChance.setTextColor(Color.parseColor("#FFFF00"));
-                            break;
-                    }
-                    campanha();
                 }
-            }
-        }   else{
-            if (resp) { //---------------==========pergunta certa sala========-----
-                Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
-                if (!(global.isRepetido()||global.getTipo().equals("professor"))){
-                    String query = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
-                    perguntar.executaUpdate(query);
-                }
-                perguntaSala();
-            } else {//--------------========pergunta errada sala==========-----
-                if (global.getTipo().equals("professor")){
-                    Toast.makeText(telaJogo.this, "Você errou! a resposta correta é: "+resposta, Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(telaJogo.this, "Você errou!", Toast.LENGTH_SHORT).show();
-                }
-                if (!global.isRepetido()){
-                    String query = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+poolPergs.get(i-1)+"','0')" ;
-                    perguntar.executaUpdate(query);
-                }
-                perguntaSala();
-            }
-        }
+            }.start();
+
     }
 
     public void perguntaSala (){
+
+
         txtChance.setText("");
         txtCountDown.setVisibility(View.VISIBLE);
         rg.clearCheck();
         cancel();
         if (poolPergs.size()>i) {
-            perguntar.pergunta(poolPergs.get(i));
-            txtNumPerg.setText("Pergunta nº " + poolPergs.get(i) + ": ");
-            txtPergunta.setText(getPergunta());
-            rBtnOpt1.setText(getOpt1());
-            rBtnOpt2.setText(getOpt2());
-            rBtnOpt3.setText(getOpt3());
-            rBtnOpt4.setText(getOpt4());
-            i++;
-            txtJogo.setText("Sala " + global.getGame() + " pergunta " + i + "/" + poolPergs.size() + "");
+            final ProgressDialog dialog = new ProgressDialog(telaJogo.this); //,"","Realizando consulta",true,true);
+            dialog.setTitle("Aguarde...");
+            dialog.setMessage("Respondendo...");
+            dialog.setIcon(R.drawable.ampulheta);
+            dialog.show();
+            new Thread() {
+                public void run() {
+                    try {
+                        URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
+                        HttpURLConnection connection;
+                        connection = (HttpURLConnection) url.openConnection();
+                        connection.setDoInput(true);
+                        connection.connect();  //    treta que funcionou para fazer loading
+                        //InputStream input = connection.getInputStream();
+                        //final Bitmap imagem = BitmapFactory.decodeStream(input);
+                        handler.post(new Runnable() {
+                            public void run() {
+                                perguntar.pergunta(poolPergs.get(i));
+                            }
+                        });
+                    } catch (Exception e) {
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.setMessage("Feito!");
+                            dialog.dismiss();
+                            txtNumPerg.setText("Pergunta nº " + poolPergs.get(i) + ": ");
+                            txtPergunta.setText(getPergunta());
+                            rBtnOpt1.setText(getOpt1());
+                            rBtnOpt2.setText(getOpt2());
+                            rBtnOpt3.setText(getOpt3());
+                            rBtnOpt4.setText(getOpt4());
+                            i++;
+                            txtJogo.setText("Sala " + global.getGame() + " pergunta " + i + "/" + poolPergs.size() + "");
+                        }
+                    });
+                }
+            }.start();
+
             start(global.getTempo());
 
         } else {
@@ -319,6 +421,9 @@ public class telaJogo extends AppCompatActivity {
             AlertDialog alert = dlg.create();
             alert.show();
         }
+
+
+
     }
     public void start(int tempo){
         cancel();
@@ -381,20 +486,53 @@ public class telaJogo extends AppCompatActivity {
 
 
     public void campanha (){
+
         txtCountDown.setVisibility(View.VISIBLE);
         txtChance.setText("Chance: "+chance);
         rg.clearCheck();
         cancel();
         if (poolPergs.size()>i) {
-            perguntar.pergunta(poolPergs.get(i));
-            txtNumPerg.setText("Pergunta nº " + poolPergs.get(i) + ": ");
-            txtPergunta.setText(getPergunta());
-            rBtnOpt1.setText(getOpt1());
-            rBtnOpt2.setText(getOpt2());
-            rBtnOpt3.setText(getOpt3());
-            rBtnOpt4.setText(getOpt4());
-            i++;
-            txtJogo.setText("Modo: " + global.getGame() + " Pergunta " + i + "/" + poolPergs.size() + "");
+            final ProgressDialog dialog = new ProgressDialog(telaJogo.this); //,"","Realizando consulta",true,true);
+            dialog.setTitle("Aguarde...");
+            dialog.setMessage("Respondendo...");
+            dialog.setIcon(R.drawable.ampulheta);
+            dialog.show();
+            new Thread() {
+                public void run() {
+                    try {
+                        URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
+                        HttpURLConnection connection;
+                        connection = (HttpURLConnection) url.openConnection();
+                        connection.setDoInput(true);
+                        connection.connect();  //    treta que funcionou para fazer loading
+                        //InputStream input = connection.getInputStream();
+                        //final Bitmap imagem = BitmapFactory.decodeStream(input);
+                        handler.post(new Runnable() {
+                            public void run() {
+                                perguntar.pergunta(poolPergs.get(i));
+                            }
+                        });
+                    } catch (Exception e) {
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.setMessage("Feito!");
+                            dialog.dismiss();
+                            txtNumPerg.setText("Pergunta nº " + poolPergs.get(i) + ": ");
+                            txtPergunta.setText(getPergunta());
+                            rBtnOpt1.setText(getOpt1());
+                            rBtnOpt2.setText(getOpt2());
+                            rBtnOpt3.setText(getOpt3());
+                            rBtnOpt4.setText(getOpt4());
+                            i++;
+                            txtJogo.setText("Modo: " + global.getGame() + " Pergunta " + i + "/" + poolPergs.size() + "");
+                        }
+                    });
+                }
+            }.start();
+
+
             start(global.getTempo());
 
         } else {
@@ -412,7 +550,6 @@ public class telaJogo extends AppCompatActivity {
             String query = "INSERT INTO ranking (dificuldade, jogador, acerto) VALUES ('"+global.getGame()+"','"+global.getId()+"','"+acertos+"')" ;
             perguntar.executaUpdate(query);
         }
-
 
     }
 

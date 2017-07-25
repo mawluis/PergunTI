@@ -1,7 +1,9 @@
 package com.example.mawluis.pergunti.telas;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
@@ -17,6 +19,8 @@ import android.widget.Toast;
 import com.example.mawluis.pergunti.R;
 import com.example.mawluis.pergunti.global.global;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -31,6 +35,7 @@ public class telaJogoCustom extends AppCompatActivity {
     ArrayList<String> poolPergslocalid = new ArrayList();
     String pergunta, insert, idsala;
     boolean pegIncrement=false;
+    private Handler handler = new Handler();
     private long mLastClickTime = 0; //macete para evitar criação de vários jogos com duplo clique.
   //  private static String[][] consulta;
 
@@ -94,56 +99,87 @@ public class telaJogoCustom extends AppCompatActivity {
                 if (a.getPoolPergsid().size()==0){
                     Toast.makeText(telaJogoCustom.this, "Não há perguntas para criar sua sala", Toast.LENGTH_LONG).show();
                 }else {
+                    final ProgressDialog dialog = new ProgressDialog(telaJogoCustom.this); //,"","Realizando consulta",true,true);
+                    dialog.setTitle("Aguarde...");
+                    dialog.setMessage("Criando sala...");
+                    dialog.setIcon(R.drawable.ampulheta);
+                    dialog.show();
+                    new Thread() {
+                        public void run() {
+                            try {
+                                URL url = new URL("https://upload.wikimedia.org/wikipedia/commons/f/f4/HelpPage_IconPack-03.png");
+                                HttpURLConnection connection;
+                                connection = (HttpURLConnection) url.openConnection();
+                                connection.setDoInput(true);
+                                connection.connect();  //    treta que funcionou para fazer loading
+                                //InputStream input = connection.getInputStream();
+                                //final Bitmap imagem = BitmapFactory.decodeStream(input);
+                                handler.post(new Runnable() {
+                                    public void run() {
+                                        try {
+                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                            StrictMode.setThreadPolicy(policy);
 
-                    try {
-                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                        StrictMode.setThreadPolicy(policy);
+                                            String URL = "jdbc:postgresql://ec2-54-243-253-17.compute-1.amazonaws.com:5432/djdvphd5vpn4l?sslmode=require";
+                                            String user = "aqxgmmdlvyecas";
+                                            String pass = "bb7241b8c75b44f40e50d3ab71c84cc51d9f9708301f82bd7a508daae0ef285b";
+                                            String classforname = "org.postgresql.Driver"; //com.mysql.jdbc.Driver ou org.postgresql.Driver
 
-                        String URL = "jdbc:postgresql://ec2-54-243-253-17.compute-1.amazonaws.com:5432/djdvphd5vpn4l?sslmode=require";
-                        String user = "aqxgmmdlvyecas";
-                        String pass = "bb7241b8c75b44f40e50d3ab71c84cc51d9f9708301f82bd7a508daae0ef285b";
-                        String classforname = "org.postgresql.Driver"; //com.mysql.jdbc.Driver ou org.postgresql.Driver
+                                            Class.forName(classforname);
+                                            Connection con = DriverManager.getConnection(URL, user, pass);
 
-                        Class.forName(classforname);
-                        Connection con = DriverManager.getConnection(URL, user, pass);
+                                            a.getPoolPergsid().trimToSize(); //aparando o arraylist (tirando os espaço vazios tipo null)
 
-                        a.getPoolPergsid().trimToSize(); //aparando o arraylist (tirando os espaço vazios tipo null)
+                                            Statement statement = con.createStatement();
+                                            for (String pergunta : a.getPoolPergsid()) {
+                                                if (pegIncrement==false){
+                                                    insert = "INSERT INTO sala (usuario, pergunta, acerto) VALUES ('" + global.getId() + "', '" + pergunta + "', '0');";
+                                                }else{
+                                                    ResultSet rs = statement.getGeneratedKeys();
+                                                    if (rs.next()) {
+                                                        idsala = rs.getObject(1).toString();
+                                                        insert = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+idsala+"','" + global.getId() + "', '" + pergunta + "', '0');";
+                                                        rs.close();
+                                                    }
+                                                }
+                                                statement.executeUpdate(insert, statement.RETURN_GENERATED_KEYS); //tentativa de retornar o autoincrement
+                                                pegIncrement=true;
+                                            }
 
-                        Statement statement = con.createStatement();
-                        for (String pergunta : a.getPoolPergsid()) {
-                            if (pegIncrement==false){
-                            insert = "INSERT INTO sala (usuario, pergunta, acerto) VALUES ('" + global.getId() + "', '" + pergunta + "', '0');";
-                            }else{
-                                ResultSet rs = statement.getGeneratedKeys();
-                                if (rs.next()) {
-                                    idsala = rs.getObject(1).toString();
-                                    insert = "INSERT INTO sala (id, usuario, pergunta, acerto) VALUES ('"+idsala+"','" + global.getId() + "', '" + pergunta + "', '0');";
-                                    rs.close();
+                                            AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogoCustom.this);
+                                            dlg.setCancelable(false);
+                                            dlg.setTitle("Sucesso!");
+                                            dlg.setMessage("Sala nº " + idsala + " foi criado com sucesso");
+                                            dlg.setNeutralButton("Ok!", new DialogInterface.OnClickListener()     {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    finish();
+                                                }
+                                            });
+                                            AlertDialog alert = dlg.create();
+                                            alert.show();
+
+                                            statement.close();
+                                            con.close();
+                                        } catch (ClassNotFoundException e) {
+                                            e.printStackTrace();
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            } catch (Exception e) {
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialog.setMessage("Feito!");
+                                    dialog.dismiss();
+
                                 }
-                            }
-                            statement.executeUpdate(insert, statement.RETURN_GENERATED_KEYS); //tentativa de retornar o autoincrement
-                            pegIncrement=true;
+                            });
                         }
+                    }.start();
 
-                        AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogoCustom.this);
-                        dlg.setCancelable(false);
-                        dlg.setTitle("Sucesso!");
-                        dlg.setMessage("Sala nº " + idsala + " foi criado com sucesso");
-                        dlg.setNeutralButton("Ok!", new DialogInterface.OnClickListener()     {
-                            public void onClick(DialogInterface dialog, int id) {
-                                finish();
-                            }
-                        });
-                        AlertDialog alert = dlg.create();
-                        alert.show();
-
-                        statement.close();
-                        con.close();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
 
 
                 }
