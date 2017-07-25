@@ -35,7 +35,7 @@ public class global {
     private static int tempo;
     private static String numPergunta;
     private static boolean statuslist=false;
-    private final static String versao= "2017 (1.0.01)";
+    private final static String versao= "Versão 2017 (1.0.01)";
 
     public static String getVersao() {
         return versao;

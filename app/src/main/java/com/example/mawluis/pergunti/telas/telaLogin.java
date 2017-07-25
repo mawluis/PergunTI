@@ -104,7 +104,6 @@ public class telaLogin extends AppCompatActivity {
 
                                 if (global.isLogado() == true) {
                                     global.setGame("normal");//zerando variável de jogo.
-                                    Toast.makeText(telaLogin.this, "Logado com sucesso!", Toast.LENGTH_LONG).show();
                                     Intent abremenu = new Intent(telaLogin.this, telaInicial.class);
                                     startActivity(abremenu);
                                 } else {
@@ -124,12 +123,12 @@ public class telaLogin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder dlg = new AlertDialog.Builder(telaLogin.this);
-                dlg.setMessage("PergunTI.\n " +
+                dlg.setMessage("PergunTI.\n" +
                         "Desenvolvido por Mawluis.\n" +
                         "Relatar um erro, sugestão ou melhorias:\n" +
                         "Contato mawluis@hotmail.com\n" +
                         ""+global.getVersao());
-                dlg.setNeutralButton("Ok, entendi!", null);
+                dlg.setNeutralButton("Ok!", null);
                 dlg.show();
             }
         });
