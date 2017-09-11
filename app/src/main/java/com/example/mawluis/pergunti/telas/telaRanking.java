@@ -57,19 +57,21 @@ public class telaRanking extends AppCompatActivity {
                 switch (checkedId){
                     case R.id.rbEasy:
                         query=("select acerto, (select nome from usuario where ranking.jogador=usuario.id) from ranking where dificuldade='easy' and acerto>'0' order by  acerto desc");
+                        ranking(query);
                         break;
                     case R.id.rbNomal:
                         query=("select acerto, (select nome from usuario where ranking.jogador=usuario.id) from ranking where dificuldade='normal' and acerto>'0' order by  acerto desc");
+                        ranking(query);
                         break;
                     case R.id.rbHard:
                         query=("select acerto, (select nome from usuario where ranking.jogador=usuario.id) from ranking where dificuldade='hard' and acerto>'0' order by  acerto desc");
+                        ranking(query);
                         break;
                     default:
-                        Toast.makeText(telaRanking.this, "Espaço reservado para novo tema a ser categorizado", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(telaRanking.this, "Espaço reservado para novo tema a ser categorizado", Toast.LENGTH_SHORT).show();
                 }
-                ranking(query);
-               ArrayAdapter<String> adapter=new ArrayAdapter<String>(telaRanking.this,android.R.layout.simple_list_item_1,ranking);
-             lvt.setAdapter(adapter);
+
+
             }
         });
 
@@ -85,8 +87,6 @@ public class telaRanking extends AppCompatActivity {
                     ranking("select SUM(CAST(acerto AS INT)), (select nome from usuario where sala.usuario=usuario.id)" +
                             "from sala where usuario not in(select id from usuario where tipo='professor')" +
                             "and id='" + numSala + "' group by usuario ORDER BY SUM DESC");
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(telaRanking.this, android.R.layout.simple_list_item_1, ranking);
-                    lvt.setAdapter(adapter);
                 }
             }
         });
@@ -125,7 +125,7 @@ public class telaRanking extends AppCompatActivity {
                                 ranking.clear();
                                 int i=0;
                                 while(rs1.next()){
-                                    if (i<10){ //exibir os 5 primeiros
+                                    if (i<10){ //exibir os 10 primeiros
                                         ranking.add("| "+rs1.getObject(1).toString()+" |                                           "+rs1.getObject(2).toString());
                                         i++;
                                     }
@@ -133,6 +133,8 @@ public class telaRanking extends AppCompatActivity {
                                 rs1.close();
                                 pst1.close();
                                 con.close();
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(telaRanking.this, android.R.layout.simple_list_item_1, ranking);
+                                lvt.setAdapter(adapter);
                             } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             } catch (SQLException e) {
