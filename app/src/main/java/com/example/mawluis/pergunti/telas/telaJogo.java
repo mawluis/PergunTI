@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -43,6 +44,7 @@ public class telaJogo extends AppCompatActivity {
     RadioButton rBtnOpt1,rBtnOpt2,rBtnOpt3,rBtnOpt4;
     EditText codPergunta;
     TextView txtNumPerg, txtPergunta, txtJogo, txtCountDown,txtChance;
+    CheckBox chkGabarito;
     List<Integer> poolPergs = new ArrayList<Integer>();
     conexaoBD perguntar = new conexaoBD();
     boolean blink=false;
@@ -119,6 +121,8 @@ public class telaJogo extends AppCompatActivity {
         txtJogo = (TextView)findViewById(R.id.txtJogo);
         txtCountDown = (TextView)findViewById(R.id.txtCountDown);
         rg = (RadioGroup) findViewById(R.id.radioGroupOpts);
+        chkGabarito = (CheckBox)findViewById(R.id.chkGabarito);
+
         txtPergunta.setMovementMethod(new ScrollingMovementMethod()); //dar movimento ao scroll
 
         i=0; acertos=0; //zerando varíaveis.
@@ -126,16 +130,18 @@ public class telaJogo extends AppCompatActivity {
         if (global.getTipo().equals("professor")) {
             btnPergunta.setVisibility(View.VISIBLE);
             codPergunta.setVisibility(View.VISIBLE);
+            chkGabarito.setVisibility(View.VISIBLE);
         }else{
             btnPergunta.setVisibility(View.INVISIBLE);
             codPergunta.setVisibility(View.INVISIBLE);
+            chkGabarito.setVisibility(View.INVISIBLE);
         }
 
 
         if (global.getTipo().equals("aluno")) { //jogo se for aluno logado
             if ((global.getGame().equals("easy")) || (global.getGame().equals("normal")) || (global.getGame().equals("hard"))) {
                 poolPergs = global.getPoolPergs(); //populando vetor local de perguntas
-                Toast.makeText(telaJogo.this, "Tamanho do array de perguntas:\n" + global.getPoolPergs().size(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(telaJogo.this, "Tamanho do array de perguntas:\n" + global.getPoolPergs().size(), Toast.LENGTH_SHORT).show();
                 campanha();
             } else {
                 perguntar.enviarSala(global.getGame(), global.getId());
@@ -152,9 +158,10 @@ public class telaJogo extends AppCompatActivity {
                 perguntaSala();
             }
         }else{ //jogo se for o professor logado
-            if (!global.getGame().equals("normal")){//se o jogo for sala para o professor:
+            if (!global.getGame().equals("normal")){//se o jogo for SALA para o PROFESSOR:
                 btnPergunta.setVisibility(View.INVISIBLE);
                 codPergunta.setVisibility(View.INVISIBLE);
+                chkGabarito.setVisibility(View.INVISIBLE);
                 perguntar.enviarSala(global.getGame(), global.getId());
                 if (global.isRepetido()) {
                     AlertDialog.Builder dlg = new AlertDialog.Builder(telaJogo.this);
@@ -168,13 +175,22 @@ public class telaJogo extends AppCompatActivity {
                 txtJogo.setText("Sala " + global.getGame() + " pergunta " + "1/" + poolPergs.size() + "");
                 perguntaSala();
             }
+            btnResponder.setVisibility(View.INVISIBLE);
         }
 
+
+
+        chkGabarito.setOnClickListener(new View.OnClickListener() { //colorizador de respostas certas.
+            @Override
+            public void onClick(View v) {
+                gabarito();
+            }
+        });
 
         btnResponder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 5000){  //macete para evitar criação de vários jogos com duplo clique.
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 8000){  //macete para evitar criação de vários jogos com duplo clique.
                     return;                                                  //macete para evitar criação de vários jogos com duplo clique.
                 }                                                            //macete para evitar criação de vários jogos com duplo clique.
                 mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
@@ -220,6 +236,10 @@ public class telaJogo extends AppCompatActivity {
         btnPergunta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 5000){  //macete para evitar criação de vários jogos com duplo clique.
+                    return;                                                  //macete para evitar criação de vários jogos com duplo clique.
+                }                                                            //macete para evitar criação de vários jogos com duplo clique.
+                mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
                 final ProgressDialog dialog = new ProgressDialog(telaJogo.this); //,"","Realizando consulta",true,true);
                 dialog.setTitle("Aguarde...");
                 dialog.setMessage("Procurando pergunta " + Integer.parseInt(codPergunta.getText().toString()) );
@@ -254,6 +274,7 @@ public class telaJogo extends AppCompatActivity {
                                 rBtnOpt2.setText(getOpt2());
                                 rBtnOpt3.setText(getOpt3());
                                 rBtnOpt4.setText(getOpt4());
+                                gabarito();
                             }
                         });
                     }
@@ -265,7 +286,7 @@ public class telaJogo extends AppCompatActivity {
 
     }
     public void resposta(boolean resp){
-        final ProgressDialog dialog = new ProgressDialog(telaJogo.this); //,"","Realizando consulta",true,true);
+       /* final ProgressDialog dialog = new ProgressDialog(telaJogo.this); //,"","Realizando consulta",true,true);
         dialog.setTitle("Aguarde...");
         dialog.setMessage("Respondendo..." + Integer.parseInt(codPergunta.getText().toString()) );
         dialog.setIcon(R.drawable.ampulheta);
@@ -283,7 +304,7 @@ public class telaJogo extends AppCompatActivity {
                         //final Bitmap imagem = BitmapFactory.decodeStream(input);
                         handler.post(new Runnable() {
                             public void run() {
-                                if ((global.getGame().equals("easy"))||(global.getGame().equals("normal"))||(global.getGame().equals("hard"))) {
+                            */    if ((global.getGame().equals("easy"))||(global.getGame().equals("normal"))||(global.getGame().equals("hard"))) {
                                     if (resp) { //pergunta certa campanha
                                         Toast.makeText(telaJogo.this, "Você acertou!", Toast.LENGTH_SHORT).show();
                                         String query = "INSERT INTO respondida (jogador, pergunta, acerto) VALUES ('"+global.getId()+"','"+poolPergs.get(i-1)+"','1')" ;
@@ -342,7 +363,7 @@ public class telaJogo extends AppCompatActivity {
                                         perguntaSala();
                                     }
                                 }
-                            }
+                            /*}
                         });
                     } catch (Exception e) {
                     }
@@ -354,7 +375,7 @@ public class telaJogo extends AppCompatActivity {
                         }
                     });
                 }
-            }.start();
+            }.start();*/
 
     }
 
@@ -366,7 +387,7 @@ public class telaJogo extends AppCompatActivity {
         rg.clearCheck();
         cancel();
         if (poolPergs.size()>i) {
-            final ProgressDialog dialog = new ProgressDialog(telaJogo.this); //,"","Realizando consulta",true,true);
+         /*   final ProgressDialog dialog = new ProgressDialog(telaJogo.this); //,"","Realizando consulta",true,true);
             dialog.setTitle("Aguarde...");
             dialog.setMessage("Respondendo...");
             dialog.setIcon(R.drawable.ampulheta);
@@ -383,7 +404,7 @@ public class telaJogo extends AppCompatActivity {
                         //final Bitmap imagem = BitmapFactory.decodeStream(input);
                         handler.post(new Runnable() {
                             public void run() {
-                                perguntar.pergunta(poolPergs.get(i));
+                                */perguntar.pergunta(poolPergs.get(i));/*
                             }
                         });
                     } catch (Exception e) {
@@ -393,18 +414,18 @@ public class telaJogo extends AppCompatActivity {
                         public void run() {
                             dialog.setMessage("Feito!");
                             dialog.dismiss();
-                            txtNumPerg.setText("Pergunta nº " + poolPergs.get(i) + ": ");
+                           */ txtNumPerg.setText("Pergunta nº " + poolPergs.get(i) + ": ");
                             txtPergunta.setText(getPergunta());
                             rBtnOpt1.setText(getOpt1());
                             rBtnOpt2.setText(getOpt2());
                             rBtnOpt3.setText(getOpt3());
                             rBtnOpt4.setText(getOpt4());
                             i++;
-                            txtJogo.setText("Sala " + global.getGame() + " pergunta " + i + "/" + poolPergs.size() + "");
+                            txtJogo.setText("Sala " + global.getGame() + " pergunta " + i + "/" + poolPergs.size() + "");/*
                         }
                     });
                 }
-            }.start();
+            }.start();*/
 
             start(global.getTempo());
 
@@ -468,6 +489,10 @@ public class telaJogo extends AppCompatActivity {
                 dlg.setNeutralButton("Ok, me envie a próxima", new DialogInterface.OnClickListener()     {
                     public void onClick(DialogInterface dialog, int id) {
                         resposta(false);
+                        if (SystemClock.elapsedRealtime() - mLastClickTime < 5000){  //macete para evitar criação de vários jogos com duplo clique.
+                            return;                                                  //macete para evitar criação de vários jogos com duplo clique.
+                        }                                                            //macete para evitar criação de vários jogos com duplo clique.
+                        mLastClickTime = SystemClock.elapsedRealtime();              //macete para evitar criação de vários jogos com duplo clique.
                     }
                 });
                 AlertDialog alert = dlg.create();
@@ -492,7 +517,7 @@ public class telaJogo extends AppCompatActivity {
         rg.clearCheck();
         cancel();
         if (poolPergs.size()>i) {
-            final ProgressDialog dialog = new ProgressDialog(telaJogo.this); //,"","Realizando consulta",true,true);
+           /* final ProgressDialog dialog = new ProgressDialog(telaJogo.this); //,"","Realizando consulta",true,true);
             dialog.setTitle("Aguarde...");
             dialog.setMessage("Respondendo...");
             dialog.setIcon(R.drawable.ampulheta);
@@ -508,9 +533,9 @@ public class telaJogo extends AppCompatActivity {
                         //InputStream input = connection.getInputStream();
                         //final Bitmap imagem = BitmapFactory.decodeStream(input);
                         handler.post(new Runnable() {
-                            public void run() {
+                           public void run() { */
                                 perguntar.pergunta(poolPergs.get(i));
-                            }
+                        /*    }
                         });
                     } catch (Exception e) {
                     }
@@ -519,6 +544,7 @@ public class telaJogo extends AppCompatActivity {
                         public void run() {
                             dialog.setMessage("Feito!");
                             dialog.dismiss();
+                            */
                             txtNumPerg.setText("Pergunta nº " + poolPergs.get(i) + ": ");
                             txtPergunta.setText(getPergunta());
                             rBtnOpt1.setText(getOpt1());
@@ -526,11 +552,11 @@ public class telaJogo extends AppCompatActivity {
                             rBtnOpt3.setText(getOpt3());
                             rBtnOpt4.setText(getOpt4());
                             i++;
-                            txtJogo.setText("Modo: " + global.getGame() + " Pergunta " + i + "/" + poolPergs.size() + "");
+                            txtJogo.setText("Modo: " + global.getGame() + " Pergunta " + i + "/" + poolPergs.size() + "");/*
                         }
                     });
                 }
-            }.start();
+            }.start();*/
 
 
             start(global.getTempo());
@@ -586,5 +612,35 @@ public class telaJogo extends AppCompatActivity {
                 alarme_clock.start();
         }
 
+    }
+
+    public void gabarito (){
+        if (chkGabarito.isChecked()){
+            rBtnOpt1.setTextColor(Color.RED);
+            rBtnOpt2.setTextColor(Color.RED);
+            rBtnOpt3.setTextColor(Color.RED);
+            rBtnOpt4.setTextColor(Color.RED);
+            switch (global.getResposta()) {
+                case 1:
+                    rBtnOpt1.setTextColor(Color.GREEN);
+                    break;
+                case 2:
+                    rBtnOpt2.setTextColor(Color.GREEN);
+                    break;
+                case 3:
+                    rBtnOpt3.setTextColor(Color.GREEN);
+                    break;
+                case 4:
+                    rBtnOpt4.setTextColor(Color.GREEN);
+                    break;
+                default:
+                    Toast.makeText(telaJogo.this, "eita,sem resposta alocada na varíavel", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            rBtnOpt1.setTextColor(Color.WHITE);
+            rBtnOpt2.setTextColor(Color.WHITE);
+            rBtnOpt3.setTextColor(Color.WHITE);
+            rBtnOpt4.setTextColor(Color.WHITE);
+        }
     }
 }
